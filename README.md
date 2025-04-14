@@ -48,7 +48,7 @@
 ├── service
 ├── util
 └── websocket
-```bash
+```
 
 ---
 
