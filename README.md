@@ -48,10 +48,11 @@
 ├── service
 ├── util
 └── websocket
+```bash
 
 ---
 
-## 👨‍💻 Autor
+👨‍💻 Autor
 
 - **Norxz**  
   GitHub: [@Norxz](https://github.com/Norxz)
