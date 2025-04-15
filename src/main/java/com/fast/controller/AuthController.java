@@ -1,15 +1,18 @@
 package com.fast.controller;
 
 import com.fast.domain.User;
+import com.fast.dto.UserLoginDTO;
 import com.fast.dto.UserRegisterDTO;
 import com.fast.exception.EmailAlreadyExistsException;
 import com.fast.security.AutenticacionService;
 import com.fast.security.TokenService;
 import com.fast.security.DatosJWTToken;
 import com.fast.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,7 +30,7 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserRegisterDTO dto) {
+    public ResponseEntity<String> register(@RequestBody @Valid UserRegisterDTO dto) {
         try {
             User user = autenticacionService.registrarUsuario(dto);
             return ResponseEntity.ok("Usuario registrado con ID: " + user.getId());
@@ -35,4 +38,16 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid UserLoginDTO dto) {
+        try {
+            String token = autenticacionService.login(dto);
+            return ResponseEntity.ok(new DatosJWTToken(token));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
+        }
+    }
+
+
 }
