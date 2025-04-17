@@ -1,18 +1,21 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Iniciar Sesión | Fast</title>
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="login-container">
     <h2>Iniciar Sesión</h2>
     <form id="login-form">
-      <input type="email" placeholder="Correo" name="email" required>
-      <input type="password" placeholder="Contraseña" name="password" required>
-      <button type="submit">Entrar</button>
+        <input type="email" id="email" placeholder="Correo" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <button type="submit">Entrar</button>
     </form>
-  </div>
+
+    <p id="mensaje-error" style="color:red;"></p>
+
+    <script src="/js/login.js"></script>
 </body>
 </html>
