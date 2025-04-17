@@ -20,7 +20,7 @@ document.getElementById("login-form").addEventListener("submit", async function(
 
             // Redirige a otra página o muestra mensaje
             alert("¡Login exitoso!");
-            window.location.href = "dashboard.html"; // Puedes cambiar esto
+            window.location.href = "solicitud.html"; // Puedes cambiar esto
         } else {
             const errorData = await response.json();
             document.getElementById("mensaje-error").textContent = errorData.message || "Error al iniciar sesión.";

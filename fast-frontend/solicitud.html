@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crear Solicitud</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Crear Nueva Solicitud</h1>
+
+  <form id="solicitudForm">
+    <label>Título:</label>
+    <input type="text" id="titulo" required><br>
+
+    <label>Descripción:</label>
+    <textarea id="descripcion" required></textarea><br>
+
+    <label>Presupuesto (opcional):</label>
+    <input type="number" id="presupuesto"><br>
+
+    <button type="submit">Enviar Solicitud</button>
+  </form>
+
+  <p id="mensaje"></p>
+
+  <script src="/js/crear-solicitud.js"></script>
+</body>
+</html>
