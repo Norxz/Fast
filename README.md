@@ -14,7 +14,9 @@
 - JPA / Hibernate
 
 ### Frontend
-- React.js
+- HTML
+- CSS
+- JavaScript
 
 ### Infraestructura
 - WebSockets (Socket.io)
