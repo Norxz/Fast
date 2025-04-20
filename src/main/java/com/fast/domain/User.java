@@ -20,6 +20,9 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Rol rol;
 
+    @Column(nullable = false)
+    private boolean activo =  true;
+
     public User() {
     }
 
@@ -27,6 +30,15 @@ public class User implements UserDetails{
         this.email = email;
         this.password = password;
         this.rol = rol;
+        this.activo = true;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     public Long getId() {

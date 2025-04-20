@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -36,4 +38,23 @@ public class UserService {
         return userRepository.save(user);
 
     }
+
+    public List<User> obtenerTodosLosUsuarios() {
+        return userRepository.findAll();
+    }
+
+    public void toggleActivo(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        user.setActivo(!user.isActivo()); // Cambia true <-> false
+        userRepository.save(user);
+    }
+
+    public void eliminarUsuario(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        userRepository.deleteById(id);
+    }
+
 }

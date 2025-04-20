@@ -15,4 +15,5 @@ public class DatosJWTToken {
     public void setJwTtoken(String jwTtoken) {
         this.jwTtoken = jwTtoken;
     }
+
 }
