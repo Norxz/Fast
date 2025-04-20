@@ -19,11 +19,7 @@
 - JavaScript
 
 ### Infraestructura
-- WebSockets (Socket.io)
-- Redis
-- HTTPS / SSH
 - Postman (para pruebas de API)
-- Vercel (Frontend) 
 
 ---
 
