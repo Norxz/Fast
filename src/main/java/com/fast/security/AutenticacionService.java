@@ -6,6 +6,7 @@ import com.fast.dto.UserRegisterDTO;
 import com.fast.exception.EmailAlreadyExistsException;
 import com.fast.repository.UserRepository;
 import com.fast.domain.User;
+import com.fast.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AutenticacionService implements UserDetailsService {
 
+    private UserService userService;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final UserRepository userRepository;
     private final TokenService tokenService;
@@ -28,12 +30,14 @@ public class AutenticacionService implements UserDetailsService {
             AuthenticationConfiguration authenticationConfiguration,
             UserRepository userRepository,
             TokenService tokenService,
-            PasswordEncoder passwordEncoder
+            PasswordEncoder passwordEncoder,
+            UserService  userService
     ) throws Exception {
         this.authenticationConfiguration = authenticationConfiguration;
         this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
     }
 
     @Override
@@ -43,21 +47,7 @@ public class AutenticacionService implements UserDetailsService {
     }
 
     public User registrarUsuario(UserRegisterDTO dto) {
-        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new EmailAlreadyExistsException("El correo ya está en uso.");
-        }
-
-        User newUser = new User();
-        newUser.setEmail(dto.getEmail());
-        newUser.setPassword(passwordEncoder.encode(dto.getPassword()));
-
-        try {
-            newUser.setRol(Rol.valueOf(dto.getRol()));
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Rol inválido proporcionado");
-        }
-
-        return userRepository.save(newUser);
+        return userService.register(dto);
     }
 
     public String login(UserLoginDTO dto) {

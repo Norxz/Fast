@@ -25,6 +25,7 @@ public class TokenService {
                     .withIssuer("fast-app")
                     .withSubject(user.getEmail())
                     .withClaim("id", user.getId())
+                    .withClaim("rol", user.getRol().name())
                     .withExpiresAt(expirationDate())
                     .sign(algorithm);
         } catch (JWTCreationException e) {
