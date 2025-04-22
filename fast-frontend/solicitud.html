@@ -1,29 +1,176 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Crear Solicitud</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .form-container {
+      width: 400px;
+      padding: 25px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      resize: vertical;
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    .optional {
+      font-weight: normal;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .submit-btn {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #218838;
+    }
+
+    .decor {
+      position: absolute;
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .decor.barber {
+      bottom: 10px;
+      left: 10px;
+      transform: rotate(-10deg);
+    }
+
+    .decor.mensaje {
+      bottom: 20px;
+      left: 150px;
+      transform: rotate(10deg);
+    }
+
+    .icono {
+      position: absolute;
+      font-size: 20px;
+    }
+
+    .icono.martillo {
+      top: 10px;
+      right: 10px;
+    }
+
+    .icono.candado {
+      bottom: 10px;
+      right: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Crear Nueva Solicitud</h1>
 
-  <form id="solicitudForm">
-    <label>Título:</label>
-    <input type="text" id="titulo" required><br>
+  <div class="form-container">
+    <div class="icono martillo">🔨</div>
+    <h2>Crear nueva solicitud aquí!</h2>
 
-    <label>Descripción:</label>
-    <textarea id="descripcion" required></textarea><br>
+    <form id="solicitudForm">
+      <label for="titulo">Título</label>
+      <input type="text" id="titulo" name="titulo" required>
 
-    <label>Presupuesto (opcional):</label>
-    <input type="number" id="presupuesto"><br>
+      <label for="detalles">Detalles</label>
+      <textarea id="detalles" name="detalles" required></textarea>
 
-    <button type="submit">Enviar Solicitud</button>
-  </form>
+      <label for="presupuesto">Presupuesto máximo <span class="optional">(opcional)</span></label>
+      <input type="text" id="presupuesto" name="presupuesto">
 
-  <p id="mensaje"></p>
+      <label for="categoria">Categoría</label>
+      <input type="text" id="categoria" name="categoria" required>
 
-  <script src="/js/crear-solicitud.js"></script>
+      <label for="ubicacion">Ubicación</label>
+      <input type="text" id="ubicacion" name="ubicacion" required>
+
+      <button type="submit" class="submit-btn">Enviar</button>
+    </form>
+    <div class="icono candado">🔒</div>
+  </div>
+
+  <script>
+    document.getElementById('solicitudForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Obtener los valores del formulario
+      const titulo = document.getElementById('titulo').value;
+      const detalles = document.getElementById('detalles').value;
+      const presupuesto = document.getElementById('presupuesto').value || 'No especificado';
+      const categoria = document.getElementById('categoria').value;
+      const ubicacion = document.getElementById('ubicacion').value;
+      
+      // Crear objeto solicitud
+      const solicitud = {
+        id: Date.now(), // Usamos el timestamp como ID único
+        titulo: titulo,
+        detalles: detalles,
+        presupuesto: presupuesto,
+        categoria: categoria,
+        ubicacion: ubicacion,
+        fecha: new Date().toLocaleDateString('es-ES', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        }),
+        estado: 'Pendiente'
+      };
+      
+      // Obtener solicitudes existentes o inicializar array
+      let solicitudes = JSON.parse(localStorage.getItem('solicitudes')) || [];
+      
+      // Agregar nueva solicitud
+      solicitudes.push(solicitud);
+      
+      // Guardar en LocalStorage
+      localStorage.setItem('solicitudes', JSON.stringify(solicitudes));
+      
+      alert('Solicitud enviada con éxito!');
+      this.reset(); // Limpiar el formulario
+      
+      // Redirigir a verSolicitud.html (opcional)
+      // window.location.href = 'verSolicitud.html';
+    });
+  </script>
 </body>
 </html>
