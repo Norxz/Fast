@@ -129,16 +129,16 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Obtener usuarios de LocalStorage
+      // Obtener usuarios en LocalStorage
       const users = JSON.parse(localStorage.getItem('users')) || [];
       
-      // Obtener referencia a la tabla
+      // Obtiene referencia de la tabla
       const tableBody = document.querySelector('#usersTable tbody');
       
-      // Limpiar tabla
+      // Limpiar la tabla
       tableBody.innerHTML = '';
       
-      // Agregar cada usuario a la tabla
+      // Agregar el usuario 
       users.forEach(user => {
         const row = document.createElement('tr');
         
@@ -157,7 +157,7 @@
         tableBody.appendChild(row);
       });
       
-      // Agregar event listeners para los botones de eliminar
+      // Agregar Boton event listeners para eliminar
       document.querySelectorAll('.eliminar').forEach(button => {
         button.addEventListener('click', function() {
           const userId = parseInt(this.getAttribute('data-id'));
@@ -165,7 +165,7 @@
         });
       });
       
-      // Agregar event listeners para los botones de editar
+      // Agregar Boton event listeners para editar
       document.querySelectorAll('.editar').forEach(button => {
         button.addEventListener('click', function() {
           const userId = parseInt(this.getAttribute('data-id'));
