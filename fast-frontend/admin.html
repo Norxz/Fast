@@ -1,26 +1,201 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Panel Admin</title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <meta charset="UTF-8">
+  <title>Panel de Administración</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+      padding: 30px;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #007bff;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      color: white;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: 26px;
+    }
+
+    .icono-usuario {
+      width: 40px;
+      height: 40px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      border: 2px solid #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    tr:hover {
+      background-color: #f1f9ff;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .acciones button {
+      margin: 0 5px;
+      padding: 8px 14px;
+      border: none;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .acciones button:hover {
+      opacity: 0.9;
+    }
+
+    .acciones .editar {
+      background-color: #17a2b8;
+      color: white;
+    }
+
+    .acciones .eliminar {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .acciones .editar:hover {
+      background-color: #138496;
+    }
+
+    .acciones .eliminar:hover {
+      background-color: #c82333;
+    }
+  </style>
 </head>
 <body>
-  <h1>Panel de Administración</h1>
-  <table border="1" id="tabla-usuarios">
+
+  <header>
+    <h1>👤 Panel de Administración</h1>
+    <div class="icono-usuario"></div>
+  </header>
+
+  <table id="usersTable">
     <thead>
       <tr>
         <th>ID</th>
+        <th>Nombre</th>
         <th>Email</th>
         <th>Rol</th>
         <th>Activo</th>
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody></tbody>
+    <tbody>
+      <!-- Las filas se generarán dinámicamente con JavaScript -->
+    </tbody>
   </table>
 
-  <script src="/js/admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Obtener usuarios de LocalStorage
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      
+      // Obtener referencia a la tabla
+      const tableBody = document.querySelector('#usersTable tbody');
+      
+      // Limpiar tabla
+      tableBody.innerHTML = '';
+      
+      // Agregar cada usuario a la tabla
+      users.forEach(user => {
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+          <td>${user.id}</td>
+          <td>${user.username}</td>
+          <td>${user.email}</td>
+          <td>${user.role}</td>
+          <td>${user.active ? 'Activo' : 'Inactivo'}</td>
+          <td class="acciones">
+            <button class="editar" data-id="${user.id}">Editar</button>
+            <button class="eliminar" data-id="${user.id}">Eliminar</button>
+          </td>
+        `;
+        
+        tableBody.appendChild(row);
+      });
+      
+      // Agregar event listeners para los botones de eliminar
+      document.querySelectorAll('.eliminar').forEach(button => {
+        button.addEventListener('click', function() {
+          const userId = parseInt(this.getAttribute('data-id'));
+          deleteUser(userId);
+        });
+      });
+      
+      // Agregar event listeners para los botones de editar
+      document.querySelectorAll('.editar').forEach(button => {
+        button.addEventListener('click', function() {
+          const userId = parseInt(this.getAttribute('data-id'));
+          editUser(userId);
+        });
+      });
+    });
+    
+    function deleteUser(userId) {
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users = users.filter(user => user.id !== userId);
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('Usuario eliminado');
+      location.reload(); // Recargar la página para ver los cambios
+    }
+    
+    function editUser(userId) {
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(u => u.id === userId);
+      
+      if (user) {
+        const newRole = prompt('Nuevo rol para el usuario (Admin/Usuario):', user.role);
+        if (newRole) {
+          user.role = newRole;
+          localStorage.setItem('users', JSON.stringify(users));
+          alert('Usuario actualizado');
+          location.reload();
+        }
+      }
+    }
+  </script>
 </body>
 </html>
