@@ -1,37 +1,159 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Login y Registro</title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <meta charset="UTF-8">
+  <title>Registro de Usuarios</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #fefefe;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      width: 350px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      background-color: #ffffff;
+      text-align: center;
+      position: relative;
+    }
+
+    .help-text {
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      font-size: 12px;
+      color: #007bff;
+      cursor: pointer;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    input[type="email"], input[type="password"], input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .login-button:hover {
+      background-color: #0056b3;
+    }
+
+    .register {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .register a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .decoracion {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border: 2px dashed #ccc;
+      border-radius: 50%;
+    }
+
+    .decor1 {
+      top: -20px;
+      right: -20px;
+    }
+
+    .decor2 {
+      bottom: -20px;
+      left: -20px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <!-- LOGIN -->
-    <form id="loginForm">
-      <h2>Iniciar Sesión</h2>
-      <input type="email" id="loginEmail" placeholder="Correo" required />
-      <input type="password" id="loginPassword" placeholder="Contraseña" required />
-      <button type="submit">Entrar</button>
-      <p>¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()">Regístrate</a></p>
+
+  <div class="login-container">
+    <div class="help-text">Help!</div>
+    <h2>Registro de Usuario</h2>
+
+    <form id="registerForm">
+      <input type="text" id="username" placeholder="Nombre de usuario" required>
+      <input type="email" id="email" placeholder="Correo electrónico" required>
+      <input type="password" id="password" placeholder="Contraseña" required>
+      <button type="submit" class="login-button">Registrarse</button>
     </form>
 
-    <!-- REGISTRO -->
-    <form id="registerForm" style="display: none;">
-      <h2>Registrarse</h2>
-      <input type="email" id="registerEmail" placeholder="Correo" required />
-      <input type="password" id="registerPassword" placeholder="Contraseña" required />
-      <select id="registerRol" required>
-        <option value="">Selecciona un rol</option>
-        <option value="COMPRADOR">Comprador</option>
-        <option value="PROVEEDOR">Proveedor</option>
-        <option value="ADMIN">Admin</option>
-      </select>
-      <button type="submit">Registrar</button>
-      <p>¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()">Inicia sesión</a></p>
-    </form>
+    <div class="register">
+      ¿Ya tienes cuenta? <a href="main.html">Inicia sesión aquí</a>
+    </div>
+
+    <div class="decoracion decor1"></div>
+    <div class="decoracion decor2"></div>
   </div>
 
-  <script src="/js/auth.js"></script>
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Obtener los valores del formulario
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Crear objeto usuario
+      const user = {
+        id: Date.now(), // Usamos el timestamp como ID único
+        username: username,
+        email: email,
+        password: password, // En una aplicación real, esto debería estar encriptado
+        role: 'Usuario', // Rol por defecto
+        active: true // Activo por defecto
+      };
+      
+      // Obtener usuarios existentes o inicializar array
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      
+      // Verificar si el email ya existe
+      const emailExists = users.some(u => u.email === email);
+      if (emailExists) {
+        alert('Este correo electrónico ya está registrado');
+        return;
+      }
+      
+      // Agregar nuevo usuario
+      users.push(user);
+      
+      // Guardar en LocalStorage
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      alert('Registro exitoso!');
+      this.reset(); // Limpiar el formulario
+      
+      // Redirigir al admin.html (opcional)
+      // window.location.href = 'admin.html';
+    });
+  </script>
 </body>
 </html>
