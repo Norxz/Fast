@@ -1,176 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Crear Solicitud</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .form-container {
-      width: 400px;
-      padding: 25px;
-      background-color: #fff;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      position: relative;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin: 10px 0 5px;
-      font-weight: bold;
-    }
-
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      resize: vertical;
-    }
-
-    textarea {
-      height: 100px;
-    }
-
-    .optional {
-      font-weight: normal;
-      font-size: 12px;
-      color: #666;
-    }
-
-    .submit-btn {
-      margin-top: 15px;
-      padding: 10px;
-      width: 100%;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .submit-btn:hover {
-      background-color: #218838;
-    }
-
-    .decor {
-      position: absolute;
-      font-size: 12px;
-      color: #aaa;
-    }
-
-    .decor.barber {
-      bottom: 10px;
-      left: 10px;
-      transform: rotate(-10deg);
-    }
-
-    .decor.mensaje {
-      bottom: 20px;
-      left: 150px;
-      transform: rotate(10deg);
-    }
-
-    .icono {
-      position: absolute;
-      font-size: 20px;
-    }
-
-    .icono.martillo {
-      top: 10px;
-      right: 10px;
-    }
-
-    .icono.candado {
-      bottom: 10px;
-      right: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Servicio - ServiExpress</title>
+    <link rel="stylesheet" href="/fast-frontend/css/solicitud.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <i class="fas fa-bolt logo-icon"></i>
+                    ServiExpress
+                </h1>
+                <nav class="nav-links">
+                    <a href="menu.html"><i class="fas fa-home"></i> Inicio</a>
+                    <a href="servicios.html"><i class="fas fa-list"></i> Servicios</a>
+                </nav>
+            </div>
+        </header>
 
-  <div class="form-container">
-    <div class="icono martillo">🔨</div>
-    <h2>Crear nueva solicitud aquí!</h2>
+        <main class="main-content">
+            <div class="form-container">
+                <h2 class="form-title">
+                    <i class="fas fa-tools"></i> Solicitar Nuevo Servicio
+                </h2>
+                
+                <form id="serviceForm" class="service-form">
+                    <div class="form-group">
+                        <label for="titulo">
+                            <i class="fas fa-heading"></i> Título del Servicio
+                        </label>
+                        <input type="text" id="titulo" name="titulo" 
+                               placeholder="Ej: Reparación de circuito eléctrico" required>
+                        <small class="hint">Describe brevemente el servicio que necesitas</small>
+                    </div>
 
-    <form id="solicitudForm">
-      <label for="titulo">Título</label>
-      <input type="text" id="titulo" name="titulo" required>
+                    <div class="form-group">
+                        <label for="tipoServicio">
+                            <i class="fas fa-bolt"></i> Tipo de Servicio
+                        </label>
+                        <select id="tipoServicio" name="tipoServicio" required>
+                            <option value="">Seleccione un tipo</option>
+                            <option value="INSTALACION">Instalación eléctrica</option>
+                            <option value="REPARACION">Reparación</option>
+                            <option value="MANTENIMIENTO">Mantenimiento</option>
+                            <option value="ILUMINACION">Sistema de iluminación</option>
+                            <option value="OTRO">Otro</option>
+                        </select>
+                    </div>
 
-      <label for="detalles">Detalles</label>
-      <textarea id="detalles" name="detalles" required></textarea>
+                    <div class="form-group">
+                        <label for="descripcion">
+                            <i class="fas fa-align-left"></i> Descripción Detallada
+                        </label>
+                        <textarea id="descripcion" name="descripcion" rows="5" 
+                                  placeholder="Describe con detalle el problema o servicio que necesitas..." required></textarea>
+                        <small class="hint">Incluye detalles como ubicación del problema, síntomas, etc.</small>
+                    </div>
 
-      <label for="presupuesto">Presupuesto máximo <span class="optional">(opcional)</span></label>
-      <input type="text" id="presupuesto" name="presupuesto">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="presupuesto">
+                                <i class="fas fa-money-bill-wave"></i> Presupuesto Estimado (USD)
+                            </label>
+                            <input type="number" id="presupuesto" name="presupuesto" 
+                                   placeholder="Ej: 150" min="0" step="10">
+                        </div>
 
-      <label for="categoria">Categoría</label>
-      <input type="text" id="categoria" name="categoria" required>
+                        <div class="form-group">
+                            <label for="urgencia">
+                                <i class="fas fa-exclamation-triangle"></i> Nivel de Urgencia
+                            </label>
+                            <select id="urgencia" name="urgencia">
+                                <option value="BAJA">Baja (Puede esperar varios días)</option>
+                                <option value="MEDIA" selected>Media (Necesario en 1-2 días)</option>
+                                <option value="ALTA">Alta (Necesario inmediatamente)</option>
+                            </select>
+                        </div>
+                    </div>
 
-      <label for="ubicacion">Ubicación</label>
-      <input type="text" id="ubicacion" name="ubicacion" required>
+                    <div class="form-group">
+                        <label for="fecha">
+                            <i class="fas fa-calendar-alt"></i> Fecha Preferente
+                        </label>
+                        <input type="date" id="fecha" name="fecha" min="">
+                    </div>
 
-      <button type="submit" class="submit-btn">Enviar</button>
-    </form>
-    <div class="icono candado">🔒</div>
-  </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-camera"></i> Adjuntar Fotos (Opcional)
+                        </label>
+                        <div class="file-upload">
+                            <input type="file" id="fotos" name="fotos" accept="image/*" multiple>
+                            <label for="fotos" class="upload-btn">
+                                <i class="fas fa-cloud-upload-alt"></i> Seleccionar Archivos
+                            </label>
+                            <span id="fileNames">No se han seleccionado archivos</span>
+                        </div>
+                    </div>
 
-  <script>
-    document.getElementById('solicitudForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Obtener los valores del formulario
-      const titulo = document.getElementById('titulo').value;
-      const detalles = document.getElementById('detalles').value;
-      const presupuesto = document.getElementById('presupuesto').value || 'No especificado';
-      const categoria = document.getElementById('categoria').value;
-      const ubicacion = document.getElementById('ubicacion').value;
-      
-      // Crear objeto solicitud
-      const solicitud = {
-        id: Date.now(), // Usamos el timestamp como ID único
-        titulo: titulo,
-        detalles: detalles,
-        presupuesto: presupuesto,
-        categoria: categoria,
-        ubicacion: ubicacion,
-        fecha: new Date().toLocaleDateString('es-ES', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric'
-        }),
-        estado: 'Pendiente'
-      };
-      
-      // Obtener solicitudes existentes o inicializar array
-      let solicitudes = JSON.parse(localStorage.getItem('solicitudes')) || [];
-      
-      // Agregar nueva solicitud
-      solicitudes.push(solicitud);
-      
-      // Guardar en LocalStorage
-      localStorage.setItem('solicitudes', JSON.stringify(solicitudes));
-      
-      alert('Solicitud enviada con éxito!');
-      this.reset(); // Limpiar el formulario
-      
-      // Redirigir a verSolicitud.html (opcional)
-      // window.location.href = 'verSolicitud.html';
-    });
-  </script>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Enviar Solicitud
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='menu.html'">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2023 ServiExpress - Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script src="/fast-frontend/js/solicitud.js"></script>
 </body>
 </html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Solicitudes - ServiExpress</title>
+    <link rel="stylesheet" href="/fast-frontend/css/solicitudes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <i class="fas fa-bolt logo-icon"></i>
+                    ServiExpress
+                </h1>
+                <nav class="nav-links">
+                    <a href="menu.html"><i class="fas fa-home"></i> Inicio</a>
+                    <a href="solicitud.html"><i class="fas fa-plus-circle"></i> Nueva Solicitud</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="dashboard-container">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h3 id="userName">Usuario</h3>
+                        <p id="userRole">Cliente</p>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3><i class="fas fa-chart-line"></i> Estadísticas</h3>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <span class="stat-value" id="totalRequests">0</span>
+                                <span class="stat-label">Solicitudes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="activeRequests">0</span>
+                                <span class="stat-label">Activas</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="completedRequests">0</span>
+                                <span class="stat-label">Completadas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-widget promo-widget">
+                        <h3><i class="fas fa-star"></i> ¿Por qué ServiExpress?</h3>
+                        <ul class="promo-list">
+                            <li><i class="fas fa-check-circle"></i> Rápido y confiable</li>
+                            <li><i class="fas fa-check-circle"></i> Electricistas verificados</li>
+                            <li><i class="fas fa-check-circle"></i> Precios competitivos</li>
+                            <li><i class="fas fa-check-circle"></i> Soporte 24/7</li>
+                        </ul>
+                        <div class="testimonial">
+                            <p>"Excelente servicio, solucionaron mi problema eléctrico en menos de 2 horas!"</p>
+                            <div class="author">- Carlos M., Cliente satisfecho</div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Contenido principal -->
+                <section class="content-area">
+                    <div class="content-header">
+                        <h2><i class="fas fa-list-alt"></i> Mis Solicitudes de Servicio</h2>
+                        <div class="filter-controls">
+                            <select id="filterStatus" class="filter-select">
+                                <option value="TODAS">Todas las solicitudes</option>
+                                <option value="PENDIENTE">Pendientes</option>
+                                <option value="ASIGNADA">Asignadas</option>
+                                <option value="EN_PROCESO">En proceso</option>
+                                <option value="COMPLETADA">Completadas</option>
+                                <option value="CANCELADA">Canceladas</option>
+                            </select>
+                            <button id="refreshBtn" class="btn btn-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="requests-container">
+                        <div id="loadingIndicator" class="loading-indicator">
+                            <i class="fas fa-spinner fa-spin"></i> Cargando solicitudes...
+                        </div>
+                        <div id="requestsList" class="requests-list">
+                            <!-- Las solicitudes se cargarán aquí dinámicamente -->
+                        </div>
+                        <div id="noRequestsMessage" class="no-requests" style="display: none;">
+                            <i class="fas fa-inbox"></i>
+                            <p>No tienes solicitudes registradas</p>
+                            <a href="solicitud.html" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Crear primera solicitud
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2023 ServiExpress - Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <!-- Plantilla para cada solicitud (usada por JavaScript) -->
+    <template id="requestTemplate">
+        <div class="request-card">
+            <div class="request-header">
+                <h3 class="request-title"></h3>
+                <span class="request-status"></span>
+            </div>
+            <div class="request-body">
+                <div class="request-meta">
+                    <span class="meta-item"><i class="fas fa-bolt"></i> <span class="service-type"></span></span>
+                    <span class="meta-item"><i class="fas fa-calendar-alt"></i> <span class="request-date"></span></span>
+                    <span class="meta-item"><i class="fas fa-dollar-sign"></i> <span class="request-budget"></span></span>
+                </div>
+                <p class="request-description"></p>
+            </div>
+            <div class="request-footer">
+                <div class="urgency-tag">
+                    <i class="fas fa-exclamation-circle"></i> <span class="urgency-level"></span>
+                </div>
+                <div class="request-actions">
+                    <button class="btn btn-sm btn-view">
+                        <i class="fas fa-eye"></i> Ver detalles
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="/fast-frontend/js/solicitudes.js"></script>
+</body>
+</html>

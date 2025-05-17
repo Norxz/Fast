@@ -1,0 +1,265 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --success-color: #27ae60;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--light-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: var(--dark-color);
+}
+
+.register-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+    margin: 1rem;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo h1 {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.logo p {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--dark-color);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px 15px 12px 40px;
+    border: 2px solid #dfe6e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.form-group i {
+    position: absolute;
+    left: 15px;
+    top: 38px;
+    color: #7f8c8d;
+    font-size: 1rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 38px;
+    color: #7f8c8d;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.password-strength {
+    margin-top: 5px;
+    width: 100%;
+    height: 5px;
+    background-color: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.strength-bar {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background-color: var(--danger-color);
+    transition: all 0.3s ease;
+}
+
+.strength-text {
+    font-size: 0.7rem;
+    color: var(--danger-color);
+    margin-top: 3px;
+    display: block;
+}
+
+.role-selection {
+    margin-top: 1rem;
+}
+
+.role-options {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.role-option {
+    flex: 1;
+}
+
+.role-option input[type="radio"] {
+    display: none;
+}
+
+.role-card {
+    padding: 1rem;
+    border: 2px solid #dfe6e9;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.role-card i {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+    position: static;
+}
+
+.role-card span {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.role-card small {
+    font-size: 0.7rem;
+    color: #7f8c8d;
+}
+
+.role-option input[type="radio"]:checked + .role-card {
+    border-color: var(--secondary-color);
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.electricista-fields {
+    margin-top: 1rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.form-actions {
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: none;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.btn-primary i {
+    transition: transform 0.3s ease;
+}
+
+.btn-primary:hover i {
+    transform: translateX(3px);
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.login-link a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .form-row {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .role-options {
+        flex-direction: column;
+    }
+}

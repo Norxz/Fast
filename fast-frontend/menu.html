@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiExpress - Menú Principal</title>
+    <link rel="stylesheet" href="/fast-frontend/css/menu.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="logo">
+                    <i class="fas fa-bolt logo-icon"></i>
+                    ServiExpress
+                </h1>
+                <div class="user-info">
+                    <span id="userName">Usuario</span>
+                    <button id="logoutBtn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="welcome-section">
+                <h2 id="welcomeMessage">Bienvenido a ServiExpress</h2>
+                <p class="app-description">
+                    Tu plataforma para solicitar servicios eléctricos de forma rápida y sencilla.
+                </p>
+            </section>
+
+            <div class="actions-container">
+                <div class="action-card" onclick="navigateTo('servicios.html')">
+                    <div class="card-icon">
+                        <i class="fas fa-list-alt"></i>
+                    </div>
+                    <h3>Servicios Disponibles</h3>
+                    <p>servicios eléctricos ahora mismo</p>
+                    <button class="action-btn">Ver Servicios</button>
+                </div>
+
+                <div class="action-card" onclick="navigateTo('solicitud.html')">
+                    <div class="card-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Solicitar Servicio</h3>
+                    <p>Publica tu necesida, recibe propuestas y negocia. 
+                    <p>Facil y secillo 
+                    </p>
+                    <button class="action-btn">Nueva Solicitud</button>
+                </div>
+            </div>
+
+            <!-- Sección adicional para electricistas (se muestra dinámicamente) -->
+            <div id="electricistaActions" class="actions-container" style="display: none;">
+                <h3 class="section-title">Panel de Electricista</h3>
+                <div class="action-card" onclick="navigateTo('mis-servicios.html')">
+                    <div class="card-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Mis Servicios</h3>
+                    <p>Gestiona tus servicios activos y completados</p>
+                    <button class="action-btn">Administrar</button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2025 ServiExpress - Todos los derechos reservados</p>
+            <div class="footer-links">
+                <a href="#">Términos de servicio</a>
+                <a href="#">Política de privacidad</a>
+                <a href="#">Contacto</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/fast-frontend/js/menu.js"></script>
+</body>
+</html>

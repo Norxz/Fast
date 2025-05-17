@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - ServiExpress</title>
+    <link rel="stylesheet" href="/fast-frontend/css/register.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="register-container">
+        <div class="logo">
+            <h1>ServiExpress</h1>
+            <p>Únete a nuestra comunidad de servicios eléctricos</p>
+        </div>
+
+        <form id="registerForm" class="register-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Nombre">
+                    <i class="fas fa-user"></i>
+                </div>
+                
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" required placeholder="Apellido">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" required placeholder="@email.com">
+                <i class="fas fa-envelope"></i>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required placeholder="••••••••">
+                <i class="fas fa-lock"></i>
+                <span class="password-toggle"><i class="fas fa-eye"></i></span>
+                <div class="password-strength">
+                    <span class="strength-bar"></span>
+                    <span class="strength-text">Seguridad: baja</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirmar Contraseña</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="••••••••">
+                <i class="fas fa-lock"></i>
+                <span class="password-toggle"><i class="fas fa-eye"></i></span>
+            </div>
+
+            <div class="form-group role-selection">
+                <label>Tipo de Usuario</label>
+                <div class="role-options">
+                    <label class="role-option">
+                        <input type="radio" name="role" value="CLIENTE" checked>
+                        <div class="role-card">
+                            <i class="fas fa-home"></i>
+                            <span>Cliente</span>
+                            <small>Buscar servicios eléctricos</small>
+                        </div>
+                    </label>
+                    <label class="role-option">
+                        <input type="radio" name="role" value="ELECTRICISTA">
+                        <div class="role-card">
+                            <i class="fas fa-bolt"></i>
+                            <span>Electricista</span>
+                            <small>Ofrecer servicios profesionales</small>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Campos adicionales para electricistas (se muestran dinámicamente) -->
+            <div id="electricistaFields" class="electricista-fields" style="display: none;">
+                <div class="form-group">
+                    <label for="especialidad">Especialidad</label>
+                    <select id="especialidad" name="especialidad">
+                        <option value="">Seleccione una especialidad</option>
+                        <option value="INSTALACIONES">Instalaciones eléctricas</option>
+                        <option value="REPARACIONES">Reparaciones y mantenimiento</option>
+                        <option value="ILUMINACION">Sistemas de iluminación</option>
+                        <option value="PANELES">Paneles solares</option>
+                    </select>
+                    <i class="fas fa-tools"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="aniosExperiencia">Años de Experiencia</label>
+                    <input type="number" id="aniosExperiencia" name="aniosExperiencia" min="0" max="50" placeholder="Ej: 5">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <span class="btn-text">Crear Cuenta</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <div class="login-link">
+                ¿Ya tienes una cuenta? <a href="login.html">Inicia sesión</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="/fast-frontend/js/auth/register.js"></script>
+</body>
+</html>
