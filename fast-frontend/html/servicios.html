@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Servicios Solicitados - ServiExpress</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/servicios.css" />
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-bolt logo-icon"></i>
+        <h1>Servi<span>Express</span></h1>
+      </div>
+    </div>
+
+    <div class="user-profile">
+      <div class="avatar">
+        <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Usuario" id="userAvatar">
+      </div>
+      <div class="user-info">
+        <span class="user-name" id="userName">Cargando...</span>
+        <span class="user-role" id="userRole"></span>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li>
+        <a href="menu.html">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </a>
+      </li>
+      <li>
+        <a href="services.html">
+          <i class="fas fa-tools"></i>
+          <span>Servicios</span>
+        </a>
+      </li>
+      <li class="active">
+        <a href="servicios.html">
+          <i class="fas fa-list-check"></i>
+          <span>Solicitudes</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fas fa-history"></i>
+          <span>Historial</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fas fa-star"></i>
+          <span>Reseñas</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="logout-container">
+      <a href="#" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Cerrar Sesión</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="toggle-sidebar">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="page-title">
+        <h2><i class="fas fa-list-check"></i> Servicios Solicitados</h2>
+      </div>
+      <div class="notifications">
+        <i class="fas fa-bell"></i>
+        <span class="notification-count">0</span>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard">
+      <!-- Filtros -->
+      <div class="filters">
+        <div class="filter-group">
+          <label for="statusFilter">Filtrar por estado:</label>
+          <select id="statusFilter" class="custom-select">
+            <option value="all">Todos</option>
+            <option value="pending">Pendientes</option>
+            <option value="approved">Aprobados</option>
+            <option value="in_progress">En progreso</option>
+            <option value="completed">Completados</option>
+            <option value="cancelled">Cancelados</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="dateFilter">Filtrar por fecha:</label>
+          <input type="date" id="dateFilter" class="custom-date">
+        </div>
+        <button class="filter-btn">
+          <i class="fas fa-filter"></i> Aplicar Filtros
+        </button>
+      </div>
+
+      <!-- Lista de Servicios -->
+      <div class="services-container">
+        <div class="empty-state" id="emptyState">
+          <i class="fas fa-clipboard-list"></i>
+          <h3>No hay servicios solicitados</h3>
+          <p>Cuando solicites servicios, aparecerán aquí</p>
+          <a href="services.html" class="action-btn">Buscar Servicios</a>
+        </div>
+
+        <div class="services-list" id="servicesList">
+          <!-- Los servicios se cargarán dinámicamente aquí -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <h2>Solicitudes Disponibles</h2>
+  <div id="solicitudesContainer"></div>
+  <script src="../js/solicitudes_electricista.js"></script>
+  <script>
+    // Toggle sidebar en móviles
+    document.querySelector('.toggle-sidebar').addEventListener('click', function() {
+      document.querySelector('.sidebar').classList.toggle('collapsed');
+      document.querySelector('.main-content').classList.toggle('expanded');
+    });
+
+    // Cargar datos del usuario
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('token');
+      const userType = localStorage.getItem('userType');
+      
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Mostrar tipo de usuario
+      document.getElementById('userRole').textContent = userType === 'ELECTRICISTA' ? 'Electricista' : 'Cliente';
+
+      document.getElementById('userName').textContent = localStorage.getItem('userName') || 'Usuario';
+      
+      
+      // Cargar servicios solicitados
+      loadRequestedServices();
+    });
+
+    // Cerrar sesión
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      localStorage.removeItem('token');
+      localStorage.removeItem('userType');
+      window.location.href = 'login.html';
+    });
+
+    // Función para cargar servicios (simulada)
+    function loadRequestedServices() {
+      // Esto sería reemplazado por una llamada a tu API
+      setTimeout(() => {
+        const servicesList = document.getElementById('servicesList');
+        const emptyState = document.getElementById('emptyState');
+        
+        // Simular que no hay servicios por ahora
+        emptyState.style.display = 'flex';
+        servicesList.innerHTML = '';
+        
+      }, 1000);
+    }
+
+    function createServiceElement(service) {
+      const element = document.createElement('div');
+      element.className = 'service-card';
+      element.innerHTML = `
+        <div class="service-header">
+          <h3>${service.title}</h3>
+          <span class="status-badge ${service.estado.toLowerCase()}">${service.estado}</span>
+        </div>
+        <div class="service-details">
+          <p><i class="fas fa-user-tie"></i> ${service.electricista}</p>
+          <p><i class="fas fa-calendar-day"></i> ${service.fecha}</p>
+          <p><i class="fas fa-money-bill-wave"></i> ${service.precio}</p>
+        </div>
+        <div class="service-actions">
+          <button class="btn-action view-details" data-id="${service.id}">
+            <i class="fas fa-eye"></i> Ver Detalles
+          </button>
+          <button class="btn-action cancel-request" data-id="${service.id}">
+            <i class="fas fa-times"></i> Cancelar
+          </button>
+        </div>
+      `;
+      return element;
+    }
+  </script>
+</body>
+</html>

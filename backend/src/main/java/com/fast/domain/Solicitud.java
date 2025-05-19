@@ -19,6 +19,8 @@ public class Solicitud {
 
     private Long compradorId; // Relación simplificada con el comprador
 
+    private String estado; // <-- agrega esto
+
     public Solicitud() {}
 
     public Solicitud(String titulo, String descripcion, String categoria, Long compradorId) {
@@ -43,4 +45,7 @@ public class Solicitud {
 
     public Long getCompradorId() { return compradorId; }
     public void setCompradorId(Long compradorId) { this.compradorId = compradorId; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 }

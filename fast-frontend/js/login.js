@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Iniciando...';
 
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('http://localhost:8080/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,7 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ email, password }),
             });
 
-            const data = await response.json();
+            let data;
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+              data = await response.json();
+            } else {
+              data = await response.text();
+            }
 
             if (!response.ok) {
                 throw new Error(data.message || 'Error al iniciar sesión');
@@ -35,11 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Guardar token y redirigir
             localStorage.setItem('token', data.token);
-            localStorage.setItem('userRole', data.role);
-            localStorage.setItem('userName', data.name);
+            localStorage.setItem('userRole', data.rol);
+            localStorage.setItem('userName', data.nombre);
+            localStorage.setItem('compradorId', data.id); 
 
             // Redirigir según el rol
-            window.location.href = data.role === 'ELECTRICISTA' ? 'dashboard-electricista.html' : 'dashboard-cliente.html';
+            window.location.href = data.role === 'ELECTRICISTA' ? 'dashboard-electricista.html' : '/html/menu.html';
             
         } catch (error) {
             console.error('Error:', error);

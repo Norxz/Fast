@@ -1,6 +1,5 @@
 package com.fast.service;
 
-
 import com.fast.domain.Solicitud;
 import com.fast.dto.SolicitudDTO;
 import com.fast.repository.SolicitudRepository;
@@ -22,6 +21,7 @@ public class SolicitudService {
                 dto.getCategoria(),
                 dto.getCompradorId()
         );
+        solicitud.setEstado("PENDIENTE"); // <-- importante
         return solicitudRepository.save(solicitud);
     }
 
@@ -29,4 +29,17 @@ public class SolicitudService {
         return solicitudRepository.findAll();
     }
 
+    public List<Solicitud> obtenerDisponibles() {
+        return solicitudRepository.findByEstado("PENDIENTE");
+    }
+
+    public List<Solicitud> obtenerPorComprador(Long compradorId) {
+        return solicitudRepository.findByCompradorId(compradorId);
+    }
+
+    public Solicitud aceptarSolicitud(Long id) {
+        Solicitud solicitud = solicitudRepository.findById(id).orElseThrow();
+        solicitud.setEstado("ASIGNADA");
+        return solicitudRepository.save(solicitud);
+    }
 }

@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Enviar datos al backend
-            const response = await fetch('/api/servicios', {
+            const response = await fetch('http://localhost:8080/solicitudes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Éxito - redirigir
             alert('¡Solicitud enviada con éxito! Los electricistas podrán hacer sus propuestas.');
-            window.location.href = 'servicios.html';
+            window.location.href = 'menu.html';
             
         } catch (error) {
             console.error('Error:', error);

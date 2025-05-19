@@ -1,6 +1,5 @@
 package com.fast.controller;
 
-
 import com.fast.domain.Solicitud;
 import com.fast.dto.SolicitudDTO;
 import com.fast.service.SolicitudService;
@@ -27,6 +26,24 @@ public class SolicitudController {
     public ResponseEntity<List<Solicitud>> obtenerSolicitudes() {
         List<Solicitud> lista = solicitudService.obtenerTodas();
         return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/disponibles")
+    public ResponseEntity<List<Solicitud>> obtenerSolicitudesDisponibles() {
+        List<Solicitud> lista = solicitudService.obtenerDisponibles();
+        return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/mias/{compradorId}")
+    public ResponseEntity<List<Solicitud>> obtenerSolicitudesCliente(@PathVariable Long compradorId) {
+        List<Solicitud> lista = solicitudService.obtenerPorComprador(compradorId);
+        return ResponseEntity.ok(lista);
+    }
+
+    @PostMapping("/{id}/aceptar")
+    public ResponseEntity<Solicitud> aceptarSolicitud(@PathVariable Long id) {
+        Solicitud solicitud = solicitudService.aceptarSolicitud(id);
+        return ResponseEntity.ok(solicitud);
     }
 
 }

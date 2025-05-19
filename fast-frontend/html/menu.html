@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ServiExpress - Menú Principal</title>
-    <link rel="stylesheet" href="/fast-frontend/css/menu.css">
+    <link rel="stylesheet" href="../css/menu.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -33,7 +33,7 @@
             </section>
 
             <div class="actions-container">
-                <div class="action-card" onclick="navigateTo('servicios.html')">
+                <div class="action-card" id="cardServicios" onclick="navigateTo('servicios.html')">
                     <div class="card-icon">
                         <i class="fas fa-list-alt"></i>
                     </div>
@@ -42,14 +42,13 @@
                     <button class="action-btn">Ver Servicios</button>
                 </div>
 
-                <div class="action-card" onclick="navigateTo('solicitud.html')">
+                <div class="action-card" id="cardSolicitar" onclick="navigateTo('solicitud.html')">
                     <div class="card-icon">
                         <i class="fas fa-tools"></i>
                     </div>
                     <h3>Solicitar Servicio</h3>
-                    <p>Publica tu necesida, recibe propuestas y negocia. 
-                    <p>Facil y secillo 
-                    </p>
+                    <p>Publica tu necesidad, recibe propuestas y negocia.</p>
+                    <p>Fácil y sencillo</p>
                     <button class="action-btn">Nueva Solicitud</button>
                 </div>
             </div>
@@ -78,6 +77,6 @@
         </footer>
     </div>
 
-    <script src="/fast-frontend/js/menu.js"></script>
+    <script src="../js/menu.js"></script>
 </body>
 </html>

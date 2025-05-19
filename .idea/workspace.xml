@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ac0d97bf-3b3e-4cfd-abb3-b166abf464b2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/fast-frontend/html/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/fast-frontend/html/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/html/menu.html" beforeDir="false" afterPath="$PROJECT_DIR$/fast-frontend/html/menu.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/html/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/fast-frontend/html/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/html/solicitud.html" beforeDir="false" afterPath="$PROJECT_DIR$/fast-frontend/html/solicitud.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/html/solicutidesactivas.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/html/solicutudes.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/js/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/fast-frontend/js/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/js/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/fast-frontend/js/register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/js/solicitudes.js" beforeDir="false" afterPath="$PROJECT_DIR$/fast-frontend/js/solicitudes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/js/solicitudesactivas.js" beforeDir="false" afterPath="$PROJECT_DIR$/fast-frontend/js/solicitudesactivas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast-frontend/js/solicutud.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fast.code-workspace" beforeDir="false" afterPath="$PROJECT_DIR$/fast.code-workspace" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Norxz&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Norxz/Fast.git&quot;,
+    &quot;accountId&quot;: &quot;943ba158-801f-4af6-812c-c1f75f097b75&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2w4XbrJl5g4fJCdfJdVWygr0SMa" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.FastApplication.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.FastApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/espin/Documents/IntellijProjects/Fast&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.gutterIcons&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RunManager" selected="Application.FastApplication">
+    <configuration name="FastApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.fast.FastApplication" />
+      <module name="fast" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fast.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FastApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="fast" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fast.FastApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.FastApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ac0d97bf-3b3e-4cfd-abb3-b166abf464b2" name="Changes" comment="" />
+      <created>1745301893491</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745301893491</updated>
+      <workItem from="1745303602222" duration="1942000" />
+      <workItem from="1745305594527" duration="596000" />
+      <workItem from="1745306216596" duration="83000" />
+      <workItem from="1745306309447" duration="304000" />
+      <workItem from="1745798495625" duration="3111000" />
+      <workItem from="1745892078224" duration="605000" />
+      <workItem from="1747522531721" duration="8801000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add files via upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add files via upload" />
+  </component>
+</project>

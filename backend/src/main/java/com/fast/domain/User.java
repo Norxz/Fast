@@ -23,6 +23,9 @@ public class User implements UserDetails{
     @Column(nullable = false)
     private boolean activo =  true;
 
+    private String nombre;
+    private String apellido;
+
     public User() {
     }
 
@@ -78,6 +81,22 @@ public class User implements UserDetails{
 
     public void setRol(Rol rol) {
         this.rol = rol;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     @Override

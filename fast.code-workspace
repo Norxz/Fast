@@ -7,5 +7,7 @@
 			"path": "fast-frontend"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "fast-frontend"
+	}
 }

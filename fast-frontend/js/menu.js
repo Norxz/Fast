@@ -1,52 +1,68 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Verificar autenticación
-    const token = localStorage.getItem('token');
-    const userRole = localStorage.getItem('userRole');
-    const userName = localStorage.getItem('userName');
-    
-    if (!token) {
-        window.location.href = 'login.html';
-        return;
-    }
+document.addEventListener("DOMContentLoaded", () => {
+  // Verificar autenticación
+  const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("userRole");
+  const userName = localStorage.getItem("userName") || "Usuario";
 
-    // Mostrar información del usuario
-    if (userName) {
-        document.getElementById('userName').textContent = userName;
-        document.getElementById('welcomeMessage').textContent = `Bienvenido, ${userName}`;
-    }
+  const cardServicios = document.getElementById("cardServicios");
+  const cardSolicitar = document.getElementById("cardSolicitar");
 
-    // Mostrar opciones de electricista si corresponde
-    if (userRole === 'ELECTRICISTA') {
-        document.getElementById('electricistaActions').style.display = 'block';
-    }
+  if (!token) {
+    window.location.href = "login.html";
+    return;
+  }
 
-    // Configurar botón de logout
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-        localStorage.clear();
-        window.location.href = 'login.html';
+  // Mostrar información del usuario
+  if (userName) {
+    document.getElementById("userName").textContent =
+      localStorage.getItem("userName") || "Usuario";
+    document.getElementById(
+      "welcomeMessage"
+    ).textContent = `Bienvenido, ${userName}`;
+    document.getElementById("userName").textContent = userName;
+  }
+
+  if (userRole === "COMPRADOR") {
+    cardServicios.style.display = "none";
+    cardSolicitar.style.display = "block";
+    document.getElementById("electricistaActions").style.display = "none";
+  } else if (userRole === "PROVEEDOR") {
+    cardServicios.style.display = "block";
+    cardSolicitar.style.display = "none";
+    document.getElementById("electricistaActions").style.display = "block";
+  } else {
+    cardServicios.style.display = "none";
+    cardSolicitar.style.display = "none";
+    document.getElementById("electricistaActions").style.display = "none";
+  }
+
+  // Configurar botón de logout
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.clear();
+    window.location.href = "login.html";
+  });
+
+  // Configurar cards clickeables
+  const actionCards = document.querySelectorAll(".action-card");
+  actionCards.forEach((card) => {
+    card.addEventListener("click", function () {
+      const button = this.querySelector(".action-btn");
+      button.style.transform = "scale(0.95)";
+      setTimeout(() => {
+        button.style.transform = "scale(1)";
+      }, 150);
     });
-
-    // Configurar cards clickeables
-    const actionCards = document.querySelectorAll('.action-card');
-    actionCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const button = this.querySelector('.action-btn');
-            button.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                button.style.transform = 'scale(1)';
-            }, 150);
-        });
-    });
+  });
 });
 
 function navigateTo(page) {
-    window.location.href = page;
+  window.location.href = page;
 }
 
 // Verificar estado de autenticación periódicamente
 setInterval(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        window.location.href = 'login.html';
-    }
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "login.html";
+  }
 }, 300000); // 5 minutos

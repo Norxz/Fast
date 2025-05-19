@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -43,7 +45,15 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody @Valid UserLoginDTO dto) {
         try {
             String token = autenticacionService.login(dto);
-            return ResponseEntity.ok(new DatosJWTToken(token));
+            // Buscar el usuario por email
+            User user = userService.findByEmail(dto.getEmail());
+            return ResponseEntity.ok(
+                Map.of(
+                    "token", token,
+                    "rol", user.getRol(),
+                    "nombre", user.getNombre()
+                )
+            );
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
         }
