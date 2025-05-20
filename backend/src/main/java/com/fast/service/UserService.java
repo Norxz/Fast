@@ -30,9 +30,13 @@ public class UserService {
         }
 
         Rol rol = Rol.valueOf(dto.getRol().toUpperCase());
-
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
+
         User user = new User(dto.getEmail(), encodedPassword, rol);
+        user.setNombre(dto.getNombre());
+        user.setApellido(dto.getApellido());
+        user.setTelefono(dto.getTelefono());
+        user.setActivo(true);
 
         emailService.enviarCorreoConfirmacion(user.getEmail());
         return userRepository.save(user);
@@ -60,4 +64,9 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
+
+    public User findById(Long id) {
+    return userRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+}
 }

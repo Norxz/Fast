@@ -6,8 +6,10 @@ public class SolicitudDTO {
     private String descripcion;
     private String categoria;
     private Long compradorId;
+    private String ubicacion;
 
-    public SolicitudDTO() {}
+    public SolicitudDTO() {
+    }
 
     public SolicitudDTO(String titulo, String descripcion, String categoria, Long compradorId) {
         this.titulo = titulo;
@@ -17,16 +19,44 @@ public class SolicitudDTO {
     }
 
     // Getters y Setters
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
+    public String getTitulo() {
+        return titulo;
+    }
 
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
-    public String getCategoria() { return categoria; }
-    public void setCategoria(String categoria) { this.categoria = categoria; }
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-    public Long getCompradorId() { return compradorId; }
-    public void setCompradorId(Long compradorId) { this.compradorId = compradorId; }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public Long getCompradorId() {
+        return compradorId;
+    }
+
+    public void setCompradorId(Long compradorId) {
+        this.compradorId = compradorId;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
 
 }

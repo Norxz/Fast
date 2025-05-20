@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const userData = {
       nombre: document.getElementById("nombre").value,
       apellido: document.getElementById("apellido").value,
+      telefono: document.getElementById("telefono").value,
       email: document.getElementById("email").value,
       password: password,
       rol: role,

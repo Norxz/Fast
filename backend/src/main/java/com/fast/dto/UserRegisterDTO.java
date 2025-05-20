@@ -3,9 +3,13 @@ package com.fast.dto;
 import com.fast.domain.Rol;
 import jakarta.validation.constraints.*;
 
-
 public class UserRegisterDTO {
 
+    @NotBlank(message = "El nombre es obligatorio")
+    private String nombre;
+
+    @NotBlank(message = "El apellido es obligatorio")
+    private String apellido;
 
     @NotBlank(message = "El correo es obligatorio")
     @Email(message = "El correo debe tener un formato válido")
@@ -17,12 +21,19 @@ public class UserRegisterDTO {
     @NotBlank(message = "El rol es obligatorio")
     private String rol;
 
-    public UserRegisterDTO() {}
+    @NotBlank(message = "El teléfono es obligatorio")
+    private String telefono;
 
-    public UserRegisterDTO(String email, String password, String rol) {
+    public UserRegisterDTO() {
+    }
+
+    public UserRegisterDTO(String email, String password, String rol, String nombre, String apellido, String telefono) {
         this.email = email;
         this.password = password;
         this.rol = rol;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
     }
 
     public String getEmail() {
@@ -47,6 +58,30 @@ public class UserRegisterDTO {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
 }

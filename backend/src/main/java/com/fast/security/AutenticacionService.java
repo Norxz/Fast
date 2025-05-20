@@ -31,8 +31,7 @@ public class AutenticacionService implements UserDetailsService {
             UserRepository userRepository,
             TokenService tokenService,
             PasswordEncoder passwordEncoder,
-            UserService  userService
-    ) throws Exception {
+            UserService userService) throws Exception {
         this.authenticationConfiguration = authenticationConfiguration;
         this.userRepository = userRepository;
         this.tokenService = tokenService;
@@ -42,7 +41,7 @@ public class AutenticacionService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username)
+        return userRepository.findByEmail(username.trim().toLowerCase())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
     }
 

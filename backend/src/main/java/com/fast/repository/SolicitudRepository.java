@@ -10,5 +10,5 @@ public interface SolicitudRepository extends JpaRepository<Solicitud, Long> {
 
     List<Solicitud> findByEstado(String estado);
     List<Solicitud> findByCompradorId(Long compradorId);
-
+    List<Solicitud> findByElectricistaIdAndEstadoIn(Long electricistaId, List<String> estados);
 }

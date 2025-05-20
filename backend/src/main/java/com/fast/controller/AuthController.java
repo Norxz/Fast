@@ -51,7 +51,8 @@ public class AuthController {
                 Map.of(
                     "token", token,
                     "rol", user.getRol(),
-                    "nombre", user.getNombre()
+                    "nombre", user.getNombre(),
+                    "id", user.getId()
                 )
             );
         } catch (RuntimeException e) {

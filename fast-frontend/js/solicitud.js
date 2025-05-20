@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
             presupuesto: parseFloat(document.getElementById('presupuesto').value) || 0,
             urgencia: document.getElementById('urgencia').value,
             fecha: document.getElementById('fecha').value || null,
+            ubicacion: document.getElementById('ubicacion').value, // <-- AGREGA ESTA LÍNEA
             fotos: [] // Aquí irían los archivos procesados
         };
 

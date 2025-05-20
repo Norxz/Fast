@@ -22,11 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("userName").textContent = userName;
   }
 
-  if (userRole === "COMPRADOR") {
+  if (userRole === "CLIENTE") {
     cardServicios.style.display = "none";
     cardSolicitar.style.display = "block";
     document.getElementById("electricistaActions").style.display = "none";
-  } else if (userRole === "PROVEEDOR") {
+  } else if (userRole === "ELECTRICISTA") {
     cardServicios.style.display = "block";
     cardSolicitar.style.display = "none";
     document.getElementById("electricistaActions").style.display = "block";

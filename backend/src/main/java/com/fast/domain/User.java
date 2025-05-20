@@ -26,6 +26,8 @@ public class User implements UserDetails{
     private String nombre;
     private String apellido;
 
+    private String telefono;
+
     public User() {
     }
 
@@ -121,6 +123,15 @@ public class User implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.activo;
     }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
 }

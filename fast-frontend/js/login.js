@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Mostrar loader (puedes añadir un div con clase 'loader' en tu HTML)
             const submitBtn = loginForm.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Iniciando...';
@@ -43,7 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('token', data.token);
             localStorage.setItem('userRole', data.rol);
             localStorage.setItem('userName', data.nombre);
-            localStorage.setItem('compradorId', data.id); 
+            localStorage.setItem('compradorId', data.id);
+            localStorage.setItem('userId', data.id);  
 
             // Redirigir según el rol
             window.location.href = data.role === 'ELECTRICISTA' ? 'dashboard-electricista.html' : '/html/menu.html';
@@ -59,17 +59,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Efecto hover mejorado para botones
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(button => {
-        button.addEventListener('mouseenter', () => {
-            button.style.transform = 'translateY(-2px)';
-            button.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-        });
-        
-        button.addEventListener('mouseleave', () => {
-            button.style.transform = 'translateY(0)';
-            button.style.boxShadow = 'none';
-        });
-    });
+
 });

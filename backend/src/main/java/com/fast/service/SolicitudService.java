@@ -19,9 +19,9 @@ public class SolicitudService {
                 dto.getTitulo(),
                 dto.getDescripcion(),
                 dto.getCategoria(),
-                dto.getCompradorId()
-        );
-        solicitud.setEstado("PENDIENTE"); // <-- importante
+                dto.getCompradorId());
+        solicitud.setUbicacion(dto.getUbicacion());
+        solicitud.setEstado("PENDIENTE");
         return solicitudRepository.save(solicitud);
     }
 
@@ -37,9 +37,15 @@ public class SolicitudService {
         return solicitudRepository.findByCompradorId(compradorId);
     }
 
-    public Solicitud aceptarSolicitud(Long id) {
+    public Solicitud aceptarSolicitud(Long id, Long electricistaId) {
         Solicitud solicitud = solicitudRepository.findById(id).orElseThrow();
         solicitud.setEstado("ASIGNADA");
+        solicitud.setElectricistaId(electricistaId);
         return solicitudRepository.save(solicitud);
+    }
+
+    public List<Solicitud> obtenerPorElectricista(Long electricistaId) {
+        return solicitudRepository.findByElectricistaIdAndEstadoIn(
+                electricistaId, List.of("ASIGNADA", "TERMINADA"));
     }
 }

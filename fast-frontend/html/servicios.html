@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Servicios Solicitados - ServiExpress</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/servicios.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
   <!-- Sidebar Navigation -->
   <nav class="sidebar">
@@ -23,8 +26,9 @@
         <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Usuario" id="userAvatar">
       </div>
       <div class="user-info">
-        <span class="user-name" id="userName">Cargando...</span>
         <span class="user-role" id="userRole"></span>
+        <span class="user-role" id="userRole"></span>
+        <span class="user-name" id="userName"></span>
       </div>
     </div>
 
@@ -72,11 +76,8 @@
   <!-- Main Content -->
   <main class="main-content">
     <header class="topbar">
-      <div class="toggle-sidebar">
-        <i class="fas fa-bars"></i>
-      </div>
       <div class="page-title">
-        <h2><i class="fas fa-list-check"></i> Servicios Solicitados</h2>
+        <h2>Servicios Solicitados</h2>
       </div>
       <div class="notifications">
         <i class="fas fa-bell"></i>
@@ -129,16 +130,19 @@
   <script src="../js/solicitudes_electricista.js"></script>
   <script>
     // Toggle sidebar en móviles
-    document.querySelector('.toggle-sidebar').addEventListener('click', function() {
-      document.querySelector('.sidebar').classList.toggle('collapsed');
-      document.querySelector('.main-content').classList.toggle('expanded');
-    });
+    const toggleSidebar = document.querySelector('.toggle-sidebar');
+    if (toggleSidebar) {
+      toggleSidebar.addEventListener('click', function () {
+        document.querySelector('.sidebar').classList.toggle('collapsed');
+        document.querySelector('.main-content').classList.toggle('expanded');
+      });
+    }
 
     // Cargar datos del usuario
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const token = localStorage.getItem('token');
       const userType = localStorage.getItem('userType');
-      
+
       if (!token) {
         window.location.href = 'login.html';
         return;
@@ -148,33 +152,18 @@
       document.getElementById('userRole').textContent = userType === 'ELECTRICISTA' ? 'Electricista' : 'Cliente';
 
       document.getElementById('userName').textContent = localStorage.getItem('userName') || 'Usuario';
-      
-      
-      // Cargar servicios solicitados
-      loadRequestedServices();
+
+
     });
 
     // Cerrar sesión
-    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    document.getElementById('logoutBtn').addEventListener('click', function (e) {
       e.preventDefault();
       localStorage.removeItem('token');
       localStorage.removeItem('userType');
       window.location.href = 'login.html';
     });
 
-    // Función para cargar servicios (simulada)
-    function loadRequestedServices() {
-      // Esto sería reemplazado por una llamada a tu API
-      setTimeout(() => {
-        const servicesList = document.getElementById('servicesList');
-        const emptyState = document.getElementById('emptyState');
-        
-        // Simular que no hay servicios por ahora
-        emptyState.style.display = 'flex';
-        servicesList.innerHTML = '';
-        
-      }, 1000);
-    }
 
     function createServiceElement(service) {
       const element = document.createElement('div');
@@ -202,4 +191,5 @@
     }
   </script>
 </body>
+
 </html>
