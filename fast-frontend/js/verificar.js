@@ -1,0 +1,19 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('email')) document.getElementById('email').value = params.get('email');
+    if (params.has('code')) document.getElementById('code').value = params.get('code');
+
+    document.getElementById('verifyForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const code = document.getElementById('code').value;
+        const res = await fetch('http://localhost:8080/auth/verify?email=' + encodeURIComponent(email) + '&code=' + encodeURIComponent(code), {
+            method: 'POST'
+        });
+        const text = await res.text();
+        document.getElementById('result').textContent = text;
+        if (res.ok) {
+            setTimeout(() => window.location.href = 'login.html', 2000);
+        }
+    });
+});
