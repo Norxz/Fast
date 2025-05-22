@@ -1,16 +1,169 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Servicios - ServiExpress</title>
-    <!-- SweetAlert2 para los mensajes -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="../css/servicios.css"><!-- Opcional: tu CSS -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mis Servicios Asignados - ServiExpress</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/servicios.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
-    <h2>Mis Servicios</h2>
-    <div id="misServiciosContainer"></div>
-    <script src="../js/mis_servicios_electricista.js"></script>
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-bolt logo-icon"></i>
+        <h1>Servi<span>Express</span></h1>
+      </div>
+    </div>
+
+    <div class="user-profile">
+      <div class="avatar">
+        <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Usuario" id="userAvatar">
+      </div>
+      <div class="user-info">
+        <span class="user-role" id="userRole"></span>
+        <span class="user-name" id="userName"></span>
+      </div>
+    </div>
+
+    <ul class="nav-links">
+      <li>
+        <a href="menu.html">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </a>
+      </li>
+      <li>
+        <a href="services.html">
+          <i class="fas fa-tools"></i>
+          <span>Servicios</span>
+        </a>
+      </li>
+      <li>
+        <a href="servicios.html">
+          <i class="fas fa-list-check"></i>
+          <span>Solicitudes</span>
+        </a>
+      </li>
+      <li class="active">
+        <a href="mis-servicios.html">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Mis Servicios Asignados</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fas fa-history"></i>
+          <span>Historial</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fas fa-star"></i>
+          <span>Reseñas</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="logout-container">
+      <a href="#" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Cerrar Sesión</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="topbar">
+      <div class="page-title">
+        <h2>Mis Servicios Asignados</h2>
+      </div>
+      <div class="notifications">
+        <i class="fas fa-bell"></i>
+        <span class="notification-count">0</span>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard">
+      <!-- Filtros -->
+      <div class="filters">
+        <div class="filter-group">
+          <label for="statusFilter">Filtrar por estado:</label>
+          <select id="statusFilter" class="custom-select">
+            <option value="all">Todos</option>
+            <option value="pending">Pendientes</option>
+            <option value="approved">Aprobados</option>
+            <option value="in_progress">En progreso</option>
+            <option value="completed">Completados</option>
+            <option value="cancelled">Cancelados</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="dateFilter">Filtrar por fecha:</label>
+          <input type="date" id="dateFilter" class="custom-date">
+        </div>
+        <button class="filter-btn">
+          <i class="fas fa-filter"></i> Aplicar Filtros
+        </button>
+      </div>
+
+      <!-- Lista de Servicios Asignados -->
+      <div class="services-container">
+        <div class="empty-state" id="emptyState">
+          <i class="fas fa-clipboard-list"></i>
+          <h3>No tienes servicios asignados</h3>
+          <p>Cuando te asignen servicios, aparecerán aquí</p>
+          <a href="services.html" class="action-btn">Buscar Servicios</a>
+        </div>
+
+        <div class="services-list" id="misServiciosContainer">
+          <!-- Los servicios asignados se cargarán dinámicamente aquí -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/mis_servicios_electricista.js"></script>
+  <script>
+    // Toggle sidebar en móviles
+    const toggleSidebar = document.querySelector('.toggle-sidebar');
+    if (toggleSidebar) {
+      toggleSidebar.addEventListener('click', function () {
+        document.querySelector('.sidebar').classList.toggle('collapsed');
+        document.querySelector('.main-content').classList.toggle('expanded');
+      });
+    }
+
+    // Cargar datos del usuario
+    document.addEventListener('DOMContentLoaded', function () {
+      const token = localStorage.getItem('token');
+      const userType = localStorage.getItem('userType');
+
+      if (!token) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Mostrar tipo de usuario
+      document.getElementById('userRole').textContent = userType === 'ELECTRICISTA' ? 'Electricista' : 'Cliente';
+      document.getElementById('userName').textContent = localStorage.getItem('userName') || 'Usuario';
+    });
+
+    // Cerrar sesión
+    document.getElementById('logoutBtn').addEventListener('click', function (e) {
+      e.preventDefault();
+      localStorage.removeItem('token');
+      localStorage.removeItem('userType');
+      window.location.href = 'login.html';
+    });
+  </script>
 </body>
+
 </html>

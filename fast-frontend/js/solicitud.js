@@ -38,12 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Obtener datos del formulario
         const formData = {
             titulo: document.getElementById('titulo').value,
-            tipoServicio: document.getElementById('tipoServicio').value,
+            categoria: document.getElementById('tipoServicio').value,
             descripcion: document.getElementById('descripcion').value,
             presupuesto: parseFloat(document.getElementById('presupuesto').value) || 0,
             urgencia: document.getElementById('urgencia').value,
-            fecha: document.getElementById('fecha').value || null,
-            ubicacion: document.getElementById('ubicacion').value, // <-- AGREGA ESTA LÍNEA
+            fechaServicio: document.getElementById('fecha').value || null,
+            ubicacion: document.getElementById('ubicacion').value,
+            compradorId: parseInt(localStorage.getItem('userId')),
             fotos: [] // Aquí irían los archivos procesados
         };
 

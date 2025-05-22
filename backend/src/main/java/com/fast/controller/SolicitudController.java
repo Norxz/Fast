@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,4 +75,15 @@ public class SolicitudController {
         return ResponseEntity.ok(contacto);
     }
 
+    @PostMapping("/{id}/finalizar")
+    public ResponseEntity<?> finalizarServicio(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+        try {
+            BigDecimal precio = new BigDecimal(body.get("precio").toString());
+            return solicitudService.finalizarServicio(id, precio)
+                    .<ResponseEntity<?>>map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.badRequest().body("No se pudo finalizar el servicio"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al finalizar el servicio");
+        }
+    }
 }

@@ -2,7 +2,8 @@ package com.fast.domain;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "solicitudes")
@@ -23,6 +24,11 @@ public class Solicitud {
     private String ubicacion;
 
     private Long electricistaId;
+
+    @Column(name = "fecha_creacion")
+    private LocalDate fechaServicio;
+
+    private BigDecimal precioCobrador;
 
     public Solicitud() {
     }
@@ -98,5 +104,23 @@ public class Solicitud {
     public void setElectricistaId(Long electricistaId) {
         this.electricistaId = electricistaId;
     }
+
+    public LocalDate getFechaServicio() {
+        return fechaServicio;
+    }
+
+    public BigDecimal getPrecioCobrador() {
+        return precioCobrador;
+    }
+
+    public void setFechaServicio(LocalDate fechaServicio) {
+        this.fechaServicio = fechaServicio;
+    }
+
+    public void setPrecioCobrador(BigDecimal precioCobrador) {
+        this.precioCobrador = precioCobrador;
+    }
     
+    
+
 }

@@ -1,5 +1,7 @@
 package com.fast.dto;
 
+import java.time.LocalDate;
+
 public class SolicitudDTO {
 
     private String titulo;
@@ -7,6 +9,8 @@ public class SolicitudDTO {
     private String categoria;
     private Long compradorId;
     private String ubicacion;
+    private LocalDate fechaServicio;
+    
 
     public SolicitudDTO() {
     }
@@ -57,6 +61,14 @@ public class SolicitudDTO {
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public LocalDate getFechaServicio() {
+        return fechaServicio;
+    }
+
+    public void setFechaServicio(LocalDate fechaServicio) {
+        this.fechaServicio = fechaServicio;
     }
 
 }

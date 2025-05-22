@@ -51,20 +51,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="sidebar-widget promo-widget">
-                        <h3><i class="fas fa-star"></i> ¿Por qué ServiExpress?</h3>
-                        <ul class="promo-list">
-                            <li><i class="fas fa-check-circle"></i> Rápido y confiable</li>
-                            <li><i class="fas fa-check-circle"></i> Electricistas verificados</li>
-                            <li><i class="fas fa-check-circle"></i> Precios competitivos</li>
-                            <li><i class="fas fa-check-circle"></i> Soporte 24/7</li>
-                        </ul>
-                        <div class="testimonial">
-                            <p>"Excelente servicio, solucionaron mi problema eléctrico en menos de 2 horas!"</p>
-                            <div class="author">- Carlos M., Cliente satisfecho</div>
-                        </div>
-                    </div>
                 </aside>
 
                 <!-- Contenido principal -->
@@ -76,8 +62,7 @@
                                 <option value="TODAS">Todas las solicitudes</option>
                                 <option value="PENDIENTE">Pendientes</option>
                                 <option value="ASIGNADA">Asignadas</option>
-                                <option value="EN_PROCESO">En proceso</option>
-                                <option value="COMPLETADA">Completadas</option>
+                                <option value="FINALIZADA">Finalizada</option>
                                 <option value="CANCELADA">Canceladas</option>
                             </select>
                             <button id="refreshBtn" class="btn btn-icon">
@@ -138,6 +123,7 @@
         </div>
     </template>
 
-    <script src="../js/solicitudes.js"></script>
+    <script src="../js/solicitudes_cliente.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

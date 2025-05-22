@@ -6,7 +6,9 @@ import com.fast.repository.SolicitudRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SolicitudService {
@@ -22,6 +24,7 @@ public class SolicitudService {
                 dto.getCompradorId());
         solicitud.setUbicacion(dto.getUbicacion());
         solicitud.setEstado("PENDIENTE");
+        solicitud.setFechaServicio(dto.getFechaServicio());
         return solicitudRepository.save(solicitud);
     }
 
@@ -47,5 +50,19 @@ public class SolicitudService {
     public List<Solicitud> obtenerPorElectricista(Long electricistaId) {
         return solicitudRepository.findByElectricistaIdAndEstadoIn(
                 electricistaId, List.of("ASIGNADA", "TERMINADA"));
+    }
+
+    public Optional<Solicitud> finalizarServicio(Long id, BigDecimal precio) {
+        Optional<Solicitud> opt = solicitudRepository.findById(id);
+        if (opt.isPresent()) {
+            Solicitud solicitud = opt.get();
+            if ("ASIGNADA".equals(solicitud.getEstado())) {
+                solicitud.setEstado("FINALIZADA");
+                solicitud.setPrecioCobrador(precio);
+                solicitudRepository.save(solicitud);
+                return Optional.of(solicitud);
+            }
+        }
+        return Optional.empty();
     }
 }

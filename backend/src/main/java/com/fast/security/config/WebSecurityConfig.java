@@ -38,8 +38,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/proveedor/**").hasRole("PROVEEDOR")
-                        .requestMatchers("/solicitudes").hasAnyRole("COMPRADOR",  "PROVEEDOR")
+                        .requestMatchers("/proveedor/**").hasRole("ELECTRICISTA")
+                        .requestMatchers("/solicitudes").hasAnyRole("CLIENTE",  "ELECTRICISTA")
+                        .requestMatchers(HttpMethod.POST, "/solicitudes").hasRole("CLIENTE")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

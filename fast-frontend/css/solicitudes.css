@@ -8,7 +8,7 @@
     --warning-color: #f39c12;
     --danger-color: #e74c3c;
     --background-color: #f5f7fa;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);    
     --transition-speed: 0.3s;
 }
 
@@ -86,15 +86,15 @@ body {
 
 .dashboard-container {
     display: flex;
-    max-width: 1200px;
+    max-width: 12000px;
     margin: 0 auto;
     min-height: calc(100vh - 120px);
 }
 
 .sidebar {
-    width: 280px;
+    width: 300px;
     background-color: white;
-    padding: 1.5rem;
+    padding: 1rem; 
     box-shadow: var(--card-shadow);
     border-right: 1px solid #e0e0e0;
 }

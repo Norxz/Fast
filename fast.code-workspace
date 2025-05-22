@@ -8,6 +8,21 @@
 		}
 	],
 	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "fast-frontend"
+		"liveServer.settings.multiRootWorkspaceName": "fast-frontend",
+		"sqltools.connections": [
+			{
+				"mysqlOptions": {
+					"authProtocol": "default",
+					"enableSsl": "Disabled"
+				},
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 3306,
+				"driver": "MySQL",
+				"name": "fast",
+				"database": "fastdb",
+				"username": "root"
+			}
+		]
 	}
 }

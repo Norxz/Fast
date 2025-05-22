@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const cardServicios = document.getElementById("cardServicios");
   const cardSolicitar = document.getElementById("cardSolicitar");
+  const cardMisSolicitudes = document.getElementById("cardMisSolicitudes");
 
   if (!token) {
     window.location.href = "login.html";
@@ -25,14 +26,17 @@ document.addEventListener("DOMContentLoaded", () => {
   if (userRole === "CLIENTE") {
     cardServicios.style.display = "none";
     cardSolicitar.style.display = "block";
+    cardMisSolicitudes.style.display = "block";
     document.getElementById("electricistaActions").style.display = "none";
   } else if (userRole === "ELECTRICISTA") {
     cardServicios.style.display = "block";
     cardSolicitar.style.display = "none";
+    cardMisSolicitudes.style.display = "none";
     document.getElementById("electricistaActions").style.display = "block";
   } else {
     cardServicios.style.display = "none";
     cardSolicitar.style.display = "none";
+    cardMisSolicitudes.style.display = "none";
     document.getElementById("electricistaActions").style.display = "none";
   }
 
