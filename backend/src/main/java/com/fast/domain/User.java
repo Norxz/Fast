@@ -5,10 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
 
-
 @Entity
 @Table(name = "users")
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +20,10 @@ public class User implements UserDetails{
     private Rol rol;
 
     @Column(nullable = false)
-    private boolean activo =  true;
+    private boolean activo = false;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
 
     private String nombre;
     private String apellido;
@@ -71,7 +73,6 @@ public class User implements UserDetails{
     public String getPassword() {
         return password;
     }
-
 
     public void setPassword(String password) {
         this.password = password;
@@ -132,6 +133,14 @@ public class User implements UserDetails{
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -36,9 +37,11 @@ public class UserService {
         user.setNombre(dto.getNombre());
         user.setApellido(dto.getApellido());
         user.setTelefono(dto.getTelefono());
-        user.setActivo(true);
+        user.setActivo(false);
+        String code = UUID.randomUUID().toString();
+        user.setVerificationCode(code);
 
-        emailService.enviarCorreoConfirmacion(user.getEmail());
+        emailService.enviarCorreoVerificacion(user.getEmail(), code);
         return userRepository.save(user);
 
     }
@@ -66,7 +69,12 @@ public class UserService {
     }
 
     public User findById(Long id) {
-    return userRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-}
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
+    }
+    
 }

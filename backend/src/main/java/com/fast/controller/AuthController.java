@@ -30,7 +30,6 @@ public class AuthController {
         this.userService = userService;
     }
 
-
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid UserRegisterDTO dto) {
         try {
@@ -41,6 +40,18 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/verify")
+    public ResponseEntity<?> verify(@RequestParam String email, @RequestParam String code) {
+        User user = userService.findByEmail(email);
+        if (user != null && code.equals(user.getVerificationCode())) {
+            user.setActivo(true);
+            user.setVerificationCode(null);
+            userService.save(user); 
+            return ResponseEntity.ok("Cuenta verificada correctamente");
+        }
+        return ResponseEntity.badRequest().body("Código de verificación inválido");
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserLoginDTO dto) {
         try {
@@ -48,17 +59,14 @@ public class AuthController {
             // Buscar el usuario por email
             User user = userService.findByEmail(dto.getEmail());
             return ResponseEntity.ok(
-                Map.of(
-                    "token", token,
-                    "rol", user.getRol(),
-                    "nombre", user.getNombre(),
-                    "id", user.getId()
-                )
-            );
+                    Map.of(
+                            "token", token,
+                            "rol", user.getRol(),
+                            "nombre", user.getNombre(),
+                            "id", user.getId()));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
         }
     }
-
 
 }
