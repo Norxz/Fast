@@ -1,8 +1,10 @@
 package com.fast.service;
 
 import com.fast.domain.Solicitud;
+import com.fast.domain.User;
 import com.fast.dto.SolicitudDTO;
 import com.fast.repository.SolicitudRepository;
+import com.fast.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +18,17 @@ public class SolicitudService {
     @Autowired
     private SolicitudRepository solicitudRepository;
 
+    @Autowired
+    private UserRepository userRepository; 
+
     public Solicitud crear(SolicitudDTO dto) {
+        User cliente = userRepository.findById(dto.getCompradorId())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
         Solicitud solicitud = new Solicitud(
                 dto.getTitulo(),
                 dto.getDescripcion(),
                 dto.getCategoria(),
-                dto.getCompradorId());
+                cliente);
         solicitud.setUbicacion(dto.getUbicacion());
         solicitud.setEstado("PENDIENTE");
         solicitud.setFechaServicio(dto.getFechaServicio());
@@ -37,19 +44,25 @@ public class SolicitudService {
     }
 
     public List<Solicitud> obtenerPorComprador(Long compradorId) {
-        return solicitudRepository.findByCompradorId(compradorId);
+        User cliente = userRepository.findById(compradorId)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        return solicitudRepository.findByCliente(cliente);
     }
 
     public Solicitud aceptarSolicitud(Long id, Long electricistaId) {
         Solicitud solicitud = solicitudRepository.findById(id).orElseThrow();
+        User electricista = userRepository.findById(electricistaId)
+                .orElseThrow(() -> new RuntimeException("Electricista no encontrado"));
         solicitud.setEstado("ASIGNADA");
-        solicitud.setElectricistaId(electricistaId);
+        solicitud.setElectricista(electricista);
         return solicitudRepository.save(solicitud);
     }
 
     public List<Solicitud> obtenerPorElectricista(Long electricistaId) {
-        return solicitudRepository.findByElectricistaIdAndEstadoIn(
-                electricistaId, List.of("ASIGNADA", "TERMINADA"));
+        User electricista = userRepository.findById(electricistaId)
+                .orElseThrow(() -> new RuntimeException("Electricista no encontrado"));
+        return solicitudRepository.findByElectricistaAndEstadoIn(
+                electricista, List.of("ASIGNADA", "TERMINADA"));
     }
 
     public Optional<Solicitud> finalizarServicio(Long id, BigDecimal precio) {

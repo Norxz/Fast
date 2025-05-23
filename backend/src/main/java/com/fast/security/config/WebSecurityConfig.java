@@ -33,14 +33,24 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ← Aquí el cambio
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/proveedor/**").hasRole("ELECTRICISTA")
-                        .requestMatchers("/solicitudes").hasAnyRole("CLIENTE", "ELECTRICISTA")
+                        // Solo CLIENTE puede crear solicitudes
                         .requestMatchers(HttpMethod.POST, "/solicitudes").hasRole("CLIENTE")
+                        // Solo CLIENTE puede ver sus propias solicitudes
+                        .requestMatchers(HttpMethod.GET, "/solicitudes/mias/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET, "/solicitudes/mis-solicitudes/**").hasRole("CLIENTE")
+                        // Solo ELECTRICISTA puede ver todas las solicitudes disponibles
+                        .requestMatchers(HttpMethod.GET, "/solicitudes/disponibles").hasRole("ELECTRICISTA")
+                        // Solo ELECTRICISTA puede aceptar solicitudes
+                        .requestMatchers(HttpMethod.POST, "/solicitudes/{id}/aceptar").hasRole("ELECTRICISTA")
+                        // Solo ELECTRICISTA puede ver sus servicios
+                        .requestMatchers(HttpMethod.GET, "/solicitudes/mis-servicios/**").hasRole("ELECTRICISTA")
+                        // Solo ELECTRICISTA puede finalizar servicios
+                        .requestMatchers(HttpMethod.POST, "/solicitudes/{id}/finalizar").hasRole("ELECTRICISTA")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

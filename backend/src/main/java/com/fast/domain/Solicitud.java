@@ -17,13 +17,17 @@ public class Solicitud {
     private String descripcion;
     private String categoria;
 
-    private Long compradorId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "comprador_id")
+    private User cliente;
 
     private String estado;
 
     private String ubicacion;
 
-    private Long electricistaId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "electricista_id")
+    private User electricista;
 
     @Column(name = "fecha_creacion")
     private LocalDate fechaServicio;
@@ -33,11 +37,11 @@ public class Solicitud {
     public Solicitud() {
     }
 
-    public Solicitud(String titulo, String descripcion, String categoria, Long compradorId) {
+    public Solicitud(String titulo, String descripcion, String categoria, User cliente) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.categoria = categoria;
-        this.compradorId = compradorId;
+        this.cliente = cliente;
     }
 
     // Getters y Setters
@@ -73,13 +77,6 @@ public class Solicitud {
         this.categoria = categoria;
     }
 
-    public Long getCompradorId() {
-        return compradorId;
-    }
-
-    public void setCompradorId(Long compradorId) {
-        this.compradorId = compradorId;
-    }
 
     public String getEstado() {
         return estado;
@@ -96,14 +93,19 @@ public class Solicitud {
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
-
-    public Long getElectricistaId() {
-        return electricistaId;
+    public User getCliente() {
+        return cliente;
+    }
+    public void setCliente(User cliente) {
+        this.cliente = cliente;
+    }
+    public User getElectricista() {
+        return electricista;
+    }
+    public void setElectricista(User electricista) {
+        this.electricista = electricista;
     }
 
-    public void setElectricistaId(Long electricistaId) {
-        this.electricistaId = electricistaId;
-    }
 
     public LocalDate getFechaServicio() {
         return fechaServicio;
@@ -120,7 +122,5 @@ public class Solicitud {
     public void setPrecioCobrador(BigDecimal precioCobrador) {
         this.precioCobrador = precioCobrador;
     }
-    
-    
 
 }

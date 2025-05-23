@@ -27,8 +27,8 @@ public class User implements UserDetails {
 
     private String nombre;
     private String apellido;
-
     private String telefono;
+    private String direccion;
 
     public User() {
     }
@@ -100,6 +100,13 @@ public class User implements UserDetails {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     @Override
