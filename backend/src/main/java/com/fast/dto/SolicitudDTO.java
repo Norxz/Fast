@@ -1,5 +1,6 @@
 package com.fast.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class SolicitudDTO {
@@ -10,7 +11,7 @@ public class SolicitudDTO {
     private Long compradorId;
     private String ubicacion;
     private LocalDate fechaServicio;
-    
+    private BigDecimal presupuesto;
 
     public SolicitudDTO() {
     }
@@ -69,6 +70,14 @@ public class SolicitudDTO {
 
     public void setFechaServicio(LocalDate fechaServicio) {
         this.fechaServicio = fechaServicio;
+    }
+
+    public BigDecimal getPresupuesto() {
+        return presupuesto;
+    }
+
+    public void setPresupuesto(BigDecimal presupuesto) {
+        this.presupuesto = presupuesto;
     }
 
 }

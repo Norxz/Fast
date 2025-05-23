@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="request-meta">
                 <span class="meta-item"><i class="fas fa-bolt"></i> ${s.categoria || ''}</span>
                 <span class="meta-item"><i class="fas fa-calendar-alt"></i> ${s.fechaServicio || 'No definida'}</span>
-                <span class="meta-item"><i class="fas fa-dollar-sign"></i> ${s.presupuesto || ''}</span>
+                <sp class="meta-item"><i class="fas fa-dollar-sign"></i> ${s.presupuesto || ''}</sp>
               </div>
               <p class="request-description">${s.descripcion}</p>
               ${extra}

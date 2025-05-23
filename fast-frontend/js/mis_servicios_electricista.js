@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           ${
             s.estado === "ASIGNADA"
               ? `
-            <button onclick="contactarCliente('${s.compradorId}')">Contactar Cliente</button>
+            <button onclick="contactarCliente('${s.cliente.id}')">Contactar Cliente</button>
           `
               : ""
           }

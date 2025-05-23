@@ -104,8 +104,19 @@ public class SolicitudController {
             String emailElectricista = solicitud.getElectricista().getEmail();
             String nombreElectricista = solicitud.getElectricista().getNombre();
 
-            String datosCliente = "Dirección: " + solicitud.getCliente().getDireccion() + "\nTeléfono: " + solicitud.getCliente().getTelefono();
-            String datosElectricista = "Teléfono: " + solicitud.getElectricista().getTelefono();
+            String ubicacion = solicitud.getUbicacion() != null ? solicitud.getUbicacion() : "No registrada";
+            String telefonoElectricista = solicitud.getElectricista().getTelefono();
+            String telefonoCliente = solicitud.getCliente().getTelefono();
+
+            // Información para el cliente (sobre el electricista)
+            String datosElectricista = "Ubicación del servicio: " + ubicacion +
+                    "\nTeléfono: " + telefonoElectricista +
+                    "\nValor cobrado: $" + precio;
+
+            // Información para el electricista (sobre el cliente)
+            String datosCliente = "Ubicación del servicio: " + ubicacion +
+                    "\nTeléfono: " + telefonoCliente +
+                    "\nValor cobrado: $" + precio;
 
             // Correo para el cliente (info del electricista)
             emailService.enviarCorreoConFactura(

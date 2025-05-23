@@ -32,6 +32,7 @@ public class SolicitudService {
         solicitud.setUbicacion(dto.getUbicacion());
         solicitud.setEstado("PENDIENTE");
         solicitud.setFechaServicio(dto.getFechaServicio());
+        solicitud.setPresupuesto(dto.getPresupuesto());
         return solicitudRepository.save(solicitud);
     }
 

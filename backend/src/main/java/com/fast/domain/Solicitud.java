@@ -34,6 +34,8 @@ public class Solicitud {
 
     private BigDecimal precioCobrador;
 
+    private BigDecimal presupuesto;
+
     public Solicitud() {
     }
 
@@ -121,6 +123,14 @@ public class Solicitud {
 
     public void setPrecioCobrador(BigDecimal precioCobrador) {
         this.precioCobrador = precioCobrador;
+    }
+
+    public BigDecimal getPresupuesto() {
+        return presupuesto;
+    }
+
+    public void setPresupuesto(BigDecimal presupuesto) {
+        this.presupuesto = presupuesto;
     }
 
 }
