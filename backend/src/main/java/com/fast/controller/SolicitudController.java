@@ -49,12 +49,6 @@ public class SolicitudController {
         return ResponseEntity.ok(lista);
     }
 
-    @GetMapping("/mias/{compradorId}")
-    @PreAuthorize("hasRole('CLIENTE')")
-    public ResponseEntity<List<Solicitud>> obtenerSolicitudesCliente(@PathVariable Long compradorId) {
-        List<Solicitud> lista = solicitudService.obtenerPorComprador(compradorId);
-        return ResponseEntity.ok(lista);
-    }
 
     @PostMapping("/{id}/aceptar")
     @PreAuthorize("hasRole('ELECTRICISTA')")

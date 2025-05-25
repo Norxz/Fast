@@ -9,6 +9,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/servicios.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <button id="toggleSidebar" class="hamburger">
+    <i class="fas fa-bars"></i>
+  </button>
 </head>
 
 <body>
@@ -48,12 +51,6 @@
         <a href="mis-servicios.html">
           <i class="fas fa-clipboard-list"></i>
           <span>Mis Servicios Asignados</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="fas fa-history"></i>
-          <span>Historial</span>
         </a>
       </li>
       <li>
@@ -126,6 +123,11 @@
 
   <script src="../js/mis_servicios_electricista.js"></script>
   <script>
+
+    document.getElementById('toggleSidebar').addEventListener('click', () => {
+      document.querySelector('.sidebar').classList.toggle('active');
+    });
+
     // Toggle sidebar en móviles
     const toggleSidebar = document.querySelector('.toggle-sidebar');
     if (toggleSidebar) {
