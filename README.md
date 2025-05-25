@@ -1,6 +1,5 @@
-# FAST - Subastas de Servicios en Tiempo Real 🚀
+# ServiExpress - Servicios en Tiempo Real 🚀
 
-**FAST** es una plataforma de subastas en tiempo real donde los **clientes publican necesidades** y los **proveedores compiten** ofreciendo sus servicios al instante.
 
 ---
 
@@ -26,7 +25,7 @@
 ## 🔐 Seguridad
 
 - Autenticación JWT
-- Roles: `ADMIN`, `PROVEEDOR`, `CLIENTE`
+- Roles: `ADMIN`, `ELECTRICISTA`, `CLIENTE`
 - Filtros personalizados
 - Cifrado de contraseñas con BCrypt
 
@@ -35,17 +34,83 @@
 ## 🧠 Arquitectura
 
 ```bash
-📦 fast
-├── controller
-├── domain
-├── dto
-├── exception
-├── repository
-├── security
-│   └── config
-├── service
-├── util
-└── websocket
+backend/
+│
+├── src/main/java/com/fast/
+│   ├── domain/
+│   │   ├── Solicitud.java 
+|   |   ├── Rol.java 
+|   |   └── User.java       
+│   ├── dto/
+│   │   ├── SolicitudDTO.java   
+│   │   ├── UserRegisterDTO.java
+|   |   ├── UserLoginDTO.java
+|   |   └── LoginRequest.java
+│   ├── repository/
+│   │   ├── SolicitudRepository.java 
+│   │   └── UserRepository.java 
+│   ├── service/
+│   │   ├── SolicitudService.java    
+│   │   ├── EmailService.java   
+│   │   └── UserService.java     
+│   ├── controller/
+│   │   ├── SolicitudController.java
+│   │   ├── AdminController.java
+│   │   └── AuthController.java
+│   │
+│   ├── exception/
+│   │   ├── AuthenticationException.java
+│   │   ├── EmailAlreadyExistException.java
+│   │   └── GlobalExceptionHandler.java
+│   │
+│   │
+│   ├── security/
+│   │   ├── config/
+│   │   │       └── WebSecurityConfig.java
+│   │   │
+│   │   ├── AutenticacionService.java
+│   │   ├── DatosJWTToken.java
+│   │   ├── SecurityFilter.java
+│   │   └── TokenService.java
+├── resources/
+│   └── application.properties  
+│
+└── pom.xml
+
+
+fast-frontend/
+│
+├── html/
+│   ├── menu.html               
+│   ├── login.html             
+│   ├── register.html           
+│   ├── solicitud.html          
+│   ├── solicitudes.html        
+│   ├── servicios.html          
+│   ├── mis-servicios.html      
+│   ├── admin.html              
+│   └── verificar.html 
+│ 
+├── css/
+│   ├── menu.css
+│   ├── login.css
+│   ├── register.css
+│   ├── solicitud.css
+│   ├── solicitudes.css
+│   ├── servicios.css
+│   ├── admin.css
+│   └── solicitudesactivas.css
+│
+├── js/
+│   ├── menu.js                 
+│   ├── login.js                
+│   ├── register.js             
+│   ├── solicitud.js            
+│   ├── solicitudes_cliente.js  
+│   ├── solicitudes_electricista.js 
+│   ├── mis_servicios_electricista.js 
+│   └── admin.js   
+│   └── verificar.js                
 ```
 
 ---
