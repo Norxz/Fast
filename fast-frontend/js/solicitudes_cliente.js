@@ -54,10 +54,10 @@ document.addEventListener('DOMContentLoaded', async () => {
           badge = '<span class="request-status badge badge-warning">Pendiente</span>';
         } else if (s.estado === 'ASIGNADA') {
           badge = '<span class="request-status badge badge-info">Asignada</span>';
-          extra = `<div><b>Electricista:</b> <button class="btn btn-sm" onclick="verElectricista(${s.electricistaId})">Ver info</button></div>`;
+          extra = `<div><b>Electricista:</b> <button class="btn btn-sm" onclick="verElectricista(${s.electricista_id})">Ver info</button></div>`;
         } else if (s.estado === 'FINALIZADA' || s.estado === 'COMPLETADA') {
           badge = '<span class="request-status badge badge-success">Finalizada</span>';
-          extra = `<div><b>Electricista:</b> <button class="btn btn-sm" onclick="verElectricista(${s.electricistaId})">Ver info</button></div>
+          extra = `<div><b>Electricista:</b> <button class="btn btn-sm" onclick="verElectricista(${s.electricista_id})">Ver info</button></div>
                    <div><b>Precio cobrado:</b> $${s.precioCobrador || 'N/A'}</div>`;
         } else if (s.estado === 'CANCELADA') {
           badge = '<span class="request-status badge badge-danger">Cancelada</span>';

@@ -50,17 +50,32 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void toggleActivo(Long id) {
+    public User saveAndReturn(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getRol() == null) user.setRol(Rol.CLIENTE);
+        user.setActivo(true);
+        return userRepository.save(user);
+    }
+
+    public User editarUsuario(Long id, User datos) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        user.setActivo(!user.isActivo()); // Cambia true <-> false
-        userRepository.save(user);
+        user.setNombre(datos.getNombre());
+        user.setEmail(datos.getEmail());
+        user.setTelefono(datos.getTelefono());
+        user.setRol(datos.getRol());
+        return userRepository.save(user);
+    }
+
+    public User cambiarActivo(Long id, boolean activo) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        user.setActivo(activo);
+        return userRepository.save(user);
     }
 
     public void eliminarUsuario(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new RuntimeException("Usuario no encontrado");
-        }
+        if (!userRepository.existsById(id)) throw new RuntimeException("Usuario no encontrado");
         userRepository.deleteById(id);
     }
 
@@ -76,5 +91,5 @@ public class UserService {
     public void save(User user) {
         userRepository.save(user);
     }
-    
+
 }

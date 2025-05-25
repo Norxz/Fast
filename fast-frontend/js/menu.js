@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Mostrar información del usuario
   if (userName) {
-    document.getElementById("userName").textContent =
-      localStorage.getItem("userName") || "Usuario";
     document.getElementById(
       "welcomeMessage"
     ).textContent = `Bienvenido, ${userName}`;
@@ -33,6 +31,11 @@ document.addEventListener("DOMContentLoaded", () => {
     cardSolicitar.style.display = "none";
     cardMisSolicitudes.style.display = "none";
     document.getElementById("electricistaActions").style.display = "block";
+  } else if (userRole === "ADMIN") {
+    cardServicios.style.display = "none";
+    cardSolicitar.style.display = "none";
+    cardMisSolicitudes.style.display = "none";
+    window.location.href = "admin.html"; // Redirigir a admin
   } else {
     cardServicios.style.display = "none";
     cardSolicitar.style.display = "none";

@@ -41,7 +41,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
     if (password !== confirmPassword) {
-      alert("Las contraseñas no coinciden.");
+      Swal.fire({
+        title: 'Error',
+        text: 'Las contraseñas no coinciden.',
+        icon: 'error',
+        confirmButtonText: 'Cerrar'
+      });
       return;
     }
 
@@ -78,10 +83,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (!response.ok) throw new Error(data.message || data || "Error en el registro");
-      alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
-      window.location.href = "login.html";
+
+      Swal.fire({
+        title: '¡Registro exitoso!',
+        text: 'Ahora puedes iniciar sesión.',
+        icon: 'success',
+        confirmButtonText: 'Ir a login'
+      }).then(() => {
+        window.location.href = "login.html";
+      });
+
     } catch (error) {
-      alert(error.message || "Error en el registro");
+      Swal.fire({
+        title: 'Error',
+        text: error.message || "Error en el registro",
+        icon: 'error',
+        confirmButtonText: 'Cerrar'
+      });
     }
   });
 });

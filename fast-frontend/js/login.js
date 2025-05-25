@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('userId', data.id);  
 
             // Redirigir según el rol
-            window.location.href = data.role === 'ELECTRICISTA' ? 'dashboard-electricista.html' : '/html/menu.html';
+            window.location.href = '/html/menu.html';
             
         } catch (error) {
             console.error('Error:', error);

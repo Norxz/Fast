@@ -1,0 +1,44 @@
+.datos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.datos input, .datos select {
+    width: 300px;
+    height: 30px;
+    font-size: 18px;
+    padding-left: 10px;
+    border-radius: 5px;
+    margin: 5px;
+}
+.datos button {
+    width: 320px;
+    height: 40px;
+    margin-top: 5px;
+}
+.admin-table {
+    width: 90%;
+    margin: 2rem auto;
+    border-collapse: collapse;
+}
+.admin-table th, .admin-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.admin-table th {
+    background-color: #f5f7fa;
+}
+.btn-action {
+    margin: 0 2px;
+    padding: 4px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.btn-edit { background: #3498db; color: white; }
+.btn-suspend { background: #f39c12; color: white; }
+.btn-activate { background: #27ae60; color: white; }
+.btn-delete { background: #e74c3c; color: white; }
+.suspended { color: #e74c3c; font-weight: bold; }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>Panel de Administración</h1>
+            <button onclick="logout()">Cerrar sesión</button>
+        </header>
+        <main>
+            <section>
+                <h2>Usuarios</h2>
+                <button onclick="mostrarFormularioAgregar()">Agregar Usuario</button>
+                <div id="formAgregar" style="display:none;">
+                    <h3>Nuevo Usuario</h3>
+                    <form id="agregarUsuarioForm">
+                        <input type="text" id="nombre" placeholder="Nombre" required>
+                        <input type="email" id="email" placeholder="Email" required>
+                        <input type="text" id="telefono" placeholder="Teléfono">
+                        <input type="password" id="password" placeholder="Contraseña" required>
+                        <select id="rol">
+                            <option value="CLIENTE">Cliente</option>
+                            <option value="ELECTRICISTA">Electricista</option>
+                            <option value="ADMIN">Administrador</option>
+                        </select>
+                        <button type="submit">Agregar</button>
+                        <button type="button" onclick="ocultarFormularioAgregar()">Cancelar</button>
+                    </form>
+                </div>
+                <div id="formEditar" style="display:none;">
+                    <h3>Editar Usuario</h3>
+                    <form id="editarUsuarioForm">
+                        <input type="hidden" id="editId">
+                        <input type="text" id="editNombre" placeholder="Nombre" required>
+                        <input type="email" id="editEmail" placeholder="Email" required>
+                        <input type="text" id="editTelefono" placeholder="Teléfono">
+                        <select id="editRol">
+                            <option value="CLIENTE">Cliente</option>
+                            <option value="ELECTRICISTA">Electricista</option>
+                            <option value="ADMIN">Administrador</option>
+                        </select>
+                        <button type="submit">Guardar</button>
+                        <button type="button" onclick="ocultarFormularioEditar()">Cancelar</button>
+                    </form>
+                </div>
+                <table class="admin-table" id="usuariosTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosTableBody"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+    <script src="../js/admin.js"></script>
+</body>
+</html>
