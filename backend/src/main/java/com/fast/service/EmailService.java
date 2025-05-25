@@ -64,4 +64,13 @@ public class EmailService {
         mailSender.send(mensaje);
     }
 
+    public void enviarCorreoRecuperacion(String toEmail, String subject, String body) {
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setTo(toEmail);
+        mensaje.setSubject(subject);
+        mensaje.setText(body);
+        mensaje.setFrom("andresespinosa156@gmail.com");
+        mailSender.send(mensaje);
+    }
+
 }

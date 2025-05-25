@@ -69,4 +69,29 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        User user = userService.findByEmail(email);
+        if (user == null) {
+            // Por seguridad, responde igual aunque el usuario no exista
+            return ResponseEntity.ok("Si el correo existe, recibirás instrucciones para restablecer tu contraseña.");
+        }
+        // Aquí deberías generar un token/código y enviarlo por email
+        userService.sendPasswordResetEmail(user);
+        return ResponseEntity.ok("Si el correo existe, recibirás instrucciones para restablecer tu contraseña.");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body) {
+        String token = body.get("token");
+        String newPassword = body.get("newPassword");
+        User user = userService.findByResetToken(token);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("Token inválido o expirado.");
+        }
+        userService.updatePassword(user, newPassword);
+        return ResponseEntity.ok("Contraseña actualizada correctamente.");
+    }
+
 }

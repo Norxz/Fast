@@ -79,4 +79,13 @@ public class SolicitudService {
         }
         return Optional.empty();
     }
+
+    public boolean cancelarSolicitud(Long id) {
+        Optional<Solicitud> optional = solicitudRepository.findById(id);
+        if (optional.isEmpty()) return false;
+        Solicitud solicitud = optional.get();
+        solicitud.setEstado("CANCELADA");
+        solicitudRepository.save(solicitud);
+        return true;
+    }
 }

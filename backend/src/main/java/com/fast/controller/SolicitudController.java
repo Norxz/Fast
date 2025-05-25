@@ -132,4 +132,18 @@ public class SolicitudController {
             return ResponseEntity.badRequest().body("Error al finalizar el servicio");
         }
     }
+
+    @PatchMapping("/{id}/cancelar")
+    @PreAuthorize("hasRole('CLIENTE')")
+    public ResponseEntity<?> cancelarSolicitud(@PathVariable Long id) {
+        try {
+            boolean exito = solicitudService.cancelarSolicitud(id);
+            if (!exito) {
+                return ResponseEntity.badRequest().body("No se pudo cancelar la solicitud");
+            }
+            return ResponseEntity.ok().body("Solicitud cancelada correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al cancelar la solicitud");
+        }
+    }
 }

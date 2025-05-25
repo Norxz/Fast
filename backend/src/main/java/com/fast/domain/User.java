@@ -25,6 +25,9 @@ public class User implements UserDetails {
     @Column(name = "verification_code")
     private String verificationCode;
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
     private String nombre;
     private String apellido;
     private String telefono;
@@ -105,6 +108,7 @@ public class User implements UserDetails {
     public String getDireccion() {
         return direccion;
     }
+
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
@@ -150,4 +154,11 @@ public class User implements UserDetails {
         this.verificationCode = verificationCode;
     }
 
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
 }

@@ -92,4 +92,32 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void sendPasswordResetEmail(User user) {
+        // 1. Generar un token único
+        String resetToken = UUID.randomUUID().toString();
+        user.setResetToken(resetToken);
+        userRepository.save(user);
+
+        // 2. Construir el enlace de recuperación
+        String resetLink = "http://localhost:5500/html/reset-password.html?token=" + resetToken;
+
+        // 3. Enviar el correo
+        String subject = "Recuperación de contraseña - ServiExpress";
+        String body = "Hola " + user.getNombre() + ",\n\n"
+                + "Para restablecer tu contraseña, haz clic en el siguiente enlace:\n"
+                + resetLink + "\n\n"
+                + "Si no solicitaste este cambio, ignora este correo.";
+
+        emailService.enviarCorreoRecuperacion(user.getEmail(), subject, body);
+    }
+
+    public User findByResetToken(String token) {
+        return userRepository.findByResetToken(token).orElse(null);
+    }
+
+    public void updatePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetToken(null); // Limpia el token
+        userRepository.save(user);
+    }
 }
