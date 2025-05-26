@@ -81,22 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
           icon: 'error',
           confirmButtonText: 'Cerrar'
         });
-        return; // ¡Importante! Así no entra al catch
+        return;
       }
-
-      let data;
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        data = await response.text();
-      }
-
-      if (!response.ok) throw new Error(data.message || data || "Error en el registro");
 
       Swal.fire({
         title: '¡Registro exitoso!',
-        text: 'Ahora puedes iniciar sesión.',
+        text: text,
         icon: 'success',
         confirmButtonText: 'Ir a login'
       }).then(() => {
