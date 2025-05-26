@@ -1,0 +1,6 @@
+fast-frontend/
+.idea/
+.vscode/
+.git/
+target/
+*.iml
