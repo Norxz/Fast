@@ -1,12 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
-  const electricistaId = localStorage.getItem("userId");
-  const container = document.getElementById("misServiciosContainer");
-  if (!token || !electricistaId) return (window.location.href = "login.html");
+  const container = document.getElementById("servicesList");
+  if (!token) return (window.location.href = "login.html");
 
   try {
     const res = await fetch(
-      `https://fast-production-c604.up.railway.app/solicitudes/mis-servicios/${electricistaId}`,
+      `https://fast-production-c604.up.railway.app/solicitudes/disponibles`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -14,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const servicios = await res.json();
     container.innerHTML =
       servicios.length === 0
-        ? "<p>No tienes servicios asignados.</p>"
+        ? "<p>No hay servicios disponibles.</p>"
         : servicios
             .map(
               (s) => `
@@ -22,103 +21,31 @@ document.addEventListener("DOMContentLoaded", async () => {
           <h3>${s.titulo}</h3>
           <p>${s.descripcion}</p>
           <span class="badge">${s.estado}</span>
-          <p><strong>Fecha del servicio:</strong> ${
-            s.fechaServicio ? s.fechaServicio : "No definida"
-          }</p>
-          ${
-            s.estado === "ASIGNADA" && esHoy(s.fechaServicio)
-              ? `<button onclick="concluirServicio('${s.id}')">Concluir Servicio</button>`
-              : ""
-          }
-          ${
-            s.estado === "ASIGNADA"
-              ? `
-            <button onclick="contactarCliente('${s.cliente.id}')">Contactar Cliente</button>
-          `
-              : ""
-          }
-          ${
-            s.estado === "FINALIZADA"
-              ? `<span class="badge badge-success">Finalizado</span>`
-              : ""
-          }
+          <button onclick="aceptarServicio('${s.id}')">Aceptar Servicio</button>
         </div>
       `
             )
             .join("");
   } catch (e) {
-    container.innerHTML = "<p>Error al cargar tus servicios.</p>";
+    container.innerHTML = "<p>Error al cargar los servicios disponibles.</p>";
   }
 });
 
-async function contactarCliente(compradorId) {
+async function aceptarServicio(solicitudId) {
   const token = localStorage.getItem("token");
   try {
     const res = await fetch(
-      `https://fast-production-c604.up.railway.app/solicitudes/usuarios/${compradorId}/contacto`,
+      `https://fast-production-c604.up.railway.app/solicitudes/${solicitudId}/aceptar`,
       {
+        method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    if (!res.ok) throw new Error("No se pudo obtener el teléfono");
-    const contacto = await res.json();
-    Swal.fire({
-      title: "Contactar Cliente",
-      html: `
-        <p>Puedes llamar o enviar un mensaje al cliente.</p>
-        <p><strong>Teléfono:</strong> ${
-          contacto.telefono ? contacto.telefono : "No disponible"
-        }</p>
-        <p><strong>Email:</strong> ${
-          contacto.email ? contacto.email : "No disponible"
-        }</p>
-      `,
-      icon: "info",
-    });
+    if (!res.ok) throw new Error("No se pudo aceptar el servicio");
+    Swal.fire("¡Servicio aceptado!", "", "success").then(() =>
+      location.reload()
+    );
   } catch (e) {
-    Swal.fire({
-      title: "Error",
-      text: "No se pudo obtener el teléfono del cliente.",
-      icon: "error",
-    });
+    Swal.fire("Error", "No se pudo aceptar el servicio.", "error");
   }
-}
-
-async function concluirServicio(solicitudId) {
-  const { value: precio } = await Swal.fire({
-    title: "Finalizar Servicio",
-    input: "number",
-    inputLabel: "Precio cobrado",
-    inputPlaceholder: "Ingrese el valor cobrado",
-    showCancelButton: true,
-    confirmButtonText: "Finalizar",
-  });
-  if (precio) {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await fetch(
-        `https://fast-production-c604.up.railway.app/solicitudes/${solicitudId}/finalizar`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ precio }),
-        }
-      );
-      if (!res.ok) throw new Error("No se pudo finalizar el servicio");
-      Swal.fire("¡Servicio finalizado!", "", "success").then(() =>
-        location.reload()
-      );
-    } catch (e) {
-      Swal.fire("Error", "No se pudo finalizar el servicio.", "error");
-    }
-  }
-}
-
-function esHoy(fecha) {
-  if (!fecha) return false;
-  const hoy = new Date().toISOString().slice(0, 10);
-  return fecha === hoy;
 }
