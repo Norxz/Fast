@@ -34,7 +34,7 @@ public class EmailService {
     }
 
     public void enviarCorreoVerificacion(String toEmail, String code) {
-        String link = "https://serviexpress.vercel.app/html/verificar.html?email=" + toEmail + "&code=" + code;
+        String link = "https://serviexpress.vercel.app/verificar.html?email=" + toEmail + "&code=" + code;
         SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setTo(toEmail);
         mensaje.setSubject("Verifica tu cuenta");
