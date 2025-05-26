@@ -68,11 +68,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-      const response = await fetch("https://fast-production-c604.up.railway.app/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('https://fast-production-c604.up.railway.app/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
       });
+      const text = await response.text();
+      if (!response.ok) {
+        // Muestra el mensaje real del backend en el modal o alerta
+        alert(text); // O usa tu modal personalizado
+        return;
+      }
 
       let data;
       const contentType = response.headers.get("content-type");
