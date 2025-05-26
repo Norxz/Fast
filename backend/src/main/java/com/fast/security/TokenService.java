@@ -7,11 +7,15 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fast.domain.User;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
 
+@Tag(name = "Seguridad", description = "Servicio para manejar la generación y validación de tokens JWT")
 @Service
 public class TokenService {
 

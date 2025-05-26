@@ -8,6 +8,8 @@ import com.fast.security.AutenticacionService;
 import com.fast.security.TokenService;
 import com.fast.security.DatosJWTToken;
 import com.fast.service.UserService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Tag(name = "Autenticación y Registro", description = "Endpoints para registro, inicio de sesión, verificación de cuenta y recuperación de contraseña")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

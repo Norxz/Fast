@@ -5,6 +5,9 @@ import com.fast.domain.User;
 import com.fast.dto.SolicitudDTO;
 import com.fast.service.SolicitudService;
 import com.fast.service.UserService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.fast.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "Solicitudes", description = "Endpoints para crear, listar, aceptar y finalizar solicitudes de servicio")
 @RestController
 @RequestMapping("/solicitudes")
 public class SolicitudController {

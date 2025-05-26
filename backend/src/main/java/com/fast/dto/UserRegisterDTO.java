@@ -3,6 +3,12 @@ package com.fast.dto;
 import com.fast.domain.Rol;
 import jakarta.validation.constraints.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+/**
+ * DTO para el registro de un nuevo usuario en la plataforma.
+ * Incluye validaciones para los campos requeridos.
+ */
+@Tag(name = "Registro", description = "Solicitud de registro de un nuevo usuario en la plataforma")
 public class UserRegisterDTO {
 
     @NotBlank(message = "El nombre es obligatorio")

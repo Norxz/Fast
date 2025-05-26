@@ -13,8 +13,10 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.internet.MimeMessage;
 
+@Tag(name = "Email Service", description = "Servicio para enviar correos electrónicos")
 @Service
 public class EmailService {
 

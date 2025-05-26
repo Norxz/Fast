@@ -7,6 +7,9 @@ import com.fast.exception.EmailAlreadyExistsException;
 import com.fast.repository.UserRepository;
 import com.fast.domain.User;
 import com.fast.service.UserService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +19,7 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Tag(name = "Autenticación", description = "Servicio para manejar autenticación de usuarios")
 @Service
 public class AutenticacionService implements UserDetailsService {
 

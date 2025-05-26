@@ -1,8 +1,11 @@
 package com.fast.dto;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+
+@Tag(name = "Login", description = "Solicitud de inicio de sesión del usuario")
 public class UserLoginDTO {
 
     @NotBlank(message = "El email es obligatorio")

@@ -3,6 +3,10 @@ package com.fast.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+
+@Tag(name = "Solicitudes", description = "Solicitud de servicio realizada por un cliente a un electricista")
 public class SolicitudDTO {
 
     private String titulo;

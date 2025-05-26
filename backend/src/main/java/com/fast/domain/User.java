@@ -3,8 +3,13 @@ package com.fast.domain;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.*;
 
+
+@Tag(name = "Usuarios", description = "Entidad que representa a un usuario del sistema, incluyendo sus credenciales y perfil")
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {

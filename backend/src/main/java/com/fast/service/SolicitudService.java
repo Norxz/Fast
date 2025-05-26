@@ -5,6 +5,9 @@ import com.fast.domain.User;
 import com.fast.dto.SolicitudDTO;
 import com.fast.repository.SolicitudRepository;
 import com.fast.repository.UserRepository;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "Solicitudes", description = "Servicio para manejar solicitudes de servicio")
 @Service
 public class SolicitudService {
 

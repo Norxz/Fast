@@ -5,7 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Excepciones", description = "Manejo de excepciones globales en la aplicación")
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

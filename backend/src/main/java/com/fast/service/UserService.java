@@ -4,6 +4,9 @@ import com.fast.domain.Rol;
 import com.fast.domain.User;
 import com.fast.dto.UserRegisterDTO;
 import com.fast.repository.UserRepository;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+@Tag(name = "Usuarios", description = "Servicio para manejar usuarios del sistema")
 @Service
 public class UserService {
 

@@ -1,6 +1,9 @@
 package com.fast.security;
 
 import com.fast.repository.UserRepository;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.fast.domain.User;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -13,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Optional;
 
+@Tag(name = "Seguridad", description = "Filtro de seguridad para manejar autenticación de usuarios")
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 

@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Solicitudes", description = "Entidad que representa una solicitud de servicio realizada por un cliente a un electricista")
 @Entity
 @Table(name = "solicitudes")
 public class Solicitud {
