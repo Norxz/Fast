@@ -33,21 +33,25 @@ public class UserService {
         if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new RuntimeException("El correo ya está en uso.");
         }
+        try {
+            Rol rol = Rol.valueOf(dto.getRol().toUpperCase());
+            String encodedPassword = passwordEncoder.encode(dto.getPassword());
 
-        Rol rol = Rol.valueOf(dto.getRol().toUpperCase());
-        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+            User user = new User(dto.getEmail(), encodedPassword, rol);
+            user.setNombre(dto.getNombre());
+            user.setApellido(dto.getApellido());
+            user.setTelefono(dto.getTelefono());
+            user.setActivo(false);
+            String code = UUID.randomUUID().toString();
+            user.setVerificationCode(code);
 
-        User user = new User(dto.getEmail(), encodedPassword, rol);
-        user.setNombre(dto.getNombre());
-        user.setApellido(dto.getApellido());
-        user.setTelefono(dto.getTelefono());
-        user.setActivo(false);
-        String code = UUID.randomUUID().toString();
-        user.setVerificationCode(code);
-
-        emailService.enviarCorreoVerificacion(user.getEmail(), code);
-        return userRepository.save(user);
-
+            emailService.enviarCorreoVerificacion(user.getEmail(), code);
+            return userRepository.save(user);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Rol inválido: " + dto.getRol());
+        } catch (Exception e) {
+            throw new RuntimeException("Error inesperado en el registro: " + e.getMessage());
+        }
     }
 
     public List<User> obtenerTodosLosUsuarios() {
