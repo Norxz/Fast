@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/solicitudes/mis-solicitudes/${userId}`,
+        `https://fast-production-c604.up.railway.app/solicitudes/mis-solicitudes/${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
-        `http://localhost:8080/solicitudes/usuarios/${electricistaId}/contacto`,
+        `https://fast-production-c604.up.railway.app/solicitudes/usuarios/${electricistaId}/contacto`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const res = await fetch(
-        `http://localhost:8080/solicitudes/${solicitudId}/cancelar`,
+        `https://fast-production-c604.up.railway.app/solicitudes/${solicitudId}/cancelar`,
         {
           method: "PATCH",
           headers: { Authorization: `Bearer ${token}` },

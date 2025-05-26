@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!token) return window.location.href = 'login.html';
 
   try {
-    const res = await fetch('http://localhost:8080/solicitudes/disponibles', {
+    const res = await fetch('https://fast-production-c604.up.railway.app/solicitudes/disponibles', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     const solicitudes = await res.json();
@@ -41,7 +41,7 @@ function aceptarSolicitud(id) {
     });
     return;
   }
-  fetch(`http://localhost:8080/solicitudes/${id}/aceptar?electricistaId=${electricistaId}`, {
+  fetch(`https://fast-production-c604.up.railway.app/solicitudes/${id}/aceptar?electricistaId=${electricistaId}`, {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${token}` }
   })

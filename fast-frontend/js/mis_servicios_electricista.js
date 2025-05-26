@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   try {
     const res = await fetch(
-      `http://localhost:8080/solicitudes/mis-servicios/${electricistaId}`,
+      `https://fast-production-c604.up.railway.app/solicitudes/mis-servicios/${electricistaId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -55,7 +55,7 @@ async function contactarCliente(compradorId) {
   const token = localStorage.getItem("token");
   try {
     const res = await fetch(
-      `http://localhost:8080/solicitudes/usuarios/${compradorId}/contacto`,
+      `https://fast-production-c604.up.railway.app/solicitudes/usuarios/${compradorId}/contacto`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -97,7 +97,7 @@ async function concluirServicio(solicitudId) {
     const token = localStorage.getItem("token");
     try {
       const res = await fetch(
-        `http://localhost:8080/solicitudes/${solicitudId}/finalizar`,
+        `https://fast-production-c604.up.railway.app/solicitudes/${solicitudId}/finalizar`,
         {
           method: "POST",
           headers: {

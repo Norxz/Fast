@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
             password: document.getElementById('password').value,
             rol: document.getElementById('rol').value
         };
-        await fetch('http://localhost:8080/admin/usuarios', {
+        await fetch('https://fast-production-c604.up.railway.app/admin/usuarios', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             telefono: document.getElementById('editTelefono').value,
             rol: document.getElementById('editRol').value
         };
-        await fetch(`http://localhost:8080/admin/usuarios/${id}`, {
+        await fetch(`https://fast-production-c604.up.railway.app/admin/usuarios/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function cargarUsuarios() {
     const token = localStorage.getItem('token');
-    const res = await fetch('http://localhost:8080/admin/usuarios', {
+    const res = await fetch('https://fast-production-c604.up.railway.app/admin/usuarios', {
         headers: { 'Authorization': `Bearer ${token}` }
     });
     const usuarios = await res.json();
@@ -110,7 +110,7 @@ async function toggleActivo(id, activo) {
 async function eliminarUsuario(id) {
     const token = localStorage.getItem('token');
     if (!confirm('¿Seguro que deseas eliminar este usuario?')) return;
-    await fetch(`http://localhost:8080/admin/usuarios/${id}`, {
+    await fetch(`https://fast-production-c604.up.railway.app/admin/usuarios/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
     });

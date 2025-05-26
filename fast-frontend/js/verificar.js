@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const code = document.getElementById('code').value;
-        const res = await fetch('http://localhost:8080/auth/verify?email=' + encodeURIComponent(email) + '&code=' + encodeURIComponent(code), {
+        const res = await fetch('http://fast-production-c604.up.railway.app/auth/verify?email=' + encodeURIComponent(email) + '&code=' + encodeURIComponent(code), {
             method: 'POST'
         });
         const text = await res.text();
