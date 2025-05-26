@@ -1,10 +1,11 @@
-FROM maven:3.9.5-eclipse-temurin-17
+# Dockerfile
+FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /app
-COPY backend /app
 
-# Si el pom.xml está en /app/pom.xml, este comando debe funcionar
-RUN mvn -B -DskipTests clean package
+# Copiamos solo el .jar que ya fue generado
+COPY backend/target/fast-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
-CMD ["java", "-jar", "target/fast-0.0.1-SNAPSHOT.jar"]
+
+CMD ["java", "-jar", "app.jar"]
