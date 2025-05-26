@@ -69,7 +69,7 @@ public class WebSecurityConfig {
                 "http://localhost:3000",
                 "http://127.0.0.1:5500",
                 "http://localhost:5500",
-                "https://serviexpress.vercel.app/"
+                "https://serviexpress.vercel.app"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
