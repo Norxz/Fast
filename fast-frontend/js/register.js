@@ -75,9 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       const text = await response.text();
       if (!response.ok) {
-        // Muestra el mensaje real del backend en el modal o alerta
-        alert(text); // O usa tu modal personalizado
-        return;
+        Swal.fire({
+          title: 'Error',
+          text: text || "Error en el registro",
+          icon: 'error',
+          confirmButtonText: 'Cerrar'
+        });
+        return; // ¡Importante! Así no entra al catch
       }
 
       let data;
