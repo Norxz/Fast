@@ -33,9 +33,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function aceptarServicio(solicitudId) {
   const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
   try {
     const res = await fetch(
-      `https://fast-production-c604.up.railway.app/solicitudes/${solicitudId}/aceptar`,
+      `https://fast-production-c604.up.railway.app/solicitudes/${solicitudId}/aceptar?electricistaId=${userId}`,
       {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
