@@ -45,7 +45,7 @@ public class UserService {
             String code = UUID.randomUUID().toString();
             user.setVerificationCode(code);
 
-           // emailService.enviarCorreoVerificacion(user.getEmail(), code);
+           emailService.enviarCorreoVerificacion(user.getEmail(), code);
             return userRepository.save(user);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Rol inválido: " + dto.getRol());
