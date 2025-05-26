@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('userId', data.id);  
 
             // Redirigir según el rol
-            window.location.href = '/html/menu.html';
+            window.location.href = 'menu.html';
             
         } catch (error) {
             console.error('Error:', error);
