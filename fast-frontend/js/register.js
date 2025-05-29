@@ -85,7 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       Swal.fire({
-        title: '¡Registro exitoso!',
+        title: 'Revisa tu correo',
+        text: 'Se ha enviado un correo de confirmación. Por favor, verifica tu bandeja de entrada. Si no lo ves, revisa la carpeta de spam.',
         text: text,
         icon: 'success',
         confirmButtonText: 'Ir a login'
