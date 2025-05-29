@@ -107,7 +107,7 @@ public class UserService {
         userRepository.save(user);
 
         // 2. Construir el enlace de recuperación
-        String resetLink = "https://serviexpress.vercel.app/html/reset-password.html?token=" + resetToken;
+        String resetLink = "https://serviexpress.vercel.app/reset-password.html?token=" + resetToken;
 
         // 3. Enviar el correo
         String subject = "Recuperación de contraseña - ServiExpress";
