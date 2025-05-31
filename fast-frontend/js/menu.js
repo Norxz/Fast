@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cardMisSolicitudes = document.getElementById("cardMisSolicitudes");
 
   if (!token) {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
     return;
   }
 
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Configurar botón de logout
   document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.clear();
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   });
 
   // Configurar cards clickeables
@@ -70,6 +70,6 @@ function navigateTo(page) {
 setInterval(() => {
   const token = localStorage.getItem("token");
   if (!token) {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
   }
 }, 300000); // 5 minutos

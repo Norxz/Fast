@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         icon: 'success',
         confirmButtonText: 'Ir a login'
       }).then(() => {
-        window.location.href = "login.html";
+        window.location.href = "index.html";
       });
 
     } catch (error) {

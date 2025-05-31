@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
   const electricistaId = localStorage.getItem("userId");
   const container = document.getElementById("misServiciosContainer");
-  if (!token || !electricistaId) return (window.location.href = "login.html");
+  if (!token || !electricistaId) return (window.location.href = "index.html");
 
   try {
     const res = await fetch(
