@@ -58,7 +58,7 @@ public class WebSecurityConfig {
                         // Solo ELECTRICISTA puede finalizar servicios
                         .requestMatchers(HttpMethod.POST, "/solicitudes/{id}/finalizar").hasRole("ELECTRICISTA")
                         .anyRequest().authenticated())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
