@@ -7,18 +7,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.querySelector("#password");
 
   copyBtn.addEventListener("click", () => {
-        if (passwordInput.value.length > 0) {
-            navigator.clipboard.writeText(passwordInput.value)
-                .then(() => {
-                    alert("¡Contraseña copiada al portapapeles!");
-                })
-                .catch(err => {
-                    console.error("Error al copiar la contraseña: ", err);
-                });
-        } else {
-            alert("Primero debes escribir una contraseña.");
-        }
-    });
+    if (passwordInput.value.length > 0) {
+      navigator.clipboard
+        .writeText(passwordInput.value)
+        .then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "¡Contraseña copiada!",
+            text: "La contraseña ha sido copiada al portapapeles.",
+            timer: 1500,
+            showConfirmButton: false,
+          });
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudo copiar la contraseña.",
+          });
+        });
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Atención",
+        text: "Primero debes escribir una contraseña.",
+      });
+    }
+  });
 
   if (fechaInput) {
     fechaInput.min = today;
