@@ -2,7 +2,7 @@
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 
 WORKDIR /app
-COPY backend /app
+COPY backend/. /app
 RUN mvn -B -DskipTests clean package
 
 # Etapa 2: Imagen final con JDK 21
