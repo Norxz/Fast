@@ -123,7 +123,21 @@ document.addEventListener("DOMContentLoaded", () => {
           icon: "error",
           confirmButtonText: "Cerrar",
         });
+
+        // Mostrar el botón solo si el error es de código expirado o cuenta no verificada
+        if (
+          text &&
+          (text.toLowerCase().includes("expirado") ||
+           text.toLowerCase().includes("verificación") ||
+           text.toLowerCase().includes("no está verificada"))
+        ) {
+          resendBtn.style.display = "block";
+        } else {
+          resendBtn.style.display = "none";
+        }
         return;
+      } else {
+        resendBtn.style.display = "none";
       }
 
       Swal.fire({
