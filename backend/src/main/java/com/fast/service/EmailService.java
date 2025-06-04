@@ -35,13 +35,21 @@ public class EmailService {
 
     public void enviarCorreoVerificacion(String toEmail, String code) {
         String link = "https://serviexpress.vercel.app/verificar.html?email=" + toEmail + "&code=" + code;
-        SimpleMailMessage mensaje = new SimpleMailMessage();
-        mensaje.setTo(toEmail);
-        mensaje.setSubject("Verifica tu cuenta");
-        mensaje.setText("Haz clic en el siguiente enlace para verificar tu cuenta:\n" + link +
-                "\n\nO ingresa este código en la página de verificación: " + code);
-        mensaje.setFrom("andresespinosa156@gmail.com");
-        mailSender.send(mensaje);
+        String htmlMsg = "<p>Haz clic en el siguiente enlace para verificar tu cuenta:</p>"
+                + "<a href=\"" + link + "\">Haz clic aquí para verificar tu cuenta</a>"
+                + "<p>O ingresa este código en la página de verificación: <b>" + code + "</b></p>";
+
+        try {
+            MimeMessage mensaje = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+            helper.setTo(toEmail);
+            helper.setSubject("Verifica tu cuenta");
+            helper.setText(htmlMsg, true); // true para HTML
+            helper.setFrom("andresespinosa156@gmail.com");
+            mailSender.send(mensaje);
+        } catch (Exception e) {
+            throw new EmailSendingException("No se pudo enviar el correo de verificación a " + toEmail, e);
+        }
     }
 
     public void enviarCorreoConFactura(String toEmail, String asunto, String cuerpo, String infoFactura)
