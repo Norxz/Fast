@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Verificar Cuenta</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <h2>Verifica tu cuenta</h2>
@@ -11,6 +12,11 @@
         <input type="text" id="code" placeholder="Código de verificación" required>
         <button type="submit">Verificar</button>
     </form>
+    <div style="text-align:center; margin-top:1em;">
+        <button type="button" id="resendVerificationBtn" class="btn btn-primary">
+            Reenviar código de verificación
+        </button>
+    </div>
     <div id="result"></div>
     <script src="js/verificar.js"></script>
 </body>

@@ -123,18 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
           icon: "error",
           confirmButtonText: "Cerrar",
         });
-
-        // Mostrar el botón solo si el error es de código expirado o cuenta no verificada
-        if (
-          text &&
-          (text.toLowerCase().includes("expirado") ||
-           text.toLowerCase().includes("verificación") ||
-           text.toLowerCase().includes("no está verificada"))
-        ) {
-          resendBtn.style.display = "block";
-        } else {
-          resendBtn.style.display = "none";
-        }
         return;
       } else {
         resendBtn.style.display = "none";
@@ -158,59 +146,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const resendBtn = document.getElementById("resendVerificationBtn");
-  const emailInput = document.getElementById("email");
-
-  // Función para reenviar el código
-  if (resendBtn) {
-    resendBtn.addEventListener("click", async () => {
-      const email = emailInput.value;
-      if (!email) {
-        Swal.fire({
-          icon: "warning",
-          title: "Atención",
-          text: "Por favor, ingresa tu correo electrónico.",
-        });
-        return;
-      }
-      resendBtn.disabled = true;
-      try {
-        const response = await fetch(
-          "https://fast-production-c604.up.railway.app/auth/resend-verification",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `email=${encodeURIComponent(email)}`,
-          }
-        );
-        const text = await response.text();
-        if (!response.ok) {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: text || "No se pudo reenviar el código.",
-          });
-        } else {
-          Swal.fire({
-            icon: "success",
-            title: "¡Listo!",
-            text: "Se ha enviado un nuevo código de verificación a tu correo.",
-          });
-        }
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: error.message || "No se pudo reenviar el código.",
-        });
-      }
-      resendBtn.disabled = false;
-    });
-  }
-
-  if (text && text.toLowerCase().includes("expirado")) {
-    resendBtn.style.display = "block";
-  } else {
-    resendBtn.style.display = "none";
-  }
 });
