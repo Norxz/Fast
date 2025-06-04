@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,11 +43,18 @@ public class UserService {
             user.setApellido(dto.getApellido());
             user.setTelefono(dto.getTelefono());
             user.setActivo(false);
+
+            // Generar código de verificación y expiración
             String code = UUID.randomUUID().toString();
             user.setVerificationCode(code);
+            user.setVerificationCodeExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000)); // 10 minutos
 
-           emailService.enviarCorreoVerificacion(user.getEmail(), code);
-            return userRepository.save(user);
+            // Guardar usuario
+            userRepository.save(user);
+
+            // Enviar correo de verificación
+            emailService.enviarCorreoVerificacion(user.getEmail(), code);
+            return user;
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Rol inválido: " + dto.getRol());
         } catch (Exception e) {
@@ -126,6 +134,29 @@ public class UserService {
     public void updatePassword(User user, String newPassword) {
         user.setPassword(passwordEncoder.encode(newPassword));
         user.setResetToken(null); // Limpia el token
+        userRepository.save(user);
+    }
+
+    public void verificarCuenta(String email, String code) {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (user.getVerificationCode() == null || user.getVerificationCodeExpiresAt() == null) {
+            throw new RuntimeException("No hay código de verificación pendiente.");
+        }
+
+        if (!user.getVerificationCode().equals(code)) {
+            throw new RuntimeException("Código de verificación incorrecto.");
+        }
+
+        if (user.getVerificationCodeExpiresAt().before(new Date())) {
+            throw new RuntimeException("El código de verificación ha expirado.");
+        }
+
+        // Si todo está bien, activa el usuario y limpia el código
+        user.setActivo(true);
+        user.setVerificationCode(null);
+        user.setVerificationCodeExpiresAt(null);
         userRepository.save(user);
     }
 }

@@ -45,14 +45,12 @@ public class AuthController {
 
     @PostMapping("/verify")
     public ResponseEntity<?> verify(@RequestParam String email, @RequestParam String code) {
-        User user = userService.findByEmail(email);
-        if (user != null && code.equals(user.getVerificationCode())) {
-            user.setActivo(true);
-            user.setVerificationCode(null);
-            userService.save(user); 
+        try {
+            userService.verificarCuenta(email, code);
             return ResponseEntity.ok("Cuenta verificada correctamente");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.badRequest().body("Código de verificación inválido");
     }
 
     @PostMapping("/login")

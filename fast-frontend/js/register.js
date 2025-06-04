@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
             icon: "success",
             title: "¡Contraseña copiada!",
             text: "La contraseña ha sido copiada al portapapeles.",
-            timer: 1500,
+            timer: 1000,
             showConfirmButton: false,
           });
         })

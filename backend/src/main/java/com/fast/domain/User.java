@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.*;
 
-
 @Tag(name = "Usuarios", description = "Entidad que representa a un usuario del sistema, incluyendo sus credenciales y perfil")
 @Entity
 @Table(name = "users")
@@ -32,6 +31,9 @@ public class User implements UserDetails {
 
     @Column(name = "reset_token")
     private String resetToken;
+
+    @Column(name = "verification_code_expires_at")
+    private Date verificationCodeExpiresAt;
 
     private String nombre;
     private String apellido;
@@ -165,5 +167,13 @@ public class User implements UserDetails {
 
     public void setResetToken(String resetToken) {
         this.resetToken = resetToken;
+    }
+
+    public Date getVerificationCodeExpiresAt() {
+        return verificationCodeExpiresAt;
+    }
+
+    public void setVerificationCodeExpiresAt(Date verificationCodeExpiresAt) {
+        this.verificationCodeExpiresAt = verificationCodeExpiresAt;
     }
 }
