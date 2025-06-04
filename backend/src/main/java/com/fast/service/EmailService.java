@@ -48,7 +48,8 @@ public class EmailService {
             helper.setFrom("andresespinosa156@gmail.com");
             mailSender.send(mensaje);
         } catch (Exception e) {
-            throw new EmailSendingException("No se pudo enviar el correo de verificación a " + toEmail, e);
+            e.printStackTrace();
+            throw new RuntimeException("Error al enviar el correo de verificación: " + e.getMessage());
         }
     }
 
