@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       Swal.fire({
         title: "Revisa tu correo",
-        text: "Se ha enviado un correo de confirmación. Por favor, verifica tu bandeja de entrada. Si no lo ves, revisa la carpeta de spam.",
+        text: "Se ha enviado un correo de confirmación con expiracion de 10 min. Por favor, verifica tu bandeja de entrada. Si no lo ves, revisa la carpeta de spam.",
         icon: "success",
         confirmButtonText: "Ir a login",
       }).then(() => {

@@ -19,14 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('resendVerificationBtn').addEventListener('click', async () => {
         const email = document.getElementById('email').value;
-        if (!email) {
-            Swal.fire({
-                icon: "warning",
-                title: "Atención",
-                text: "Por favor, ingresa tu correo electrónico.",
-            });
-            return;
-        }
         document.getElementById('resendVerificationBtn').disabled = true;
         try {
             const res = await fetch('https://fast-production-c604.up.railway.app/auth/resend-verification', {
@@ -39,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 Swal.fire({
                     icon: "success",
                     title: "¡Listo!",
-                    text: "Se ha enviado un nuevo código de verificación a tu correo.",
+                    text: "Se ha enviado un nuevo código de verificación a tu correo con expiracion de 10 min.",
                 });
             } else {
                 Swal.fire({
