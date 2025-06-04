@@ -2,6 +2,24 @@ document.addEventListener("DOMContentLoaded", () => {
   // Configurar fecha mínima como hoy
   const fechaInput = document.getElementById("fecha");
   const today = new Date().toISOString().split("T")[0];
+
+  const copyBtn = document.querySelector(".password-copy");
+  const passwordInput = document.querySelector("#password");
+
+  copyBtn.addEventListener("click", () => {
+        if (passwordInput.value.length > 0) {
+            navigator.clipboard.writeText(passwordInput.value)
+                .then(() => {
+                    alert("¡Contraseña copiada al portapapeles!");
+                })
+                .catch(err => {
+                    console.error("Error al copiar la contraseña: ", err);
+                });
+        } else {
+            alert("Primero debes escribir una contraseña.");
+        }
+    });
+
   if (fechaInput) {
     fechaInput.min = today;
   }
@@ -26,7 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     fileInput.addEventListener("change", (e) => {
       if (e.target.files.length > 0) {
         const names = Array.from(e.target.files).map((file) => file.name);
-        fileNames.textContent = `${e.target.files.length} archivo(s): ${names.join(", ")}`;
+        fileNames.textContent = `${
+          e.target.files.length
+        } archivo(s): ${names.join(", ")}`;
       } else {
         fileNames.textContent = "";
       }
@@ -42,10 +62,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirmPassword = document.getElementById("confirmPassword").value;
     if (password !== confirmPassword) {
       Swal.fire({
-        title: 'Error',
-        text: 'Las contraseñas no coinciden.',
-        icon: 'error',
-        confirmButtonText: 'Cerrar'
+        title: "Error",
+        text: "Las contraseñas no coinciden.",
+        icon: "error",
+        confirmButtonText: "Cerrar",
       });
       return;
     }
@@ -62,43 +82,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (role === "ELECTRICISTA") {
       userData.especialidad = document.getElementById("especialidad").value;
-      userData.aniosExperiencia = document.getElementById("aniosExperiencia").value;
+      userData.aniosExperiencia =
+        document.getElementById("aniosExperiencia").value;
       const fotosInput = document.getElementById("fotos");
-      userData.fotos = fotosInput && fotosInput.files ? Array.from(fotosInput.files).map(f => f.name) : [];
+      userData.fotos =
+        fotosInput && fotosInput.files
+          ? Array.from(fotosInput.files).map((f) => f.name)
+          : [];
     }
 
     try {
-      const response = await fetch('https://fast-production-c604.up.railway.app/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-      });
+      const response = await fetch(
+        "https://fast-production-c604.up.railway.app/auth/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData),
+        }
+      );
       const text = await response.text();
       if (!response.ok) {
         Swal.fire({
-          title: 'Error',
+          title: "Error",
           text: text || "Error en el registro",
-          icon: 'error',
-          confirmButtonText: 'Cerrar'
+          icon: "error",
+          confirmButtonText: "Cerrar",
         });
         return;
       }
 
       Swal.fire({
-        title: 'Revisa tu correo',
-        text: 'Se ha enviado un correo de confirmación. Por favor, verifica tu bandeja de entrada. Si no lo ves, revisa la carpeta de spam.',
-        icon: 'success',
-        confirmButtonText: 'Ir a login'
+        title: "Revisa tu correo",
+        text: "Se ha enviado un correo de confirmación. Por favor, verifica tu bandeja de entrada. Si no lo ves, revisa la carpeta de spam.",
+        icon: "success",
+        confirmButtonText: "Ir a login",
       }).then(() => {
         window.location.href = "index.html";
       });
-
     } catch (error) {
       Swal.fire({
-        title: 'Error',
+        title: "Error",
         text: error.message || "Error en el registro",
-        icon: 'error',
-        confirmButtonText: 'Cerrar'
+        icon: "error",
+        confirmButtonText: "Cerrar",
       });
     }
   });
