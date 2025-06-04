@@ -124,9 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
           confirmButtonText: "Cerrar",
         });
         return;
-      } else {
-        resendBtn.style.display = "none";
-      }
+      } 
 
       Swal.fire({
         title: "Revisa tu correo",
