@@ -159,4 +159,22 @@ public class UserService {
         user.setVerificationCodeExpiresAt(null);
         userRepository.save(user);
     }
+
+    public void reenviarCodigoVerificacion(String email) {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (user.isActivo()) {
+            throw new RuntimeException("La cuenta ya está verificada.");
+        }
+
+        // Generar nuevo código y expiración
+        String code = UUID.randomUUID().toString();
+        user.setVerificationCode(code);
+        user.setVerificationCodeExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000)); // 10 minutos
+        userRepository.save(user);
+
+        // Enviar correo de verificación
+        emailService.enviarCorreoVerificacion(user.getEmail(), code);
+    }
 }

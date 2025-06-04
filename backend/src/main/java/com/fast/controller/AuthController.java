@@ -95,4 +95,13 @@ public class AuthController {
         return ResponseEntity.ok("Contraseña actualizada correctamente.");
     }
 
+    @PostMapping("/resend-verification")
+    public ResponseEntity<?> resendVerification(@RequestParam String email) {
+        try {
+            userService.reenviarCodigoVerificacion(email);
+            return ResponseEntity.ok("Se ha enviado un nuevo código de verificación a tu correo.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
