@@ -130,4 +130,17 @@ public class EmailService {
         }
     }
 
+    public void enviarCorreoContacto(String nombre, String email, String telefono, String asunto, String mensaje) {
+        String contenido = "Nombre: " + nombre + "\n"
+            + "Email: " + email + "\n"
+            + "Teléfono: " + telefono + "\n"
+            + "Asunto: " + asunto + "\n"
+            + "Mensaje: " + mensaje;
+        SimpleMailMessage mail = new SimpleMailMessage();
+        mail.setTo("andresespinosa156@gmail.com"); // Cambia por tu correo real
+        mail.setSubject("Nuevo mensaje de contacto: " + asunto);
+        mail.setText(contenido);
+        mailSender.send(mail);
+    }
+
 }
