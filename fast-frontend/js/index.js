@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-
+    console.log('DOM completamente cargado y analizado.');
     const button = document.getElementById('submitButton');
     if (button) {
         button.addEventListener('click', () => {
