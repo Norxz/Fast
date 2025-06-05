@@ -83,4 +83,57 @@ public class EmailService {
         mailSender.send(mensaje);
     }
 
+    public void enviarCorreoSolicitudCreada(String toEmail, Solicitud solicitud) {
+        String htmlMsg = "<p>¡Tu solicitud ha sido registrada!</p>"
+            + "<p><b>Título:</b> " + solicitud.getTitulo() + "</p>"
+            + "<p><b>Descripción:</b> " + solicitud.getDescripcion() + "</p>"
+            + "<p>Te avisaremos cuando un electricista acepte tu solicitud.</p>";
+        try {
+            MimeMessage mensaje = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+            helper.setTo(toEmail);
+            helper.setSubject("Solicitud registrada en ServiExpress");
+            helper.setText(htmlMsg, true);
+            helper.setFrom("andresespinosa156@gmail.com");
+            mailSender.send(mensaje);
+        } catch (Exception e) {
+            // Manejo de error
+        }
+    }
+
+    public void enviarCorreoElectricistaAsignado(String toEmail, String nombreElectricista, Solicitud solicitud) {
+        String htmlMsg = "<p>¡Un electricista ha aceptado tu solicitud!</p>"
+            + "<p><b>Electricista:</b> " + nombreElectricista + "</p>"
+            + "<p><b>Servicio:</b> " + solicitud.getTitulo() + "</p>"
+            + "<p>Pronto se pondrá en contacto contigo.</p>";
+        try {
+            MimeMessage mensaje = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+            helper.setTo(toEmail);
+            helper.setSubject("¡Un electricista ha aceptado tu solicitud!");
+            helper.setText(htmlMsg, true);
+            helper.setFrom("andresespinosa156@gmail.com");
+            mailSender.send(mensaje);
+        } catch (Exception e) {
+            // Manejo de error
+        }
+    }
+
+    public Solicitud aceptarSolicitud(Long id, Long electricistaId) {
+        Solicitud solicitud = solicitudRepository.findById(id).orElseThrow();
+        User electricista = userRepository.findById(electricistaId)
+                .orElseThrow(() -> new RuntimeException("Electricista no encontrado"));
+        solicitud.setEstado("ASIGNADA");
+        solicitud.setElectricista(electricista);
+        Solicitud saved = solicitudRepository.save(solicitud);
+
+        // Notificar al cliente que un electricista ha aceptado
+        emailService.enviarCorreoElectricistaAsignado(
+            solicitud.getCliente().getEmail(),
+            electricista.getNombre(),
+            solicitud
+        );
+
+        return saved;
+    }
 }

@@ -25,6 +25,9 @@ public class SolicitudService {
     @Autowired
     private UserRepository userRepository; 
 
+    @Autowired
+    private EmailService emailService; // Asegúrate de tener este servicio
+
     public Solicitud crear(SolicitudDTO dto) {
         User cliente = userRepository.findById(dto.getCompradorId())
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
@@ -37,7 +40,12 @@ public class SolicitudService {
         solicitud.setEstado("PENDIENTE");
         solicitud.setFechaServicio(dto.getFechaServicio());
         solicitud.setPresupuesto(dto.getPresupuesto());
-        return solicitudRepository.save(solicitud);
+        Solicitud saved = solicitudRepository.save(solicitud);
+
+        // Enviar correo de confirmación al cliente
+        emailService.enviarCorreoSolicitudCreada(cliente.getEmail(), saved);
+
+        return saved;
     }
 
     public List<Solicitud> obtenerTodas() {
