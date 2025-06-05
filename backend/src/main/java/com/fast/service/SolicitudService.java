@@ -61,14 +61,23 @@ public class SolicitudService {
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
         return solicitudRepository.findByCliente(cliente);
     }
-
+    
     public Solicitud aceptarSolicitud(Long id, Long electricistaId) {
         Solicitud solicitud = solicitudRepository.findById(id).orElseThrow();
         User electricista = userRepository.findById(electricistaId)
                 .orElseThrow(() -> new RuntimeException("Electricista no encontrado"));
         solicitud.setEstado("ASIGNADA");
         solicitud.setElectricista(electricista);
-        return solicitudRepository.save(solicitud);
+        Solicitud saved = solicitudRepository.save(solicitud);
+
+        // Notificar al cliente que un electricista ha aceptado
+        emailService.enviarCorreoElectricistaAsignado(
+            solicitud.getCliente().getEmail(),
+            electricista.getNombre(),
+            solicitud
+        );
+
+        return saved;
     }
 
     public List<Solicitud> obtenerPorElectricista(Long electricistaId) {
@@ -100,4 +109,5 @@ public class SolicitudService {
         solicitudRepository.save(solicitud);
         return true;
     }
+
 }

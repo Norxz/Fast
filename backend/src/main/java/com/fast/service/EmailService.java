@@ -119,21 +119,4 @@ public class EmailService {
         }
     }
 
-    public Solicitud aceptarSolicitud(Long id, Long electricistaId) {
-        Solicitud solicitud = solicitudRepository.findById(id).orElseThrow();
-        User electricista = userRepository.findById(electricistaId)
-                .orElseThrow(() -> new RuntimeException("Electricista no encontrado"));
-        solicitud.setEstado("ASIGNADA");
-        solicitud.setElectricista(electricista);
-        Solicitud saved = solicitudRepository.save(solicitud);
-
-        // Notificar al cliente que un electricista ha aceptado
-        emailService.enviarCorreoElectricistaAsignado(
-            solicitud.getCliente().getEmail(),
-            electricista.getNombre(),
-            solicitud
-        );
-
-        return saved;
-    }
 }
