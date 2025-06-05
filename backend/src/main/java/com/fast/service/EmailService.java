@@ -75,13 +75,23 @@ public class EmailService {
         mailSender.send(mensaje);
     }
 
-    public void enviarCorreoRecuperacion(String toEmail, String subject, String body) {
-        SimpleMailMessage mensaje = new SimpleMailMessage();
-        mensaje.setTo(toEmail);
-        mensaje.setSubject(subject);
-        mensaje.setText(body);
-        mensaje.setFrom("andresespinosa156@gmail.com");
-        mailSender.send(mensaje);
+    public void enviarCorreoRecuperacion(String toEmail, String nombre, String resetLink) {
+        String subject = "Recuperación de contraseña - ServiExpress";
+        String htmlMsg = "<p>Hola " + nombre + ",</p>"
+                + "<p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>"
+                + "<a href=\"" + resetLink + "\">Restablecer contraseña</a>"
+                + "<p>Si no solicitaste este cambio, ignora este correo.</p>";
+        try {
+            MimeMessage mensaje = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(htmlMsg, true);
+            helper.setFrom("andresespinosa156@gmail.com");
+            mailSender.send(mensaje);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al enviar el correo de recuperación: " + e.getMessage());
+        }
     }
 
     public void enviarCorreoSolicitudCreada(String toEmail, Solicitud solicitud) {

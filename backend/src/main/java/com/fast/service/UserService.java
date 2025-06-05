@@ -111,32 +111,14 @@ public class UserService {
     }
 
     public void sendPasswordResetEmail(User user) {
-        // 1. Generar un token único
         String resetToken = UUID.randomUUID().toString();
         user.setResetToken(resetToken);
         userRepository.save(user);
 
-        // 2. Construir el enlace de recuperación (link corto)
         String resetLink = "https://serviexpress.vercel.app/reset-password.html?token=" + resetToken;
 
-        // 3. Enviar el correo con el link (usa HTML)
-        String subject = "Recuperación de contraseña - ServiExpress";
-        String htmlMsg = "<p>Hola " + user.getNombre() + ",</p>"
-                + "<p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>"
-                + "<a href=\"" + resetLink + "\">Restablecer contraseña</a>"
-                + "<p>Si no solicitaste este cambio, ignora este correo.</p>";
-
-        try {
-            MimeMessage mensaje = emailService.mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
-            helper.setTo(user.getEmail());
-            helper.setSubject(subject);
-            helper.setText(htmlMsg, true); // true para HTML
-            helper.setFrom("andresespinosa156@gmail.com");
-            emailService.mailSender.send(mensaje);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al enviar el correo de recuperación: " + e.getMessage());
-        }
+        // Llama al método del EmailService
+        emailService.enviarCorreoRecuperacion(user.getEmail(), user.getNombre(), resetLink);
     }
 
     public User findByResetToken(String token) {
