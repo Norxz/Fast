@@ -88,18 +88,17 @@ public class AuthController {
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body) {
         String token = body.get("token");
         String newPassword = body.get("newPassword");
-        User user = userRepository.findByResetToken(token)
-            .orElseThrow(() -> new RuntimeException("Token inválido"));
+        User user = userService.findByResetToken(token);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("Token inválido");
+        }
 
         // Validar expiración
         if (user.getResetTokenExpiresAt() == null || user.getResetTokenExpiresAt().before(new Date())) {
             return ResponseEntity.badRequest().body("El enlace de recuperación ha expirado.");
         }
 
-        user.setPassword(passwordEncoder.encode(newPassword));
-        user.setResetToken(null);
-        user.setResetTokenExpiresAt(null);
-        userRepository.save(user);
+        userService.updatePassword(user, newPassword);
 
         return ResponseEntity.ok("Contraseña restablecida correctamente.");
     }
