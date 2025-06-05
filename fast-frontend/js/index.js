@@ -61,6 +61,23 @@ document.addEventListener('DOMContentLoaded', () => {
             formStatus.style.display = 'none';
         }, 5000);
     }
+
+    // Integración con Google Maps 
+    if (typeof google !== 'undefined') {
+        initMap();
+    }
 });
 
-
+// Función para el mapa
+function initMap() {
+    const location = { lat: 6.201506, lng: -75.561901 }; 
+    const map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: location
+    });
+    new google.maps.Marker({
+        position: location,
+        map: map,
+        title: 'ServiExpress'
+    });
+}
