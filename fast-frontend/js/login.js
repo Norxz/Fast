@@ -58,31 +58,4 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = 'Iniciar Sesión';
         }
     });
-
-    document.querySelector('.forgot-password a').addEventListener('click', async function(e) {
-        e.preventDefault();
-        const { value: email } = await Swal.fire({
-            title: 'Recuperar contraseña',
-            input: 'email',
-            inputLabel: 'Ingresa tu correo electrónico',
-            inputPlaceholder: 'correo@ejemplo.com',
-            confirmButtonText: 'Enviar',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar'
-        });
-        if (email) {
-            try {
-                // Recuperar contraseña
-                const res = await fetch('https://fast-production-c604.up.railway.app/auth/forgot-password', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email })
-                });
-                if (!res.ok) throw new Error('No se pudo enviar el correo de recuperación');
-                Swal.fire('¡Listo!', 'Si el correo existe, recibirás instrucciones para restablecer tu contraseña.', 'success');
-            } catch (err) {
-                Swal.fire('Error', err.message, 'error');
-            }
-        }
-    });
 });
