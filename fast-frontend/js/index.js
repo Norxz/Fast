@@ -6,24 +6,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log("¡Submit ejecutado!"); // <-- Agrega esto
-        
-        // Obtener datos del formulario
+        console.log("¡Submit ejecutado!");
+
         const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
+            name: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
             subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value
+            message: document.getElementById('message').value.trim()
         };
 
-        // Validación simple
         if (!formData.name || !formData.email || !formData.subject || !formData.message) {
             showFormStatus('Por favor completa todos los campos requeridos', 'error');
             return;
         }
 
-        // Mostrar estado de carga
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
@@ -44,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Error en el servidor');
             }
         } catch (error) {
-            console.error('Error:', error);
-            showFormStatus('Hubo un error al enviar el mensaje. Por favor inténtalo nuevamente.', 'error');
+            console.error('Error al enviar el mensaje:', error);
+            showFormStatus('Hubo un problema al enviar el mensaje. Intenta más tarde.', 'error');
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar mensaje';
@@ -53,35 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showFormStatus(message, type) {
-        Swal.fire({
-            icon: type === 'success' ? 'success' : 'error',
-            title: type === 'success' ? '¡Éxito!' : 'Error',
-            text: message,
-            showClass: {
-                popup: 'animate__animated animate__fadeInDown'
-            },
-            hideClass: {
-                popup: 'animate__animated animate__fadeOutUp'
-            }
-        });
-    }
-
-    // Integración con Google Maps 
-    if (typeof google !== 'undefined') {
-        initMap();
+        formStatus.textContent = message;
+        formStatus.className = type === 'success' ? 'status-success' : 'status-error';
+        formStatus.style.marginTop = '1rem';
     }
 });
-
-// Función para el mapa
-function initMap() {
-    const location = { lat: 6.201506, lng: -75.561901 }; 
-    const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: location
-    });
-    new google.maps.Marker({
-        position: location,
-        map: map,
-        title: 'ServiExpress'
-    });
-}
