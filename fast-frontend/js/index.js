@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log("¡Submit ejecutado!"); // <-- Agrega esto
         
         // Obtener datos del formulario
         const formData = {
