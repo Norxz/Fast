@@ -1,9 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM cargado"); // <-- Agrega esto
     const contactForm = document.getElementById('contactForm');
-    if (!contactForm) return;
+    if (!contactForm) {
+        console.log("No se encontró el formulario");
+        return;
+    }
 
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log("¡Submit ejecutado!"); // <-- Agrega esto
 
         // Obtener valores
         const name = document.getElementById('name').value.trim();
