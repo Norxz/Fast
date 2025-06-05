@@ -131,11 +131,16 @@ public class EmailService {
     }
 
     public void enviarCorreoContacto(String nombre, String email, String telefono, String asunto, String mensaje) {
-        String contenido = "Nombre: " + nombre + "\n"
+        String contenido = "Has recibido un nuevo mensaje desde el formulario de contacto de ServiExpress.\n\n"
+            + "---------------------------------------------\n"
+            + "Nombre: " + nombre + "\n"
             + "Email: " + email + "\n"
-            + "Teléfono: " + telefono + "\n"
+            + "Teléfono: " + (telefono != null && !telefono.isEmpty() ? telefono : "No proporcionado") + "\n"
             + "Asunto: " + asunto + "\n"
-            + "Mensaje: " + mensaje;
+            + "Mensaje:\n" + mensaje + "\n"
+            + "---------------------------------------------\n\n"
+            + "Contactar al usuario al correo: " + email;
+
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo("andresespinosa156@gmail.com"); // Correo de la empresa
         mail.setSubject("Nuevo mensaje de contacto: " + asunto);
