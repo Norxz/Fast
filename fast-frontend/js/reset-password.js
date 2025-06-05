@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    if (formForgotPassword) {
-        formForgotPassword.addEventListener('submit', async (e) => {
+    if (form) {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             try {
