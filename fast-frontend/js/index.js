@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contactForm');
+    if (!contactForm) return;
     const formStatus = document.createElement('div');
     formStatus.id = 'formStatus';
     contactForm.appendChild(formStatus);
