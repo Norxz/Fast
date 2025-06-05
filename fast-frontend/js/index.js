@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Envía la petición al backend
             try {
-                const response = await fetch('https://fast-backend-production.up.railway.app/api/contacto', {
+                const response = await fetch('https://fast-production-c604.up.railway.app/api/contacto', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
