@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
-    const form = document.getElementById('resetForm');
-    const formForgotPassword = document.getElementById('resetPasswordForm');
+    const form = document.getElementById('resetPasswordForm');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
