@@ -1,58 +1,66 @@
 document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) return;
-    const formStatus = document.createElement('div');
-    formStatus.id = 'formStatus';
-    contactForm.appendChild(formStatus);
 
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        console.log("¡Submit ejecutado!");
 
-        const formData = {
-            name: document.getElementById('name').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
-            subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value.trim()
-        };
+        // Obtener valores
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const subject = document.getElementById('subject').value.trim();
+        const message = document.getElementById('message').value.trim();
 
-        if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-            showFormStatus('Por favor completa todos los campos requeridos', 'error');
+        // Validación básica
+        if (!name || !email || !subject || !message) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Campos incompletos',
+                text: 'Por favor, completa todos los campos obligatorios.',
+                showClass: { popup: 'animate__animated animate__shakeX' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+            });
             return;
         }
 
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+        // Mostrar cargando
+        Swal.showLoading();
 
         try {
             const response = await fetch('https://fast-production-c604.up.railway.app/api/contacto', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, phone, subject, message })
             });
 
             if (response.ok) {
-                showFormStatus('¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.', 'success');
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Mensaje enviado!',
+                    text: 'Tu mensaje ha sido enviado correctamente. Pronto nos pondremos en contacto contigo.',
+                    showClass: { popup: 'animate__animated animate__fadeInDown' },
+                    hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+                });
                 contactForm.reset();
             } else {
-                throw new Error('Error en el servidor');
+                const errorText = await response.text();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: errorText || 'No se pudo enviar el mensaje. Intenta más tarde.',
+                    showClass: { popup: 'animate__animated animate__shakeX' },
+                    hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+                });
             }
-        } catch (error) {
-            console.error('Error al enviar el mensaje:', error);
-            showFormStatus('Hubo un problema al enviar el mensaje. Intenta más tarde.', 'error');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar mensaje';
+        } catch (err) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor.',
+                showClass: { popup: 'animate__animated animate__shakeX' },
+                hideClass: { popup: 'animate__animated animate__fadeOutUp' }
+            });
         }
     });
-
-    function showFormStatus(message, type) {
-        formStatus.textContent = message;
-        formStatus.className = type === 'success' ? 'status-success' : 'status-error';
-        formStatus.style.marginTop = '1rem';
-    }
 });
