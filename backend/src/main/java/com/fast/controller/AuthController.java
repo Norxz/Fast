@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Map;
 
 @Tag(name = "Autenticación y Registro", description = "Endpoints para registro, inicio de sesión, verificación de cuenta y recuperación de contraseña")
@@ -87,12 +88,20 @@ public class AuthController {
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body) {
         String token = body.get("token");
         String newPassword = body.get("newPassword");
-        User user = userService.findByResetToken(token);
-        if (user == null) {
-            return ResponseEntity.badRequest().body("Token inválido o expirado.");
+        User user = userRepository.findByResetToken(token)
+            .orElseThrow(() -> new RuntimeException("Token inválido"));
+
+        // Validar expiración
+        if (user.getResetTokenExpiresAt() == null || user.getResetTokenExpiresAt().before(new Date())) {
+            return ResponseEntity.badRequest().body("El enlace de recuperación ha expirado.");
         }
-        userService.updatePassword(user, newPassword);
-        return ResponseEntity.ok("Contraseña actualizada correctamente.");
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetToken(null);
+        user.setResetTokenExpiresAt(null);
+        userRepository.save(user);
+
+        return ResponseEntity.ok("Contraseña restablecida correctamente.");
     }
 
     @PostMapping("/resend-verification")

@@ -113,11 +113,11 @@ public class UserService {
     public void sendPasswordResetEmail(User user) {
         String resetToken = UUID.randomUUID().toString();
         user.setResetToken(resetToken);
+        // Expira en 15 minutos (puedes ajustar el tiempo)
+        user.setResetTokenExpiresAt(new Date(System.currentTimeMillis() + 15 * 60 * 1000));
         userRepository.save(user);
 
         String resetLink = "https://serviexpress.vercel.app/reset-password.html?token=" + resetToken;
-
-        // Llama al método del EmailService
         emailService.enviarCorreoRecuperacion(user.getEmail(), user.getNombre(), resetLink);
     }
 
