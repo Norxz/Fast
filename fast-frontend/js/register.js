@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         icon: "success",
         confirmButtonText: "Ir a login",
       }).then(() => {
-        window.location.href = "index.html";
+        window.location.href = "login.html";
       });
     } catch (error) {
       Swal.fire({

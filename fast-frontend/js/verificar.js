@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const text = await res.text();
         document.getElementById('result').textContent = text;
         if (res.ok) {
-            setTimeout(() => window.location.href = 'index.html', 2000);
+            setTimeout(() => window.location.href = 'login.html', 2000);
         }
     });
 

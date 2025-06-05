@@ -127,7 +127,7 @@
       const userType = localStorage.getItem('userType');
 
       if (!token) {
-        window.location.href = 'index.html';
+        window.location.href = 'login.html';
         return;
       }
 
@@ -141,7 +141,7 @@
       e.preventDefault();
       localStorage.removeItem('token');
       localStorage.removeItem('userType');
-      window.location.href = 'index.html';
+      window.location.href = 'login.html';
     });
   </script>
 </body>

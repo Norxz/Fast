@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             if (!res.ok) throw new Error(await res.text());
             Swal.fire('¡Listo!', 'Tu contraseña ha sido restablecida.', 'success')
-                .then(() => window.location.href = 'index.html');
+                .then(() => window.location.href = 'login.html');
         } catch (err) {
             Swal.fire('Error', err.message, 'error');
         }

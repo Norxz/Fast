@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("userRole").textContent =
     userRole.charAt(0) + userRole.slice(1).toLowerCase();
 
-  if (!token || !userId) return (window.location.href = "index.html");
+  if (!token || !userId) return (window.location.href = "login.html");
 
   async function cargarSolicitudes() {
     loadingIndicator.style.display = "block";

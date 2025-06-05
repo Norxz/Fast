@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('token');
-  const container = document.getElementById('servicesList'); // <-- usa el contenedor correcto
-  if (!token) return window.location.href = 'index.html';
+  const container = document.getElementById('servicesList');
+  if (!token) return window.location.href = 'login.html';
 
   try {
     const res = await fetch('https://fast-production-c604.up.railway.app/solicitudes/disponibles', {

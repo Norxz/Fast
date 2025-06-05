@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
-    if (!token) return window.location.href = 'index.html';
+    if (!token) return window.location.href = 'login.html';
 
     cargarUsuarios();
 
@@ -119,5 +119,5 @@ async function eliminarUsuario(id) {
 
 function logout() {
     localStorage.clear();
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
 }
