@@ -99,7 +99,7 @@ body {
 }
 
 .btn-outline {
-    background-color: transparent;
+    background-color: green;
     color: var(--white);
     border-color: var(--white);
 } 
