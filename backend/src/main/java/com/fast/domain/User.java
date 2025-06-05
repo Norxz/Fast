@@ -35,6 +35,9 @@ public class User implements UserDetails {
     @Column(name = "verification_code_expires_at")
     private Date verificationCodeExpiresAt;
 
+    @Column(name = "reset_token_expires_at")
+    private Date resetTokenExpiresAt;
+
     private String nombre;
     private String apellido;
     private String telefono;
@@ -175,5 +178,13 @@ public class User implements UserDetails {
 
     public void setVerificationCodeExpiresAt(Date verificationCodeExpiresAt) {
         this.verificationCodeExpiresAt = verificationCodeExpiresAt;
+    }
+
+    public Date getResetTokenExpiresAt() {
+        return resetTokenExpiresAt;
+    }
+
+    public void setResetTokenExpiresAt(Date resetTokenExpiresAt) {
+        this.resetTokenExpiresAt = resetTokenExpiresAt;
     }
 }
