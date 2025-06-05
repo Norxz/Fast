@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 const text = await res.text();
                 if (!res.ok) throw new Error(text);
-                Swal.fire('¡Listo!', 'Revisa tu correo para restablecer tu contraseña.', 'success');
+                Swal.fire('¡Listo!', 'Revisa tu correo para restablecer tu contraseña. El link expirara en 15 mins', 'success');
             } catch (err) {
                 Swal.fire('Error', err.message, 'error');
             }
