@@ -53,13 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function showFormStatus(message, type) {
-        formStatus.textContent = message;
-        formStatus.className = type;
-        
-        // Ocultar el mensaje después de 5 segundos
-        setTimeout(() => {
-            formStatus.style.display = 'none';
-        }, 5000);
+        Swal.fire({
+            icon: type === 'success' ? 'success' : 'error',
+            title: type === 'success' ? '¡Éxito!' : 'Error',
+            text: message,
+            showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+            }
+        });
     }
 
     // Integración con Google Maps 

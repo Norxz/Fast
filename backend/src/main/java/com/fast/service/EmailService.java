@@ -137,9 +137,11 @@ public class EmailService {
             + "Asunto: " + asunto + "\n"
             + "Mensaje: " + mensaje;
         SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo("andresespinosa156@gmail.com"); // Cambia por tu correo real
+        mail.setTo("andresespinosa156@gmail.com"); // Correo de la empresa
         mail.setSubject("Nuevo mensaje de contacto: " + asunto);
         mail.setText(contenido);
+        mail.setFrom("andresespinosa156@gmail.com"); // Desde el correo de empresa
+        mail.setReplyTo(email);
         mailSender.send(mail);
     }
 
