@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import javax.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
 @Tag(name = "Usuarios", description = "Servicio para manejar usuarios del sistema")
 @Service
@@ -114,17 +116,27 @@ public class UserService {
         user.setResetToken(resetToken);
         userRepository.save(user);
 
-        // 2. Construir el enlace de recuperación
+        // 2. Construir el enlace de recuperación (link corto)
         String resetLink = "https://serviexpress.vercel.app/reset-password.html?token=" + resetToken;
 
-        // 3. Enviar el correo
+        // 3. Enviar el correo con el link (usa HTML)
         String subject = "Recuperación de contraseña - ServiExpress";
-        String body = "Hola " + user.getNombre() + ",\n\n"
-                + "Para restablecer tu contraseña, haz clic en el siguiente enlace:\n"
-                + resetLink + "\n\n"
-                + "Si no solicitaste este cambio, ignora este correo.";
+        String htmlMsg = "<p>Hola " + user.getNombre() + ",</p>"
+                + "<p>Para restablecer tu contraseña, haz clic en el siguiente enlace:</p>"
+                + "<a href=\"" + resetLink + "\">Restablecer contraseña</a>"
+                + "<p>Si no solicitaste este cambio, ignora este correo.</p>";
 
-        emailService.enviarCorreoRecuperacion(user.getEmail(), subject, body);
+        try {
+            MimeMessage mensaje = emailService.mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+            helper.setTo(user.getEmail());
+            helper.setSubject(subject);
+            helper.setText(htmlMsg, true); // true para HTML
+            helper.setFrom("andresespinosa156@gmail.com");
+            emailService.mailSender.send(mensaje);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al enviar el correo de recuperación: " + e.getMessage());
+        }
     }
 
     public User findByResetToken(String token) {
