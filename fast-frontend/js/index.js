@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
 
         try {
-            // En producción, reemplazar con tu endpoint real
             const response = await fetch('https://fast-production-c604.up.railway.app/api/contacto', {
                 method: 'POST',
                 headers: {
