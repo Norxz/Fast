@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
   const electricistaId = localStorage.getItem("userId");
   const container = document.getElementById("misServiciosContainer");
+  const emptyState = document.getElementById("emptyState");
   if (!token || !electricistaId) return (window.location.href = "login.html");
 
   try {
@@ -12,12 +13,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     );
     const servicios = await res.json();
-    container.innerHTML =
-      servicios.length === 0
-        ? "<p>No tienes servicios asignados.</p>"
-        : servicios
-            .map(
-              (s) => `
+    if (servicios.length === 0) {
+      emptyState.style.display = "flex";
+      container.innerHTML = "";
+    } else {
+      emptyState.style.display = "none";
+      container.innerHTML = servicios
+        .map(
+          (s) => `
         <div class="service-card">
           <h3>${s.titulo}</h3>
           <p>${s.descripcion}</p>
@@ -42,9 +45,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
         </div>
       `
-            )
-            .join("");
+        )
+        .join("");
+    }
   } catch (e) {
+    emptyState.style.display = "flex";
     container.innerHTML = "<p>Error al cargar tus servicios.</p>";
   }
 });
