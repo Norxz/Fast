@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // En producción, reemplazar con tu endpoint real
-            const response = await fetch('https://tu-backend.com/api/contacto', {
+            const response = await fetch('https://fast-production-c604.up.railway.app/api/contacto', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
