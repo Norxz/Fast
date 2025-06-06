@@ -1,23 +1,36 @@
+<!-- verificar.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Verificar Cuenta</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <meta charset="UTF-8">
+  <title>Verificando...</title>
+  <script>
+    window.onload = function() {
+      const params = new URLSearchParams(window.location.search);
+      const email = params.get('email');
+      const code = params.get('code');
+      if (!email || !code) {
+        alert('Faltan datos de verificación.');
+        return;
+      }
+      fetch('https://fast-production-c604.up.railway.app/auth/verify?email=' + encodeURIComponent(email) + '&code=' + encodeURIComponent(code), {
+        method: 'POST'
+      })
+      .then(res => {
+        if (res.ok) {
+          // Redirige automáticamente al login si la verificación fue exitosa
+          window.location.href = 'login.html';
+        } else {
+          return res.text().then(msg => { throw new Error(msg); });
+        }
+      })
+      .catch(err => {
+        alert('Error en la verificación: ' + err.message);
+      });
+    }
+  </script>
 </head>
 <body>
-    <h2>Verifica tu cuenta</h2>
-    <form id="verifyForm">
-        <input type="email" id="email" placeholder="Correo" required>
-        <input type="text" id="code" placeholder="Código de verificación" required>
-        <button type="submit">Verificar</button>
-    </form>
-    <div style="text-align:center; margin-top:1em;">
-        <button type="button" id="resendVerificationBtn" class="btn btn-primary">
-            Reenviar código de verificación
-        </button>
-    </div>
-    <div id="result"></div>
-    <script src="js/verificar.js"></script>
+  <p>Verificando tu cuenta, por favor espera...</p>
 </body>
 </html>
