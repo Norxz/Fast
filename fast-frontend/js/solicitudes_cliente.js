@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
            <button class="btn btn-sm btn-cancel" onclick="cancelarSolicitud(${s.id})">
              <i class="fas fa-times"></i> Cancelar
            </button>`;
-          } else if (s.estado === "FINALIZADA" || s.estado === "COMPLETADA") {   // finalziar y calificar ddddddddddddddddddddd
+          } else if (s.estado === "FINALIZADA" || s.estado === "COMPLETADA") {  //ddddddddddddddddddddd
             badge =
               '<span class="request-status badge badge-success">Finalizada</span>';
             extra = `<div><b>Electricista:</b> <button class="btn btn-sm" onclick="verElectricista(${
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                    <div><b>Precio cobrado:</b> $${s.precioCobrador || "N/A"}</div>
                    <button class="btn btn-sm btn-primary" onclick="calificarSolicitud(${s.id})">
                      <i class="fa fa-star"></i> Calificar
-                   </button>`;    // dddddddddddddd
+                   </button>`;
           } else if (s.estado === "CANCELADA") {
             badge =
               '<span class="request-status badge badge-danger">Cancelada</span>';
