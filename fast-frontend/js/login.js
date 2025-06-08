@@ -50,25 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error('Error:', error);
-
-            // Mostrar ventana especial si el mensaje es de aprobación pendiente
-            if (
-                error.message &&
-                (
-                
-                  error.message.includes('En estado de aprobación') ||
-                 
-                )
-            ) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Cuenta pendiente',
-                    text: 'Tu cuenta aún no ha sido verificada por un administrador. Por favor espera la aprobación.',
-                });
-            } else {
-                alert(error.message || 'Error al iniciar sesión');
-            }
-
+            alert(error.message || 'Errorrrrrrrrrrrrrrrrrrrrrdfdfd');
+            
             // Restaurar botón
             const submitBtn = loginForm.querySelector('button[type="submit"]');
             submitBtn.disabled = false;
