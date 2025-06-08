@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (!response.ok) {
-                throw new Error(data.message || 'Usuario no validado');
+                throw new Error(data.message || 'EL USUARIO AUN NO HA SIDO COMPROBADO ');
             }
 
             // Guardar token y redirigir
@@ -50,26 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error('Error:', error);
-
-            // Mensaje especial si es cuenta pendiente de aprobación
-            if (
-                error.message &&
-                (
-                  error.message.toLowerCase().includes('aprobada') ||
-                  error.message.toLowerCase().includes('aprobación') ||
-                  error.message.toLowerCase().includes('no ha sido aprobada') ||
-                  error.message.toLowerCase().includes('aún no ha sido aprobada')
-                )
-            ) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Cuenta pendiente',
-                    text: 'Tu cuenta aún no ha sido verificada por un administrador. Por favor espera la aprobación.',
-                });
-            } else {
-                Swal.fire('Error', error.message || 'Usuario no validado', 'error');
-            }
-
+            alert(error.message || 'Usuario no validado');
+            
             // Restaurar botón
             const submitBtn = loginForm.querySelector('button[type="submit"]');
             submitBtn.disabled = false;
