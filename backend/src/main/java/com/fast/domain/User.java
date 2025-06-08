@@ -38,6 +38,17 @@ public class User implements UserDetails {
     @Column(name = "reset_token_expires_at")
     private Date resetTokenExpiresAt;
 
+        //Agregar columna en base de datos ///////////////////////////////
+    @Column(nullable = false)
+    private boolean aprobado = false; 
+   
+    public boolean isAprobado() {
+        return aprobado;
+    }
+    public void setAprobado(boolean aprobado) {
+        this.aprobado = aprobado;
+    }
+
     private String nombre;
     private String apellido;
     private String telefono;

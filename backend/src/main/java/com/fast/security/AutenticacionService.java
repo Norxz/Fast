@@ -62,6 +62,11 @@ public class AutenticacionService implements UserDetailsService {
             User user = userRepository.findByEmail(dto.getEmail())
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+                    //Bloquea el login hasta que loa aprobemos ////////////////////////
+            if (user.getRol() == Rol.ELECTRICISTA && !user.isAprobado()) {
+                throw new RuntimeException("Tu cuenta de electricista aún no ha sido aprobada por un administrador.");
+            }
+
             return tokenService.getToken(user);
         } catch (Exception e) {
             throw new RuntimeException("Error durante autenticación", e);

@@ -46,6 +46,12 @@ public class UserService {
             user.setTelefono(dto.getTelefono());
             user.setActivo(false);
 
+            if (rol == Rol.ELECTRICISTA) {
+                user.setAprobado(false); // Requiere aprobación manual ///////////////////
+            } else {
+                 user.setAprobado(true); // Clientes aprobados automáticamente
+            }
+
             // Generar código de verificación y expiración
             String code = UUID.randomUUID().toString();
             user.setVerificationCode(code);
@@ -152,7 +158,9 @@ public class UserService {
         user.setVerificationCode(null);
         user.setVerificationCodeExpiresAt(null);
         userRepository.save(user);
-    }
+    }  
+
+    
 
     public void reenviarCodigoVerificacion(String email) {
         User user = userRepository.findByEmail(email)

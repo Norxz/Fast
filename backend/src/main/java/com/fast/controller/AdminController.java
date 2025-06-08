@@ -1,6 +1,7 @@
 package com.fast.controller;
 
 import com.fast.domain.User;
+import com.fast.domain.Rol;
 import com.fast.service.UserService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -55,5 +56,18 @@ public class AdminController {
     public ResponseEntity<?> eliminarUsuario(@PathVariable Long id) {
         userService.eliminarUsuario(id);
         return ResponseEntity.ok("Usuario eliminado");
+    }
+
+    // 6. Aprobar electricistas
+    @PostMapping("/aprobar-electricista")
+    public ResponseEntity<?> aprobarElectricista(@RequestParam Long userId) {
+        User user = userService.findById(userId);
+        if (user == null || user.getRol() != Rol.ELECTRICISTA) {
+            return ResponseEntity.badRequest().body("Usuario no encontrado o no es electricista.");
+        }
+        user.setAprobado(true);
+        userService.save(user);
+        // (Opcional) Notificar por correo la aprobación
+        return ResponseEntity.ok("Electricista aprobado correctamente.");
     }
 }
