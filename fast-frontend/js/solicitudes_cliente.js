@@ -215,15 +215,32 @@ document.addEventListener("DOMContentLoaded", async () => {
       },
       didOpen: () => {
         const stars = document.querySelectorAll('#starRating .fa-star');
+        let current = 0;
         stars.forEach((star, idx) => {
+          // Al pasar el mouse, muestra las estrellas llenas hasta esa posición
           star.addEventListener('mouseenter', () => {
-            stars.forEach((s, i) => s.classList.toggle('selected', i <= idx));
+            stars.forEach((s, i) => {
+              s.classList.toggle('fa-solid', i <= idx);
+              s.classList.toggle('fa-regular', i > idx);
+              s.classList.toggle('selected', i <= idx);
+            });
           });
+          // Al salir el mouse, vuelve al estado actual
           star.addEventListener('mouseleave', () => {
-            stars.forEach((s) => s.classList.remove('selected'));
+            stars.forEach((s, i) => {
+              s.classList.toggle('fa-solid', i < current);
+              s.classList.toggle('fa-regular', i >= current);
+              s.classList.toggle('selected', i < current);
+            });
           });
+          // Al hacer click, fija la cantidad de estrellas seleccionadas
           star.addEventListener('click', () => {
-            stars.forEach((s, i) => s.classList.toggle('selected', i <= idx));
+            current = idx + 1;
+            stars.forEach((s, i) => {
+              s.classList.toggle('fa-solid', i < current);
+              s.classList.toggle('fa-regular', i >= current);
+              s.classList.toggle('selected', i < current);
+            });
           });
         });
       }
