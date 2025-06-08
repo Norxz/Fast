@@ -67,7 +67,7 @@ public class AdminController {
         }
         user.setAprobado(true);
         userService.save(user);
-        // (Opcional) Notificar por correo la aprobación
+        // Notificar por correo la aprobación
         return ResponseEntity.ok("Electricista aprobado correctamente.");
     }
 }

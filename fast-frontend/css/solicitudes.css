@@ -454,6 +454,10 @@ body {
     font-size: 0.9rem;
 }
 
+.fa-star.selected {
+  color: #FFD700 !important;
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
     .dashboard-container {

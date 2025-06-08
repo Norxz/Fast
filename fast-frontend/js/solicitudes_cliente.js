@@ -75,15 +75,16 @@ document.addEventListener("DOMContentLoaded", async () => {
            <button class="btn btn-sm btn-cancel" onclick="cancelarSolicitud(${s.id})">
              <i class="fas fa-times"></i> Cancelar
            </button>`;
-          } else if (s.estado === "FINALIZADA" || s.estado === "COMPLETADA") {
+          } else if (s.estado === "FINALIZADA" || s.estado === "COMPLETADA") {   // finalziar y calificar ddddddddddddddddddddd
             badge =
               '<span class="request-status badge badge-success">Finalizada</span>';
             extra = `<div><b>Electricista:</b> <button class="btn btn-sm" onclick="verElectricista(${
               s.electricista.id
             })">Ver info</button></div>
-                   <div><b>Precio cobrado:</b> $${
-                     s.precioCobrador || "N/A"
-                   }</div>`;
+                   <div><b>Precio cobrado:</b> $${s.precioCobrador || "N/A"}</div>
+                   <button class="btn btn-sm btn-primary" onclick="calificarSolicitud(${s.id})">
+                     <i class="fa fa-star"></i> Calificar
+                   </button>`;    // dddddddddddddd
           } else if (s.estado === "CANCELADA") {
             badge =
               '<span class="request-status badge badge-danger">Cancelada</span>';
@@ -186,6 +187,69 @@ document.addEventListener("DOMContentLoaded", async () => {
         icon: "error",
       });
     }
+  };
+
+  window.calificarSolicitud = function (solicitudId) { // DOM calificar solicitudddddddd
+    Swal.fire({
+      title: 'Califica el servicio',
+      html: `
+        <div id="starRating" style="font-size:2rem; color:#FFD700; margin-bottom:1rem;">
+          <i class="fa-regular fa-star" data-value="1"></i>
+          <i class="fa-regular fa-star" data-value="2"></i>
+          <i class="fa-regular fa-star" data-value="3"></i>
+          <i class="fa-regular fa-star" data-value="4"></i>
+          <i class="fa-regular fa-star" data-value="5"></i>
+        </div>
+        <textarea id="comentario" class="swal2-textarea" placeholder="Deja un comentario"></textarea>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      preConfirm: () => {
+        const estrellas = document.querySelectorAll('#starRating .fa-star.selected').length;
+        const comentario = document.getElementById('comentario').value;
+        if (estrellas === 0) {
+          Swal.showValidationMessage('Selecciona una calificación de estrellas');
+          return false;
+        }
+        return { estrellas, comentario };
+      },
+      didOpen: () => {
+        const stars = document.querySelectorAll('#starRating .fa-star');
+        stars.forEach((star, idx) => {
+          star.addEventListener('mouseenter', () => {
+            stars.forEach((s, i) => s.classList.toggle('selected', i <= idx));
+          });
+          star.addEventListener('mouseleave', () => {
+            stars.forEach((s) => s.classList.remove('selected'));
+          });
+          star.addEventListener('click', () => {
+            stars.forEach((s, i) => s.classList.toggle('selected', i <= idx));
+          });
+        });
+      }
+    }).then(async (result) => {
+      if (result.isConfirmed && result.value) {
+        const { estrellas, comentario } = result.value;
+        try {
+          const token = localStorage.getItem("token");
+          await fetch('https://fast-production-c604.up.railway.app/calificaciones', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              solicitudId,
+              estrellas,
+              comentario
+            })
+          });
+          Swal.fire('¡Gracias!', 'Tu calificación ha sido enviada.', 'success');
+        } catch (e) {
+          Swal.fire('Error', 'No se pudo enviar la calificación', 'error');
+        }
+      }
+    });
   };
 
   // Filtros y recarga
