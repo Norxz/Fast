@@ -147,6 +147,18 @@ document.getElementById('btnFiltrar').addEventListener('click', cargarUsuarios);
     document.getElementById(id).addEventListener('change', cargarUsuarios);
 });
 
+document.getElementById('filterRol').addEventListener('change', function() {
+    const rol = this.value;
+    const aprobadoContainer = document.getElementById('aprobadoFilterContainer');
+    if (rol === 'ELECTRICISTA') {
+        aprobadoContainer.style.display = '';
+    } else {
+        aprobadoContainer.style.display = 'none';
+        document.getElementById('filterAprobado').value = '';
+    }
+    cargarUsuarios();
+});
+
 function logout() {
     localStorage.clear();
     window.location.href = 'login.html';

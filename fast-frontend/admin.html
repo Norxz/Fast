@@ -65,14 +65,16 @@
                             <option value="false">Suspendido</option>
                         </select>
                     </label>
-                    <label>
-                        Aprobado:
-                        <select id="filterAprobado">
-                            <option value="">Todos</option>
-                            <option value="true">Aprobado</option>
-                            <option value="false">No aprobado</option>
-                        </select>
-                    </label>
+                    <span id="aprobadoFilterContainer" style="display:none;">
+                        <label>
+                            Aprobado:
+                            <select id="filterAprobado">
+                                <option value="">Todos</option>
+                                <option value="true">Aprobado</option>
+                                <option value="false">No aprobado</option>
+                            </select>
+                        </label>
+                    </span>
                     <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
                 </div>
                 <table class="admin-table" id="usuariosTable">
