@@ -63,6 +63,9 @@ async function cargarUsuarios() {
             <td>${u.rol}</td>
             <td>${u.activo ? 'Activo' : '<span class="suspended">Suspendido</span>'}</td>
             <td>
+                ${u.rol === 'ELECTRICISTA' ? (u.aprobado ? '<span class="approved">Aprobado</span>' : '<button onclick="aprobarElectricista(' + u.id + ')">Aprobar</button>') : ''}
+            </td>
+            <td>
                 <button class="btn-action btn-edit" data-id="${u.id}">Editar</button>
                 <button class="btn-action ${u.activo ? 'btn-suspend' : 'btn-activate'}" onclick="toggleActivo(${u.id}, ${u.activo})">${u.activo ? 'Suspender' : 'Activar'}</button>
                 <button class="btn-action btn-delete" onclick="eliminarUsuario(${u.id})">Eliminar</button>
@@ -112,6 +115,15 @@ async function eliminarUsuario(id) {
     if (!confirm('¿Seguro que deseas eliminar este usuario?')) return;
     await fetch(`https://fast-production-c604.up.railway.app/admin/usuarios/${id}`, {
         method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    cargarUsuarios();
+}
+
+async function aprobarElectricista(id) {
+    const token = localStorage.getItem('token');
+    await fetch(`https://fast-production-c604.up.railway.app/admin/aprobar-electricista?userId=${id}`, {
+        method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
     });
     cargarUsuarios();

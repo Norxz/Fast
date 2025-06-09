@@ -37,8 +37,7 @@ public class EmailService {
     public void enviarCorreoVerificacion(String toEmail, String code) {
         String link = "https://serviexpress.vercel.app/verificar.html?email=" + toEmail + "&code=" + code;
         String htmlMsg = "<p>Haz clic en el siguiente enlace para verificar tu cuenta:</p>"
-                + "<a href=\"" + link + "\">Haz clic aquí para verificar tu cuenta</a>"
-                + "<p>O ingresa este código en la página de verificación: <b>" + code + "</b></p>";
+                + "<a href=\"" + link + "\">Haz clic aquí para verificar tu cuenta</a>";
 
         try {
             MimeMessage mensaje = mailSender.createMimeMessage();
