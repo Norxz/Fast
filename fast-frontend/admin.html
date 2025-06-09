@@ -47,6 +47,34 @@
                         <button type="button" onclick="ocultarFormularioEditar()">Cancelar</button>
                     </form>
                 </div>
+                <div class="filter-controls">
+                    <label>
+                        Rol:
+                        <select id="filterRol">
+                            <option value="">Todos</option>
+                            <option value="CLIENTE">Cliente</option>
+                            <option value="ELECTRICISTA">Electricista</option>
+                            <option value="ADMIN">Administrador</option>
+                        </select>
+                    </label>
+                    <label>
+                        Estado:
+                        <select id="filterActivo">
+                            <option value="">Todos</option>
+                            <option value="true">Activo</option>
+                            <option value="false">Suspendido</option>
+                        </select>
+                    </label>
+                    <label>
+                        Aprobado:
+                        <select id="filterAprobado">
+                            <option value="">Todos</option>
+                            <option value="true">Aprobado</option>
+                            <option value="false">No aprobado</option>
+                        </select>
+                    </label>
+                    <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
+                </div>
                 <table class="admin-table" id="usuariosTable">
                     <thead>
                         <tr>

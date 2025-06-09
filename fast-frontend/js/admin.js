@@ -52,7 +52,26 @@ async function cargarUsuarios() {
     const res = await fetch('https://fast-production-c604.up.railway.app/admin/usuarios', {
         headers: { 'Authorization': `Bearer ${token}` }
     });
-    const usuarios = await res.json();
+    let usuarios = await res.json();
+
+    // Obtener valores de los filtros
+    const rol = document.getElementById('filterRol').value;
+    const activo = document.getElementById('filterActivo').value;
+    const aprobado = document.getElementById('filterAprobado').value;
+
+    // Filtrar por rol
+    if (rol) {
+        usuarios = usuarios.filter(u => u.rol === rol);
+    }
+    // Filtrar por estado activo
+    if (activo) {
+        usuarios = usuarios.filter(u => String(u.activo) === activo);
+    }
+    // Filtrar por aprobado (solo para electricistas)
+    if (aprobado) {
+        usuarios = usuarios.filter(u => u.rol === "ELECTRICISTA" && String(u.aprobado) === aprobado);
+    }
+
     const tbody = document.getElementById('usuariosTableBody');
     tbody.innerHTML = usuarios.map(u => `
         <tr>
@@ -120,14 +139,13 @@ async function eliminarUsuario(id) {
     cargarUsuarios();
 }
 
-async function aprobarElectricista(id) {
-    const token = localStorage.getItem('token');
-    await fetch(`https://fast-production-c604.up.railway.app/admin/aprobar-electricista?userId=${id}`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` }
-    });
-    cargarUsuarios();
-}
+// Agrega el evento para el botón de filtrar
+document.getElementById('btnFiltrar').addEventListener('click', cargarUsuarios);
+
+// Opcional: recargar automáticamente al cambiar un filtro
+['filterRol', 'filterActivo', 'filterAprobado'].forEach(id => {
+    document.getElementById(id).addEventListener('change', cargarUsuarios);
+});
 
 function logout() {
     localStorage.clear();
