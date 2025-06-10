@@ -75,24 +75,3 @@
 .btn-activate { background: #27ae60; color: white; }
 .btn-delete { background: #e74c3c; color: white; }
 .suspended { color: #e74c3c; font-weight: bold; }
-.estado-label {
-    padding: 4px 10px;
-    border-radius: 12px;
-    color: #fff;
-    font-size: 0.95em;
-    font-weight: 600;
-    display: inline-block;
-}
-.estado-pendiente {
-    background: #f1c40f;
-    color: #222;
-}
-.estado-asignada {
-    background: #3498db;
-}
-.estado-finalizada {
-    background: #2ecc71;
-}
-.estado-cancelada {
-    background: #e74c3c;
-}
