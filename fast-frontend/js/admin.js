@@ -166,8 +166,8 @@ function logout() {
 
 async function aprobarElectricista(id) {
     const token = localStorage.getItem('token');
-    const res = await fetch(`https://fast-production-c604.up.railway.app/admin/usuarios/${id}/aprobar`, {
-        method: 'PATCH',
+    const res = await fetch(`https://fast-production-c604.up.railway.app/admin/aprobar-electricista?userId=${id}`, {
+        method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.ok) {
