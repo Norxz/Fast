@@ -2,9 +2,11 @@ package com.fast.controller;
 
 import com.fast.domain.Solicitud;
 import com.fast.domain.User;
+import com.fast.domain.Resena;
 import com.fast.dto.SolicitudDTO;
 import com.fast.service.SolicitudService;
 import com.fast.service.UserService;
+import com.fast.service.ResenaService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -32,6 +34,9 @@ public class SolicitudController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private ResenaService resenaService;
 
     @PostMapping
     @PreAuthorize("hasRole('CLIENTE')")
@@ -89,12 +94,28 @@ public class SolicitudController {
     public ResponseEntity<?> finalizarServicio(@PathVariable Long id, @RequestBody Map<String, Object> body) {
         try {
             BigDecimal precio = new BigDecimal(body.get("precio").toString());
+            Integer estrellas = (Integer) body.get("estrellas");
+            String comentario = (String) body.get("comentario");
+
+            if (estrellas == null || estrellas < 1 || estrellas > 5 || comentario == null || comentario.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body("Debes dejar una reseña (estrellas y comentario) para finalizar el servicio.");
+            }
+
             // Finaliza el servicio y obtiene la solicitud actualizada
             var optionalSolicitud = solicitudService.finalizarServicio(id, precio);
             if (optionalSolicitud.isEmpty()) {
                 return ResponseEntity.badRequest().body("No se pudo finalizar el servicio");
             }
             Solicitud solicitud = optionalSolicitud.get();
+
+            // Guardar la reseña (debe existir ResenaService y la entidad Resena)
+            Resena resena = new Resena();
+            resena.setSolicitud(solicitud);
+            resena.setCliente(solicitud.getCliente());
+            resena.setElectricista(solicitud.getElectricista());
+            resena.setEstrellas(estrellas);
+            resena.setComentario(comentario);
+            resenaService.guardarResena(resena);
 
             // Datos para el correo
             String emailCliente = solicitud.getCliente().getEmail();
