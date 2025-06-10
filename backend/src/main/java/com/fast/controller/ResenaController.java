@@ -68,4 +68,12 @@ public class ResenaController {
         User cliente = userService.findById(id);
         return resenaService.obtenerPorCliente(cliente);
     }
+
+    @GetMapping("/solicitud/{id}")
+    @PreAuthorize("hasAnyRole('CLIENTE','ELECTRICISTA','ADMIN')")
+    public List<Resena> getPorSolicitud(@PathVariable Long id) {
+        Solicitud solicitud = solicitudService.findById(id);
+        if (solicitud == null) return List.of();
+        return resenaService.obtenerPorSolicitud(solicitud);
+    }
 }

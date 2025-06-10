@@ -119,20 +119,25 @@ document.addEventListener("DOMContentLoaded", async () => {
       filtradas.forEach(async (s) => {
         if (s.estado === "FINALIZADA" || s.estado === "COMPLETADA") {
           const token = localStorage.getItem("token");
-          const res = await fetch(
-            `https://fast-production-c604.up.railway.app/resenas/solicitud/${s.id}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-          const data = await res.json();
           const btnDiv = document.getElementById(`calificar-btn-${s.id}`);
-          if (data && data.length > 0) {
-            btnDiv.innerHTML = `<span class="badge badge-info">Ya calificaste este servicio</span>`;
-          } else {
-            btnDiv.innerHTML = `<button class="btn btn-sm btn-primary" onclick="calificarSolicitud(${s.id})">
-        <i class="fa fa-star"></i> Calificar
-      </button>`;
+          try {
+            const res = await fetch(
+              `https://fast-production-c604.up.railway.app/resenas/solicitud/${s.id}`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            if (!res.ok) throw new Error("No autorizado");
+            const data = await res.json();
+            if (data && data.length > 0) {
+              btnDiv.innerHTML = `<span class="badge badge-info">Ya calificaste este servicio</span>`;
+            } else {
+              btnDiv.innerHTML = `<button class="btn btn-sm btn-primary" onclick="calificarSolicitud(${s.id})">
+          <i class="fa fa-star"></i> Calificar
+        </button>`;
+            }
+          } catch (e) {
+            btnDiv.innerHTML = `<span class="badge badge-danger">No se pudo verificar reseña</span>`;
           }
         }
       });
