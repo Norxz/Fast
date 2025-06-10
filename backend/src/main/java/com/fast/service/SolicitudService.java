@@ -110,4 +110,8 @@ public class SolicitudService {
         return true;
     }
 
+    public Solicitud findById(Long id) {
+        return solicitudRepository.findById(id)
+            .orElse(null);
+    }
 }
