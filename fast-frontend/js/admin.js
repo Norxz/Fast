@@ -73,24 +73,40 @@ async function cargarUsuarios() {
     }
 
     const tbody = document.getElementById('usuariosTableBody');
-    tbody.innerHTML = usuarios.map(u => `
-        <tr>
-            <td>${u.id}</td>
-            <td>${u.nombre}</td>
-            <td>${u.email}</td>
-            <td>${u.telefono || ''}</td>
-            <td>${u.rol}</td>
-            <td>${u.activo ? 'Activo' : '<span class="suspended">Suspendido</span>'}</td>
-            <td>
-                ${u.rol === 'ELECTRICISTA' ? (u.aprobado ? '<span class="approved">Aprobado</span>' : '<button onclick="aprobarElectricista(' + u.id + ')">Aprobar</button>') : ''}
-            </td>
-            <td>
-                <button class="btn-action btn-edit" data-id="${u.id}">Editar</button>
-                <button class="btn-action ${u.activo ? 'btn-suspend' : 'btn-activate'}" onclick="toggleActivo(${u.id}, ${u.activo})">${u.activo ? 'Suspender' : 'Activar'}</button>
-                <button class="btn-action btn-delete" onclick="eliminarUsuario(${u.id})">Eliminar</button>
-            </td>
-        </tr>
-    `).join('');
+    tbody.innerHTML = usuarios.map(u => {
+        // Estado badge
+        const estadoBadge = u.activo
+            ? '<span class="status-badge status-activo">Activo</span>'
+            : '<span class="status-badge status-suspendido">Suspendido</span>';
+
+        // Aprobado badge o botón
+        let aprobadoCell = '';
+        if (u.rol === 'ELECTRICISTA') {
+            aprobadoCell = u.aprobado
+                ? '<span class="status-badge status-aprobado">Aprobado</span>'
+                : `<button class="btn-action btn-edit" onclick="aprobarElectricista(${u.id})">Aprobar</button>`;
+        }
+
+        // Acciones
+        const acciones = `
+            <button class="btn-action btn-edit" data-id="${u.id}">Editar</button>
+            <button class="btn-action ${u.activo ? 'btn-suspend' : 'btn-activate'}" onclick="toggleActivo(${u.id}, ${u.activo})">${u.activo ? 'Suspender' : 'Activar'}</button>
+            <button class="btn-action btn-delete" onclick="eliminarUsuario(${u.id})">Eliminar</button>
+        `;
+
+        return `
+            <tr>
+                <td>${u.id}</td>
+                <td>${u.nombre}</td>
+                <td>${u.email}</td>
+                <td>${u.telefono || ''}</td>
+                <td>${u.rol}</td>
+                <td>${estadoBadge}</td>
+                <td>${aprobadoCell}</td>
+                <td>${acciones}</td>
+            </tr>
+        `;
+    }).join('');
 
     document.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', function() {
