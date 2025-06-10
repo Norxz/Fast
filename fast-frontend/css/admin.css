@@ -157,3 +157,9 @@
     font-weight: bold;
     color: #0984e3;
 }
+#usuariosChart, #solicitudesChart {
+    max-width: 180px;
+    max-height: 120px;
+    margin: 0 auto;
+    display: block;
+}
