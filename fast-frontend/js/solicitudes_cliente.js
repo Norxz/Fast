@@ -249,7 +249,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const { estrellas, comentario } = result.value;
         try {
           const token = localStorage.getItem("token");
-          await fetch('https://fast-production-c604.up.railway.app/calificaciones', {
+          await fetch('https://fast-production-c604.up.railway.app/resenas', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
