@@ -42,7 +42,16 @@
                 </div>
                 <!-- Agrega más tarjetas/resúmenes si quieres -->
             </div>
-            <canvas id="dashboardChart" height="100"></canvas>
+            <div style="display: flex; gap: 2rem;">
+                <div style="flex:1;">
+                    <h4>Usuarios por rol</h4>
+                    <canvas id="usuariosChart"></canvas>
+                </div>
+                <div style="flex:1;">
+                    <h4>Solicitudes por estado</h4>
+                    <canvas id="solicitudesChart"></canvas>
+                </div>
+            </div>
         </section>
         <section id="usuarios-section" style="display:none;">
             <!-- Aquí va la tabla de usuarios (lo que ya tienes) -->

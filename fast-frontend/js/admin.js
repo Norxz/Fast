@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
 
-    // 1. Obtener usuarios (sin admins)
+    // 1. Obtener usuarios
     let usuarios = [];
     try {
         const res = await fetch('https://fast-production-c604.up.railway.app/admin/usuarios', {
@@ -11,6 +11,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Filtrar para no contar admins
         const usuariosSinAdmin = usuarios.filter(u => u.rol !== 'ADMIN');
         document.getElementById('usuarios-count').textContent = usuariosSinAdmin.length;
+
+        // Graficar usuarios por rol
+        const clientes = usuariosSinAdmin.filter(u => u.rol === 'CLIENTE').length;
+        const electricistas = usuariosSinAdmin.filter(u => u.rol === 'ELECTRICISTA').length;
+        const ctxUsuarios = document.getElementById('usuariosChart').getContext('2d');
+        new Chart(ctxUsuarios, {
+            type: 'doughnut',
+            data: {
+                labels: ['Clientes', 'Electricistas'],
+                datasets: [{
+                    data: [clientes, electricistas],
+                    backgroundColor: ['#0984e3', '#fdcb6e']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
     } catch (e) {
         document.getElementById('usuarios-count').textContent = '0';
     }
@@ -22,6 +43,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         const solicitudes = await res.json();
         document.getElementById('solicitudes-count').textContent = solicitudes.length;
+
+        // Graficar solicitudes por estado
+        const estados = ['PENDIENTE', 'ASIGNADA', 'FINALIZADA', 'CANCELADA'];
+        const counts = estados.map(estado =>
+            solicitudes.filter(s => s.estado === estado).length
+        );
+        const ctxSolicitudes = document.getElementById('solicitudesChart').getContext('2d');
+        new Chart(ctxSolicitudes, {
+            type: 'bar',
+            data: {
+                labels: estados,
+                datasets: [{
+                    label: 'Solicitudes',
+                    data: counts,
+                    backgroundColor: ['#00b894', '#0984e3', '#fdcb6e', '#d63031']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
     } catch (e) {
         document.getElementById('solicitudes-count').textContent = '0';
     }
