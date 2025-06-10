@@ -1,6 +1,30 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
-    if (!token) return window.location.href = 'login.html';
+
+    // 1. Obtener usuarios (sin admins)
+    let usuarios = [];
+    try {
+        const res = await fetch('https://fast-production-c604.up.railway.app/admin/usuarios', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        usuarios = await res.json();
+        // Filtrar para no contar admins
+        const usuariosSinAdmin = usuarios.filter(u => u.rol !== 'ADMIN');
+        document.getElementById('usuarios-count').textContent = usuariosSinAdmin.length;
+    } catch (e) {
+        document.getElementById('usuarios-count').textContent = '0';
+    }
+
+    // 2. Obtener solicitudes
+    try {
+        const res = await fetch('https://fast-production-c604.up.railway.app/solicitudes', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const solicitudes = await res.json();
+        document.getElementById('solicitudes-count').textContent = solicitudes.length;
+    } catch (e) {
+        document.getElementById('solicitudes-count').textContent = '0';
+    }
 
     cargarUsuarios();
 
