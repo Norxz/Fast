@@ -41,7 +41,10 @@ public class ResenaController {
             return ResponseEntity.badRequest().body("La solicitud no está finalizada o no existe.");
         }
 
-        // Verifica que el usuario autenticado sea el cliente de la solicitud
+        // NUEVA VALIDACIÓN: ¿Ya existe reseña para esta solicitud?
+        if (!resenaService.obtenerPorSolicitud(solicitud).isEmpty()) {
+            return ResponseEntity.badRequest().body("Ya has dejado una reseña para este servicio.");
+        }
 
         Resena resena = new Resena();
         resena.setSolicitud(solicitud);
