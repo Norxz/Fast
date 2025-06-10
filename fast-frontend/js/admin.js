@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     cargarUsuarios();
+    cargarSolicitudes();
 
     document.getElementById('agregarUsuarioForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -187,6 +188,30 @@ async function cargarUsuarios() {
             mostrarFormularioEditar(user);
         });
     });
+}
+
+async function cargarSolicitudes() {
+    const token = localStorage.getItem('token');
+    const res = await fetch('https://fast-production-c604.up.railway.app/solicitudes', {
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const solicitudes = await res.json();
+
+    const tbody = document.getElementById('solicitudesTableBody');
+    tbody.innerHTML = solicitudes.map(s => `
+        <tr>
+            <td>${s.id}</td>
+            <td>${s.categoria}</td>
+            <td>${s.descripcion}</td>
+            <td>${s.estado}</td>
+            <td>${s.fecha_creacion ? s.fecha_creacion.substring(0, 10) : ''}</td>
+            <td>${s.presupuesto ?? ''}</td>
+            <td>${s.titulo ?? ''}</td>
+            <td>${s.ubicacion ?? ''}</td>
+            <td>${s.comprador_id ?? ''}</td>
+            <td>${s.electricista_id ?? ''}</td>
+        </tr>
+    `).join('');
 }
 
 function mostrarFormularioAgregar() {

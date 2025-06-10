@@ -35,19 +35,14 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('dashboard-section').style.display = section === 'dashboard' ? '' : 'none';
             document.getElementById('usuarios-section').style.display = section === 'usuarios' ? '' : 'none';
             document.getElementById('solicitudes-section').style.display = section === 'solicitudes' ? '' : 'none';
+
+            // Cargar datos al cambiar de sección
+            if (section === 'usuarios' && typeof cargarUsuarios === 'function') {
+                cargarUsuarios();
+            }
+            if (section === 'solicitudes' && typeof cargarSolicitudes === 'function') {
+                cargarSolicitudes();
+            }
         });
-    });
-    // Ejemplo de gráfica
-    const ctx = document.getElementById('dashboardChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Enero', 'Febrero', 'Marzo', 'Abril'],
-            datasets: [{
-                label: 'Solicitudes',
-                data: [12, 19, 3, 5],
-                backgroundColor: '#0984e3'
-            }]
-        }
     });
 });
