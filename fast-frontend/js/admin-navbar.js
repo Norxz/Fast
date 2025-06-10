@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Manejo de submenú al hacer clic
+    // Mostrar/ocultar submenú al hacer clic en "Tablas"
     document.querySelectorAll('.sidebar-item.has-submenu').forEach(item => {
         item.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Manejo de navegación
+    // Navegación entre secciones
     document.querySelectorAll('.sidebar-item[data-section], .sidebar-subitem[data-section]').forEach(item => {
         item.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -36,19 +36,5 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('usuarios-section').style.display = section === 'usuarios' ? '' : 'none';
             document.getElementById('solicitudes-section').style.display = section === 'solicitudes' ? '' : 'none';
         });
-    });
-
-    // Ejemplo de gráfica
-    const ctx = document.getElementById('dashboardChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Enero', 'Febrero', 'Marzo', 'Abril'],
-            datasets: [{
-                label: 'Solicitudes',
-                data: [12, 19, 3, 5],
-                backgroundColor: '#0984e3'
-            }]
-        }
     });
 });
