@@ -75,16 +75,13 @@ document.addEventListener("DOMContentLoaded", async () => {
            <button class="btn btn-sm btn-cancel" onclick="cancelarSolicitud(${s.id})">
              <i class="fas fa-times"></i> Cancelar
            </button>`;
-          } else if (s.estado === "FINALIZADA" || s.estado === "COMPLETADA") {  //ddddddddddddddddddddd
-            badge =
-              '<span class="request-status badge badge-success">Finalizada</span>';
+          } else if (s.estado === "FINALIZADA" || s.estado === "COMPLETADA") {
+            badge = '<span class="request-status badge badge-success">Finalizada</span>';
             extra = `<div><b>Electricista:</b> <button class="btn btn-sm" onclick="verElectricista(${
               s.electricista.id
             })">Ver info</button></div>
                    <div><b>Precio cobrado:</b> $${s.precioCobrador || "N/A"}</div>
-                   <button class="btn btn-sm btn-primary" onclick="calificarSolicitud(${s.id})">
-                     <i class="fa fa-star"></i> Calificar
-                   </button>`;
+                   <div id="calificar-btn-${s.id}"></div>`;
           } else if (s.estado === "CANCELADA") {
             badge =
               '<span class="request-status badge badge-danger">Cancelada</span>';
@@ -117,6 +114,28 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
         })
         .join("");
+
+      // Después de renderizar las solicitudes:
+      filtradas.forEach(async (s) => {
+        if (s.estado === "FINALIZADA" || s.estado === "COMPLETADA") {
+          const token = localStorage.getItem("token");
+          const res = await fetch(
+            `https://fast-production-c604.up.railway.app/resenas/solicitud/${s.id}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const data = await res.json();
+          const btnDiv = document.getElementById(`calificar-btn-${s.id}`);
+          if (data && data.length > 0) {
+            btnDiv.innerHTML = `<span class="badge badge-info">Ya calificaste este servicio</span>`;
+          } else {
+            btnDiv.innerHTML = `<button class="btn btn-sm btn-primary" onclick="calificarSolicitud(${s.id})">
+        <i class="fa fa-star"></i> Calificar
+      </button>`;
+          }
+        }
+      });
     } catch (e) {
       requestsList.innerHTML = "<p>Error al cargar tus solicitudes.</p>";
     } finally {
