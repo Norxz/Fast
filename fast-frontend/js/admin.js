@@ -163,3 +163,16 @@ function logout() {
     localStorage.clear();
     window.location.href = 'login.html';
 }
+
+async function aprobarElectricista(id) {
+    const token = localStorage.getItem('token');
+    const res = await fetch(`https://fast-production-c604.up.railway.app/admin/usuarios/${id}/aprobar`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (res.ok) {
+        cargarUsuarios();
+    } else {
+        alert('No se pudo aprobar al electricista.');
+    }
+}
