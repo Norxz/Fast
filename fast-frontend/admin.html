@@ -6,95 +6,132 @@
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <h1>Panel de Administración</h1>
-            <button onclick="logout()">Cerrar sesión</button>
-        </header>
-        <main>
-            <section>
-                <h2>Usuarios</h2>
-                <button onclick="mostrarFormularioAgregar()">Agregar Usuario</button>
-                <div id="formAgregar" style="display:none;">
-                    <h3>Nuevo Usuario</h3>
-                    <form id="agregarUsuarioForm">
-                        <input type="text" id="nombre" placeholder="Nombre" required>
-                        <input type="email" id="email" placeholder="Email" required>
-                        <input type="text" id="telefono" placeholder="Teléfono">
-                        <input type="password" id="password" placeholder="Contraseña" required>
-                        <select id="rol">
-                            <option value="CLIENTE">Cliente</option>
-                            <option value="ELECTRICISTA">Electricista</option>
-                            <option value="ADMIN">Administrador</option>
-                        </select>
-                        <button type="submit">Agregar</button>
-                        <button type="button" onclick="ocultarFormularioAgregar()">Cancelar</button>
-                    </form>
-                </div>
-                <div id="formEditar" style="display:none;">
-                    <h3>Editar Usuario</h3>
-                    <form id="editarUsuarioForm">
-                        <input type="hidden" id="editId">
-                        <input type="text" id="editNombre" placeholder="Nombre" required>
-                        <input type="email" id="editEmail" placeholder="Email" required>
-                        <input type="text" id="editTelefono" placeholder="Teléfono">
-                        <select id="editRol">
-                            <option value="CLIENTE">Cliente</option>
-                            <option value="ELECTRICISTA">Electricista</option>
-                            <option value="ADMIN">Administrador</option>
-                        </select>
-                        <button type="submit">Guardar</button>
-                        <button type="button" onclick="ocultarFormularioEditar()">Cancelar</button>
-                    </form>
-                </div>
-                <div class="filter-controls">
-                    <label>
-                        Rol:
-                        <select id="filterRol">
-                            <option value="">Todos</option>
-                            <option value="CLIENTE">Cliente</option>
-                            <option value="ELECTRICISTA">Electricista</option>
-                            <option value="ADMIN">Administrador</option>
-                        </select>
-                    </label>
-                    <label>
-                        Estado:
-                        <select id="filterActivo">
-                            <option value="">Todos</option>
-                            <option value="true">Activo</option>
-                            <option value="false">Suspendido</option>
-                        </select>
-                    </label>
-                    <span id="aprobadoFilterContainer" style="display:none;">
-                        <label>
-                            Aprobado:
-                            <select id="filterAprobado">
-                                <option value="">Todos</option>
-                                <option value="true">Aprobado</option>
-                                <option value="false">No aprobado</option>
-                            </select>
-                        </label>
-                    </span>
-                    <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
-                </div>
-                <table class="admin-table" id="usuariosTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Rol</th>
-                            <th>Estado</th>
-                            <th>Aprobado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usuariosTableBody"></tbody>
-                </table>
-            </section>
-        </main>
+<div class="sidebar">
+    <div class="sidebar-header">
+        <span class="sidebar-logo">⚡ FastAdmin</span>
     </div>
-    <script src="js/admin.js"></script>
+    <ul class="sidebar-menu">
+        <li class="sidebar-item active" data-section="dashboard">
+            <i class="fa fa-home"></i> Dashboard
+        </li>
+        <li class="sidebar-item has-submenu" data-section="tablas">
+            <i class="fa fa-table"></i> Tablas
+            <ul class="sidebar-submenu">
+                <li class="sidebar-subitem" data-section="usuarios"><i class="fa fa-users"></i> Usuarios</li>
+                <li class="sidebar-subitem" data-section="solicitudes"><i class="fa fa-file-alt"></i> Solicitudes</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="main-content">
+    <header class="app-header">
+        <h1 id="main-title">Dashboard</h1>
+        <button onclick="logout()">Cerrar sesión</button>
+    </header>
+    <main>
+        <section id="dashboard-section">
+            <!-- Aquí van tus gráficas y resumenes -->
+            <div id="dashboard-cards" style="display: flex; gap: 2rem; margin-bottom: 2rem;">
+                <div class="dashboard-card">
+                    <h3>Usuarios</h3>
+                    <div id="usuarios-count">0</div>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Solicitudes</h3>
+                    <div id="solicitudes-count">0</div>
+                </div>
+                <!-- Agrega más tarjetas/resúmenes si quieres -->
+            </div>
+            <canvas id="dashboardChart" height="100"></canvas>
+        </section>
+        <section id="usuarios-section" style="display:none;">
+            <!-- Aquí va la tabla de usuarios (lo que ya tienes) -->
+            <h2>Usuarios</h2>
+            <button onclick="mostrarFormularioAgregar()">Agregar Usuario</button>
+            <div id="formAgregar" style="display:none;">
+                <h3>Nuevo Usuario</h3>
+                <form id="agregarUsuarioForm">
+                    <input type="text" id="nombre" placeholder="Nombre" required>
+                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="text" id="telefono" placeholder="Teléfono">
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                    <select id="rol">
+                        <option value="CLIENTE">Cliente</option>
+                        <option value="ELECTRICISTA">Electricista</option>
+                        <option value="ADMIN">Administrador</option>
+                    </select>
+                    <button type="submit">Agregar</button>
+                    <button type="button" onclick="ocultarFormularioAgregar()">Cancelar</button>
+                </form>
+            </div>
+            <div id="formEditar" style="display:none;">
+                <h3>Editar Usuario</h3>
+                <form id="editarUsuarioForm">
+                    <input type="hidden" id="editId">
+                    <input type="text" id="editNombre" placeholder="Nombre" required>
+                    <input type="email" id="editEmail" placeholder="Email" required>
+                    <input type="text" id="editTelefono" placeholder="Teléfono">
+                    <select id="editRol">
+                        <option value="CLIENTE">Cliente</option>
+                        <option value="ELECTRICISTA">Electricista</option>
+                        <option value="ADMIN">Administrador</option>
+                    </select>
+                    <button type="submit">Guardar</button>
+                    <button type="button" onclick="ocultarFormularioEditar()">Cancelar</button>
+                </form>
+            </div>
+            <div class="filter-controls">
+                <label>
+                    Rol:
+                    <select id="filterRol">
+                        <option value="">Todos</option>
+                        <option value="CLIENTE">Cliente</option>
+                        <option value="ELECTRICISTA">Electricista</option>
+                        <option value="ADMIN">Administrador</option>
+                    </select>
+                </label>
+                <label>
+                    Estado:
+                    <select id="filterActivo">
+                        <option value="">Todos</option>
+                        <option value="true">Activo</option>
+                        <option value="false">Suspendido</option>
+                    </select>
+                </label>
+                <span id="aprobadoFilterContainer" style="display:none;">
+                    <label>
+                        Aprobado:
+                        <select id="filterAprobado">
+                            <option value="">Todos</option>
+                            <option value="true">Aprobado</option>
+                            <option value="false">No aprobado</option>
+                        </select>
+                    </label>
+                </span>
+                <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
+            </div>
+            <table class="admin-table" id="usuariosTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Aprobado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="usuariosTableBody"></tbody>
+            </table>
+        </section>
+        <section id="solicitudes-section" style="display:none;">
+            <!-- Aquí va la tabla de solicitudes -->
+        </section>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/admin.js"></script>
 </body>
 </html>
