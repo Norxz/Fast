@@ -163,3 +163,13 @@
     margin: 0 auto;
     display: block;
 }
+
+.sidebar-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.sidebar-item.has-submenu.active > .sidebar-submenu {
+    max-height: 200px; /* Ajusta según el contenido */
+}
