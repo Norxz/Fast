@@ -18,57 +18,24 @@
     margin-top: 5px;
 }
 .admin-table {
-    width: 95%;
+    width: 90%;
     margin: 2rem auto;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: #f9fbfd;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
-    overflow: hidden;
+    border-collapse: collapse;
 }
 .admin-table th, .admin-table td {
-    padding: 16px 12px;
-    text-align: left;
-    border-bottom: 1px solid #f0f1f6;
-    font-size: 1rem;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
 }
 .admin-table th {
-    background: #f5f7fa;
-    color: #6c7a89;
-    font-weight: 600;
-    border-bottom: 2px solid #e6e9f0;
+    background-color: #f5f7fa;
 }
-.admin-table tr:last-child td {
-    border-bottom: none;
-}
-.admin-table tbody tr:hover {
-    background: #f1f7ff;
-    transition: background 0.2s;
-}
-.admin-table td {
-    vertical-align: middle;
-}
-.status-badge {
-    display: inline-block;
-    padding: 4px 16px;
-    border-radius: 12px;
-    font-size: 0.95em;
-    font-weight: 500;
-    color: #fff;
-}
-.status-pending { background: #ffe5d0; color: #e67e22; }
-.status-paid { background: #f8e8ff; color: #a569bd; }
-.status-shipped { background: #e3f6fd; color: #3498db; }
-.status-delivered { background: #eafaf1; color: #27ae60; }
 .btn-action {
     margin: 0 2px;
-    padding: 6px 14px;
-    border-radius: 6px;
+    padding: 4px 10px;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
-    font-size: 0.95em;
-    transition: background 0.2s;
 }
 .btn-edit { background: #3498db; color: white; }
 .btn-suspend { background: #f39c12; color: white; }
