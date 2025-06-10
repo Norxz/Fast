@@ -56,12 +56,11 @@
     font-size: 0.95em;
     font-weight: 500;
     color: #fff;
-    background: #b2bec3;
 }
-.status-activo { background: #eafaf1; color: #27ae60; }
-.status-suspendido { background: #ffe5d0; color: #e67e22; }
-.status-aprobado { background: #eafaf1; color: #27ae60; }
-.status-noaprobado { background: #f8e8ff; color: #a569bd; }
+.status-pending { background: #ffe5d0; color: #e67e22; }
+.status-paid { background: #f8e8ff; color: #a569bd; }
+.status-shipped { background: #e3f6fd; color: #3498db; }
+.status-delivered { background: #eafaf1; color: #27ae60; }
 .btn-action {
     margin: 0 2px;
     padding: 6px 14px;
@@ -76,100 +75,24 @@
 .btn-activate { background: #27ae60; color: white; }
 .btn-delete { background: #e74c3c; color: white; }
 .suspended { color: #e74c3c; font-weight: bold; }
-/* Sidebar styles */
-.sidebar {
-    position: fixed;
-    left: 0; top: 0; bottom: 0;
-    width: 220px;
-    background: #fff;
-    border-right: 1px solid #f0f1f6;
-    box-shadow: 2px 0 8px rgba(44, 62, 80, 0.04);
-    z-index: 100;
-    padding-top: 24px;
-}
-.sidebar-header {
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    color: #2d3436;
-    letter-spacing: 1px;
-}
-.sidebar-logo {
-    color: #2d3436;
-}
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.sidebar-item, .sidebar-subitem {
-    padding: 14px 28px;
-    cursor: pointer;
-    color: #636e72;
-    font-size: 1.08rem;
-    display: flex;
-    align-items: center;
-    border-left: 4px solid transparent;
-    transition: background 0.2s, color 0.2s, border 0.2s;
-}
-.sidebar-item.active, .sidebar-subitem.active {
-    background: #f1f7ff;
-    color: #0984e3;
-    border-left: 4px solid #0984e3;
-}
-.sidebar-item i, .sidebar-subitem i {
-    margin-right: 10px;
-}
-.sidebar-submenu {
-    display: none;
-    padding-left: 1.5rem;
-}
-.sidebar-item.has-submenu.active > .sidebar-submenu {
-    display: block;
-}
-.sidebar-subitem {
-    font-size: 0.98rem;
-    padding: 10px 24px;
-    border-left: 2px solid transparent;
-}
-.main-content {
-    margin-left: 220px;
-    padding: 2rem;
-    min-height: 100vh;
-    background: #f9fbfd;
-}
-.dashboard-card {
-    background: #fff;
+.estado-label {
+    padding: 4px 10px;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.07);
-    padding: 1.5rem 2rem;
-    min-width: 180px;
-    text-align: center;
+    color: #fff;
+    font-size: 0.95em;
+    font-weight: 600;
+    display: inline-block;
 }
-.dashboard-card h3 {
-    margin: 0 0 0.5rem 0;
-    color: #636e72;
+.estado-pendiente {
+    background: #f1c40f;
+    color: #222;
 }
-#usuarios-count, #solicitudes-count {
-    font-size: 2.2rem;
-    font-weight: bold;
-    color: #0984e3;
+.estado-asignada {
+    background: #3498db;
 }
-
-#usuariosChart, #solicitudesChart {
-    width: 350px;
-    height: 350px;
-    margin: 0 auto;
-    display: block;
+.estado-finalizada {
+    background: #2ecc71;
 }
-
-.sidebar-submenu {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-}
-
-.sidebar-item.has-submenu.active > .sidebar-submenu {
-    max-height: 200px; /* Ajusta según el contenido */
+.estado-cancelada {
+    background: #e74c3c;
 }
