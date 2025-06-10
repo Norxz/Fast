@@ -37,4 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('solicitudes-section').style.display = section === 'solicitudes' ? '' : 'none';
         });
     });
+    // Ejemplo de gráfica
+    const ctx = document.getElementById('dashboardChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril'],
+            datasets: [{
+                label: 'Solicitudes',
+                data: [12, 19, 3, 5],
+                backgroundColor: '#0984e3'
+            }]
+        }
+    });
 });
