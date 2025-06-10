@@ -126,7 +126,6 @@
     padding-left: 20px;
     display: none;
 }
-.sidebar-item.has-submenu:hover .sidebar-submenu,
 .sidebar-item.has-submenu.active .sidebar-submenu {
     display: block;
 }

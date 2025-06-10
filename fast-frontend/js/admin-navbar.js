@@ -1,9 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.sidebar-item, .sidebar-subitem').forEach(item => {
-        item.addEventListener('click', function() {
+    // Manejo de submenú al hacer clic
+    document.querySelectorAll('.sidebar-item.has-submenu').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Alternar clase active para mostrar/ocultar submenú
+            this.classList.toggle('active');
+            // Cerrar otros submenús si hay más de uno
+            document.querySelectorAll('.sidebar-item.has-submenu').forEach(other => {
+                if (other !== this) other.classList.remove('active');
+            });
+        });
+    });
+
+    // Manejo de navegación
+    document.querySelectorAll('.sidebar-item[data-section], .sidebar-subitem[data-section]').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
             // Quitar active de todos
             document.querySelectorAll('.sidebar-item, .sidebar-subitem').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
+            // Si es subitem, marca también el padre como active
+            if (this.classList.contains('sidebar-subitem')) {
+                this.classList.add('active');
+                this.closest('.sidebar-item').classList.add('active');
+            } else {
+                this.classList.add('active');
+            }
             // Mostrar sección correspondiente
             const section = this.getAttribute('data-section');
             document.getElementById('main-title').textContent =
@@ -16,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('solicitudes-section').style.display = section === 'solicitudes' ? '' : 'none';
         });
     });
+
     // Ejemplo de gráfica
     const ctx = document.getElementById('dashboardChart').getContext('2d');
     new Chart(ctx, {
