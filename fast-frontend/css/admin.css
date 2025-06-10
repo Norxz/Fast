@@ -122,11 +122,10 @@
     margin-right: 10px;
 }
 .sidebar-submenu {
-    list-style: none;
-    padding-left: 20px;
     display: none;
+    padding-left: 1.5rem;
 }
-.sidebar-item.has-submenu.active .sidebar-submenu {
+.sidebar-item.has-submenu.active > .sidebar-submenu {
     display: block;
 }
 .sidebar-subitem {
