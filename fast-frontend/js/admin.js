@@ -195,7 +195,19 @@ async function cargarSolicitudes() {
     const res = await fetch('https://fast-production-c604.up.railway.app/solicitudes', {
         headers: { 'Authorization': `Bearer ${token}` }
     });
-    const solicitudes = await res.json();
+    let solicitudes = await res.json();
+
+    // Obtener valores de los filtros
+    const estadoFiltro = document.getElementById('filterEstadoSolicitud')?.value || '';
+    const categoriaFiltro = document.getElementById('filterCategoriaSolicitud')?.value || '';
+
+    // Filtrar solicitudes
+    if (estadoFiltro) {
+        solicitudes = solicitudes.filter(s => s.estado === estadoFiltro);
+    }
+    if (categoriaFiltro) {
+        solicitudes = solicitudes.filter(s => s.categoria === categoriaFiltro);
+    }
 
     const tbody = document.getElementById('solicitudesTableBody');
     tbody.innerHTML = solicitudes.map(s => `
@@ -203,13 +215,17 @@ async function cargarSolicitudes() {
             <td>${s.id}</td>
             <td>${s.categoria}</td>
             <td>${s.descripcion}</td>
-            <td>${s.estado}</td>
-            <td>${s.fecha_creacion ? s.fecha_creacion.substring(0, 10) : ''}</td>
+            <td>
+                <span class="status-badge status-${s.estado ? s.estado.toLowerCase() : ''}">
+                    ${s.estado}
+                </span>
+            </td>
+            <td>${s.fecha_creacion ? new Date(s.fecha_creacion).toLocaleDateString() : ''}</td>
             <td>${s.presupuesto ?? ''}</td>
             <td>${s.titulo ?? ''}</td>
             <td>${s.ubicacion ?? ''}</td>
-            <td>${s.comprador_id ?? ''}</td>
-            <td>${s.electricista_id ?? ''}</td>
+            <td>${s.comprador?.nombre ?? (s.comprador_id ?? '')}</td>
+            <td>${s.electricista?.nombre ?? (s.electricista_id ?? '')}</td>
         </tr>
     `).join('');
 }
@@ -254,6 +270,9 @@ async function eliminarUsuario(id) {
 
 // Agrega el evento para el botón de filtrar
 document.getElementById('btnFiltrar').addEventListener('click', cargarUsuarios);
+document.getElementById('btnFiltrarSolicitudes').addEventListener('click', cargarSolicitudes);
+document.getElementById('filterEstadoSolicitud').addEventListener('change', cargarSolicitudes);
+document.getElementById('filterCategoriaSolicitud').addEventListener('change', cargarSolicitudes);
 
 // Opcional: recargar automáticamente al cambiar un filtro
 ['filterRol', 'filterActivo', 'filterAprobado'].forEach(id => {

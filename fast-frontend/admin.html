@@ -124,6 +124,25 @@
             <!-- Solicitudes -->
             <section id="solicitudes-section" style="display:none;">
                 <h2>Solicitudes</h2>
+                <!-- Filtros para solicitudes -->
+                <div class="filtros-solicitudes" style="margin-bottom: 1rem;">
+                    <select id="filterEstadoSolicitud">
+                        <option value="">Todos los estados</option>
+                        <option value="PENDIENTE">Pendiente</option>
+                        <option value="ASIGNADA">Asignada</option>
+                        <option value="FINALIZADA">Finalizada</option>
+                        <option value="CANCELADA">Cancelada</option>
+                    </select>
+                    <select id="filterCategoriaSolicitud">
+                        <option value="">Todas las categorías</option>
+                        <option value="REPARACION">Reparación</option>
+                        <option value="MANTENIMIENTO">Mantenimiento</option>
+                        <option value="INSTALACION">Instalación</option>
+                        <option value="OTRO">Otro</option>
+                        <!-- Agrega más si tienes más categorías -->
+                    </select>
+                    <button id="btnFiltrarSolicitudes">Filtrar</button>
+                </div>
                 <table class="admin-table" id="solicitudesTable">
                     <thead>
                         <tr>
