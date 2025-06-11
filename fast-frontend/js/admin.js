@@ -371,12 +371,17 @@ async function cargarGraficaGanancias(filtro = 'semana') {
     });
     const solicitudes = await res.json();
 
+    // Solo solicitudes finalizadas y con precioCobrador
+    const finalizadas = solicitudes.filter(s =>
+        (s.estado === 'FINALIZADA' || s.estado === 'TERMINADA') &&
+        (s.precioCobrador != null || s.precio_cobrador != null)
+    );
+
     const hoy = new Date();
     let labels = [];
     let data = [];
 
     if (filtro === 'semana') {
-        // Últimos 7 días
         labels = [];
         data = [];
         for (let i = 6; i >= 0; i--) {
@@ -385,47 +390,47 @@ async function cargarGraficaGanancias(filtro = 'semana') {
             const label = fecha.toLocaleDateString('es-ES', { weekday: 'short' });
             labels.push(label);
 
-            const total = solicitudes
+            const total = finalizadas
                 .filter(s => {
-                    if (!s.fecha_creacion) return false;
-                    const f = new Date(s.fecha_creacion);
+                    const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
+                    if (!fechaServicio) return false;
+                    const f = new Date(fechaServicio);
                     return f.toDateString() === fecha.toDateString();
                 })
-                .reduce((sum, s) => sum + (s.presupuesto || 0), 0);
+                .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
             data.push(total);
         }
     } else if (filtro === 'mes') {
-        // Este mes, por día
         const diasEnMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
         labels = [];
         data = [];
         for (let d = 1; d <= diasEnMes; d++) {
             labels.push(d.toString());
-            const total = solicitudes
+            const total = finalizadas
                 .filter(s => {
-                    if (!s.fecha_creacion) return false;
-                    const f = new Date(s.fecha_creacion);
+                    const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
+                    if (!fechaServicio) return false;
+                    const f = new Date(fechaServicio);
                     return f.getFullYear() === hoy.getFullYear() &&
                         f.getMonth() === hoy.getMonth() &&
                         f.getDate() === d;
                 })
-                .reduce((sum, s) => sum + (s.presupuesto || 0), 0);
+                .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
             data.push(total);
         }
     } else if (filtro === 'anio') {
-        // Este año, por mes
         labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
         data = Array(12).fill(0);
-        solicitudes.forEach(s => {
-            if (!s.fecha_creacion) return;
-            const f = new Date(s.fecha_creacion);
+        finalizadas.forEach(s => {
+            const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
+            if (!fechaServicio) return;
+            const f = new Date(fechaServicio);
             if (f.getFullYear() === hoy.getFullYear()) {
-                data[f.getMonth()] += s.presupuesto || 0;
+                data[f.getMonth()] += s.precioCobrador ?? s.precio_cobrador ?? 0;
             }
         });
     }
 
-    // Destruir gráfica anterior si existe
     if (chartGanancias) chartGanancias.destroy();
 
     const ctx = document.getElementById('gananciasChart').getContext('2d');
