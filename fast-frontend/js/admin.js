@@ -486,10 +486,83 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
     const usuarios = await usuariosRes.json();
     const solicitudes = await solicitudesRes.json();
 
-    // Ganancias totales (solo solicitudes finalizadas)
-    const ganancias = solicitudes
-        .filter(s => (s.estado === 'FINALIZADA' || s.estado === 'TERMINADA') && (s.precioCobrador != null || s.precio_cobrador != null))
-        .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+    // Solo solicitudes finalizadas y con precio cobrado
+    const finalizadas = solicitudes.filter(s =>
+        (s.estado === 'FINALIZADA' || s.estado === 'TERMINADA') &&
+        (s.precioCobrador != null || s.precio_cobrador != null)
+    );
+
+    // Ganancias totales
+    const gananciasTotales = finalizadas.reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+
+    // Ganancias por semana actual (últimos 7 días)
+    const hoy = new Date();
+    const semanaLabels = [];
+    const semanaData = [];
+    for (let i = 6; i >= 0; i--) {
+        const fecha = new Date(hoy);
+        fecha.setDate(hoy.getDate() - i);
+        const label = fecha.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+        semanaLabels.push(label);
+
+        const total = finalizadas
+            .filter(s => {
+                const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
+                if (!fechaServicio) return false;
+                const f = new Date(fechaServicio);
+                return f.toDateString() === fecha.toDateString();
+            })
+            .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+        semanaData.push(total);
+    }
+
+    // Ganancias por mes actual (cada día)
+    const diasEnMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
+    const mesLabels = [];
+    const mesData = [];
+    for (let d = 1; d <= diasEnMes; d++) {
+        mesLabels.push(d.toString());
+        const total = finalizadas
+            .filter(s => {
+                const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
+                if (!fechaServicio) return false;
+                const f = new Date(fechaServicio);
+                return f.getFullYear() === hoy.getFullYear() &&
+                    f.getMonth() === hoy.getMonth() &&
+                    f.getDate() === d;
+            })
+            .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+        mesData.push(total);
+    }
+
+    // Ganancias por año actual (cada mes)
+    const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    const anioData = Array(12).fill(0);
+    finalizadas.forEach(s => {
+        const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
+        if (!fechaServicio) return;
+        const f = new Date(fechaServicio);
+        if (f.getFullYear() === hoy.getFullYear()) {
+            anioData[f.getMonth()] += s.precioCobrador ?? s.precio_cobrador ?? 0;
+        }
+    });
+
+    // Hoja de Ganancias detallada
+    const gananciasSheet = [
+        ['Ganancias totales', gananciasTotales],
+        [],
+        ['Ganancias por semana actual'],
+        ['Día', ...semanaLabels],
+        ['Monto', ...semanaData],
+        [],
+        ['Ganancias por mes actual'],
+        ['Día', ...mesLabels],
+        ['Monto', ...mesData],
+        [],
+        ['Ganancias por año actual'],
+        ['Mes', ...meses],
+        ['Monto', ...anioData]
+    ];
 
     // Usuarios resumen
     const usuariosResumen = [
@@ -527,7 +600,7 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
 
     // Crear libro Excel
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['Ganancias totales', ganancias]]), 'Ganancias');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(gananciasSheet), 'Ganancias');
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(usuariosResumen), 'Resumen Usuarios');
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(solicitudesResumen), 'Resumen Solicitudes');
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(usuariosSheet), 'Usuarios');
