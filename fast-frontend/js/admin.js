@@ -474,3 +474,65 @@ document.querySelectorAll('.filtro-ganancias').forEach(btn => {
 
 // Cargar por defecto la gráfica de la semana
 cargarGraficaGanancias('semana');
+
+document.getElementById('btnDescargarInforme').addEventListener('click', async () => {
+    const token = localStorage.getItem('token');
+
+    // Obtener datos
+    const [usuariosRes, solicitudesRes] = await Promise.all([
+        fetch('https://fast-production-c604.up.railway.app/admin/usuarios', { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch('https://fast-production-c604.up.railway.app/solicitudes', { headers: { 'Authorization': `Bearer ${token}` } })
+    ]);
+    const usuarios = await usuariosRes.json();
+    const solicitudes = await solicitudesRes.json();
+
+    // Ganancias totales (solo solicitudes finalizadas)
+    const ganancias = solicitudes
+        .filter(s => (s.estado === 'FINALIZADA' || s.estado === 'TERMINADA') && (s.precioCobrador != null || s.precio_cobrador != null))
+        .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+
+    // Usuarios resumen
+    const usuariosResumen = [
+        ['Total usuarios', usuarios.length],
+        ['Clientes', usuarios.filter(u => u.rol === 'CLIENTE').length],
+        ['Electricistas', usuarios.filter(u => u.rol === 'ELECTRICISTA').length],
+        ['Administradores', usuarios.filter(u => u.rol === 'ADMIN').length]
+    ];
+
+    // Solicitudes resumen
+    const estados = ['PENDIENTE', 'ASIGNADA', 'FINALIZADA', 'CANCELADA'];
+    const solicitudesResumen = [
+        ['Total solicitudes', solicitudes.length],
+        ...estados.map(e => [e, solicitudes.filter(s => s.estado === e).length])
+    ];
+
+    // Hoja de usuarios (detallada)
+    const usuariosSheet = [
+        ['ID', 'Nombre', 'Email', 'Teléfono', 'Rol', 'Activo', 'Aprobado'],
+        ...usuarios.map(u => [
+            u.id, u.nombre, u.email, u.telefono, u.rol, u.activo ? 'Sí' : 'No', u.aprobado ? 'Sí' : (u.rol === 'ELECTRICISTA' ? 'No' : '')
+        ])
+    ];
+
+    // Hoja de solicitudes (detallada)
+    const solicitudesSheet = [
+        ['ID', 'Categoría', 'Descripción', 'Estado', 'Fecha', 'Presupuesto', 'Precio Cobrado', 'Título', 'Ubicación'],
+        ...solicitudes.map(s => [
+            s.id, s.categoria, s.descripcion, s.estado,
+            s.fecha_creacion ? new Date(s.fecha_creacion).toLocaleDateString() : '',
+            s.presupuesto ?? '', s.precioCobrador ?? s.precio_cobrador ?? '',
+            s.titulo ?? '', s.ubicacion ?? ''
+        ])
+    ];
+
+    // Crear libro Excel
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet([['Ganancias totales', ganancias]]), 'Ganancias');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(usuariosResumen), 'Resumen Usuarios');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(solicitudesResumen), 'Resumen Solicitudes');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(usuariosSheet), 'Usuarios');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(solicitudesSheet), 'Solicitudes');
+
+    // Descargar
+    XLSX.writeFile(wb, 'informe-fastadmin.xlsx');
+});
