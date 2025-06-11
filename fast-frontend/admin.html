@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
     <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <div class="sidebar">
@@ -11,46 +12,50 @@
             <span class="sidebar-logo">FastAdmin</span>
         </div>
         <ul class="sidebar-menu">
-            <li class="sidebar-item active" data-section="dashboard">Dashboard</li>
+            <li class="sidebar-item active" data-section="dashboard">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </li>
             <li class="sidebar-item has-submenu">
-                Tablas
+                <i class="fas fa-table"></i> Tablas
                 <ul class="sidebar-submenu">
-                    <li class="sidebar-subitem" data-section="usuarios">Usuarios</li>
-                    <li class="sidebar-subitem" data-section="solicitudes">Solicitudes</li>
+                    <li class="sidebar-subitem" data-section="usuarios"><i class="fas fa-users"></i> Usuarios</li>
+                    <li class="sidebar-subitem" data-section="solicitudes"><i class="fas fa-clipboard-list"></i> Solicitudes</li>
                 </ul>
             </li>
         </ul>
     </div>
     <div class="app-container">
         <header class="app-header">
-            <h1>Panel de Administración</h1>
-            <button onclick="logout()">Cerrar sesión</button>
+            <h1><i class="fas fa-bolt"></i> Panel de Administración</h1>
+            <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</button>
         </header>
         <main>
             <!-- Dashboard -->
             <section id="dashboard-section">
-                <!-- Aquí van tus contadores y gráficas -->
-                <div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
-                    <div>
-                        <div>Usuarios<br><span id="usuarios-count">0</span></div>
+                <h2>Resumen General</h2>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3><i class="fas fa-users"></i> Usuarios</h3>
+                        <div class="stat-value"><span id="usuarios-count">0</span></div>
                     </div>
-                    <div>
-                        <div>Solicitudes<br><span id="solicitudes-count">0</span></div>
+                    <div class="stat-card">
+                        <h3><i class="fas fa-clipboard-list"></i> Solicitudes</h3>
+                        <div class="stat-value"><span id="solicitudes-count">0</span></div>
                     </div>
                 </div>
-                <div style="display: flex; gap: 2rem;">
-                    <div>
-                        <h4>Usuarios por rol</h4>
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h4><i class="fas fa-user-tag"></i> Usuarios por rol</h4>
                         <canvas id="usuariosChart" width="250" height="300"></canvas>
                     </div>
-                    <div>
-                        <h4>Solicitudes por estado</h4>
+                    <div class="chart-card">
+                        <h4><i class="fas fa-tasks"></i> Solicitudes por estado</h4>
                         <canvas id="solicitudesChart" width="250" height="300"></canvas>
                     </div>
                 </div>
-                <div style="margin-top: 2rem;">
-                    <h4>Ganancias</h4>
-                    <div>
+                <div class="chart-card" style="margin-top: 2rem;">
+                    <h4><i class="fas fa-dollar-sign"></i> Ganancias</h4>
+                    <div class="earnings-filter">
                         <button class="filtro-ganancias" data-filtro="semana">Esta semana</button>
                         <button class="filtro-ganancias" data-filtro="mes">Este mes</button>
                         <button class="filtro-ganancias" data-filtro="anio">Este año</button>
@@ -60,117 +65,175 @@
             </section>
             <!-- Usuarios -->
             <section id="usuarios-section" style="display:none;">
-                <h2>Usuarios</h2>
-                <button onclick="mostrarFormularioAgregar()">Agregar Usuario</button>
-                <div id="formAgregar" style="display:none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Usuarios</h2>
+                    <button class="action-button" onclick="mostrarFormularioAgregar()"><i class="fas fa-user-plus"></i> Agregar Usuario</button>
+                </div>
+                <div id="formAgregar" class="form-container" style="display:none;">
                     <h3>Nuevo Usuario</h3>
                     <form id="agregarUsuarioForm">
-                        <input type="text" id="nombre" placeholder="Nombre" required>
-                        <input type="email" id="email" placeholder="Email" required>
-                        <input type="text" id="telefono" placeholder="Teléfono">
-                        <input type="password" id="password" placeholder="Contraseña" required>
-                        <select id="rol">
-                            <option value="CLIENTE">Cliente</option>
-                            <option value="ELECTRICISTA">Electricista</option>
-                            <option value="ADMIN">Administrador</option>
-                        </select>
-                        <button type="submit">Agregar</button>
-                        <button type="button" onclick="ocultarFormularioAgregar()">Cancelar</button>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" id="nombre" placeholder="Nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="telefono">Teléfono</label>
+                                <input type="text" id="telefono" placeholder="Teléfono">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Contraseña</label>
+                                <input type="password" id="password" placeholder="Contraseña" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="rol">Rol</label>
+                                <select id="rol">
+                                    <option value="CLIENTE">Cliente</option>
+                                    <option value="ELECTRICISTA">Electricista</option>
+                                    <option value="ADMIN">Administrador</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="action-button"><i class="fas fa-plus"></i> Agregar</button>
+                            <button type="button" class="action-button" onclick="ocultarFormularioAgregar()"><i class="fas fa-times"></i> Cancelar</button>
+                        </div>
                     </form>
                 </div>
-                <div id="formEditar" style="display:none;">
+                <div id="formEditar" class="form-container" style="display:none;">
                     <h3>Editar Usuario</h3>
                     <form id="editarUsuarioForm">
                         <input type="hidden" id="editId">
-                        <input type="text" id="editNombre" placeholder="Nombre" required>
-                        <input type="email" id="editEmail" placeholder="Email" required>
-                        <input type="text" id="editTelefono" placeholder="Teléfono">
-                        <select id="editRol">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editNombre">Nombre</label>
+                                <input type="text" id="editNombre" placeholder="Nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editEmail">Email</label>
+                                <input type="email" id="editEmail" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="editTelefono">Teléfono</label>
+                                <input type="text" id="editTelefono" placeholder="Teléfono">
+                            </div>
+                            <div class="form-group">
+                                <label for="editRol">Rol</label>
+                                <select id="editRol">
+                                    <option value="CLIENTE">Cliente</option>
+                                    <option value="ELECTRICISTA">Electricista</option>
+                                    <option value="ADMIN">Administrador</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="action-button"><i class="fas fa-save"></i> Guardar</button>
+                            <button type="button" class="action-button" onclick="ocultarFormularioEditar()"><i class="fas fa-times"></i> Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="filterRol">Rol:</label>
+                        <select id="filterRol">
+                            <option value="">Todos los roles</option>
                             <option value="CLIENTE">Cliente</option>
                             <option value="ELECTRICISTA">Electricista</option>
                             <option value="ADMIN">Administrador</option>
                         </select>
-                        <button type="submit">Guardar</button>
-                        <button type="button" onclick="ocultarFormularioEditar()">Cancelar</button>
-                    </form>
-                </div>
-                <div class="filtros-usuarios" style="margin-bottom: 1rem;">
-                    <select id="filterRol">
-                        <option value="">Todos los roles</option>
-                        <option value="CLIENTE">Cliente</option>
-                        <option value="ELECTRICISTA">Electricista</option>
-                        <option value="ADMIN">Administrador</option>
-                    </select>
-                    <select id="filterActivo">
-                        <option value="">Todos</option>
-                        <option value="true">Activos</option>
-                        <option value="false">Suspendidos</option>
-                    </select>
-                    <span id="aprobadoFilterContainer" style="display:none;">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterActivo">Estado:</label>
+                        <select id="filterActivo">
+                            <option value="">Todos</option>
+                            <option value="true">Activos</option>
+                            <option value="false">Suspendidos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group" id="aprobadoFilterContainer" style="display:none;">
+                        <label for="filterAprobado">Aprobado:</label>
                         <select id="filterAprobado">
                             <option value="">Todos</option>
                             <option value="true">Aprobados</option>
                             <option value="false">No aprobados</option>
                         </select>
-                    </span>
-                    <button id="btnFiltrar">Filtrar</button>
+                    </div>
+                    <button id="btnFiltrar" class="action-button"><i class="fas fa-filter"></i> Filtrar</button>
                 </div>
-                <table class="admin-table" id="usuariosTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Email</th>
-                            <th>Teléfono</th>
-                            <th>Rol</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usuariosTableBody"></tbody>
-                </table>
+                <div class="admin-table-container">
+                    <table class="admin-table" id="usuariosTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Aprobado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosTableBody"></tbody>
+                    </table>
+                </div>
             </section>
             <!-- Solicitudes -->
             <section id="solicitudes-section" style="display:none;">
-                <h2>Solicitudes</h2>
-                <!-- Filtros para solicitudes -->
-                <div class="filtros-solicitudes" style="margin-bottom: 1rem;">
-                    <select id="filterEstadoSolicitud">
-                        <option value="">Todos los estados</option>
-                        <option value="PENDIENTE">Pendiente</option>
-                        <option value="ASIGNADA">Asignada</option>
-                        <option value="FINALIZADA">Finalizada</option>
-                        <option value="CANCELADA">Cancelada</option>
-                    </select>
-                    <select id="filterCategoriaSolicitud">
-                        <option value="">Todas las categorías</option>
-                        <option value="REPARACION">Reparación</option>
-                        <option value="MANTENIMIENTO">Mantenimiento</option>
-                        <option value="INSTALACION">Instalación</option>
-                        <option value="OTRO">Otro</option>
-                        <!-- Agrega más si tienes más categorías -->
-                    </select>
-                    <button id="btnFiltrarSolicitudes">Filtrar</button>
+                <div class="section-header">
+                    <h2><i class="fas fa-clipboard-list"></i> Solicitudes</h2>
                 </div>
-                <table class="admin-table" id="solicitudesTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Categoría</th>
-                            <th>Descripción</th>
-                            <th>Estado</th>
-                            <th>Fecha</th>
-                            <th>Presupuesto</th>
-                            <th>Título</th>
-                            <th>Ubicación</th>
-                            <th>Comprador</th>
-                            <th>Electricista</th>
-                        </tr>
-                    </thead>
-                    <tbody id="solicitudesTableBody"></tbody>
-                </table>
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="filterEstadoSolicitud">Estado:</label>
+                        <select id="filterEstadoSolicitud">
+                            <option value="">Todos los estados</option>
+                            <option value="PENDIENTE">Pendiente</option>
+                            <option value="ASIGNADA">Asignada</option>
+                            <option value="FINALIZADA">Finalizada</option>
+                            <option value="CANCELADA">Cancelada</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="filterCategoriaSolicitud">Categoría:</label>
+                        <select id="filterCategoriaSolicitud">
+                            <option value="">Todas las categorías</option>
+                            <option value="REPARACION">Reparación</option>
+                            <option value="MANTENIMIENTO">Mantenimiento</option>
+                            <option value="INSTALACION">Instalación</option>
+                            <option value="OTRO">Otro</option>
+                        </select>
+                    </div>
+                    <button id="btnFiltrarSolicitudes" class="action-button"><i class="fas fa-filter"></i> Filtrar</button>
+                </div>
+                <div class="admin-table-container">
+                    <table class="admin-table" id="solicitudesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Categoría</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th>Presupuesto</th>
+                                <th>Título</th>
+                                <th>Ubicación</th>
+                                <th>Comprador</th>
+                                <th>Electricista</th>
+                            </tr>
+                        </thead>
+                        <tbody id="solicitudesTableBody"></tbody>
+                    </table>
+                </div>
             </section>
         </main>
+        <footer style="text-align:center; color:#888; padding:1rem 0 0.5rem 0; font-size:0.95rem;">
+            &copy; 2025 FastAdmin. Todos los derechos reservados.
+        </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/admin-navbar.js"></script>
