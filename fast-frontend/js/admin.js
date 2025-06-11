@@ -486,6 +486,69 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
     const usuarios = await usuariosRes.json();
     const solicitudes = await solicitudesRes.json();
 
+    // --- CALCULAR DATOS DE GANANCIAS ---
+    // Solo solicitudes finalizadas y con precioCobrador
+    const finalizadas = solicitudes.filter(s =>
+        (s.estado === 'FINALIZADA' || s.estado === 'TERMINADA') &&
+        (s.precioCobrador != null || s.precio_cobrador != null)
+    );
+
+    // Ganancias totales
+    const gananciasTotales = finalizadas.reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+
+    // Semana actual
+    const hoy = new Date();
+    let semanaLabels = [];
+    let semanaData = [];
+    for (let i = 6; i >= 0; i--) {
+        const fecha = new Date(hoy);
+        fecha.setDate(hoy.getDate() - i);
+        const label = fecha.toLocaleDateString('es-ES', { weekday: 'short' });
+        semanaLabels.push(label);
+
+        const total = finalizadas
+            .filter(s => {
+                const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
+                if (!fechaServicio) return false;
+                const f = new Date(fechaServicio);
+                return f.toDateString() === fecha.toDateString();
+            })
+            .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+        semanaData.push(total);
+    }
+
+    // Mes actual
+    const diasEnMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
+    let mesLabels = [];
+    let mesData = [];
+    for (let d = 1; d <= diasEnMes; d++) {
+        mesLabels.push(d.toString());
+        const total = finalizadas
+            .filter(s => {
+                const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
+                if (!fechaServicio) return false;
+                const f = new Date(fechaServicio);
+                return f.getFullYear() === hoy.getFullYear() &&
+                    f.getMonth() === hoy.getMonth() &&
+                    f.getDate() === d;
+            })
+            .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+        mesData.push(total);
+    }
+
+    // Año actual
+    const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    let anioData = Array(12).fill(0);
+    finalizadas.forEach(s => {
+        const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
+        if (!fechaServicio) return;
+        const f = new Date(fechaServicio);
+        if (f.getFullYear() === hoy.getFullYear()) {
+            anioData[f.getMonth()] += s.precioCobrador ?? s.precio_cobrador ?? 0;
+        }
+    });
+
+    // --- CREAR Y DESCARGAR EXCEL ---
     const workbook = new ExcelJS.Workbook();
 
     // Hoja de Ganancias
@@ -504,24 +567,24 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
     sheet.addRow(['Mes', ...meses]);
     sheet.addRow(['Monto', ...anioData]);
 
-    // Agrega un gráfico de barras para la semana
-    sheet.addChart({
-        type: 'bar',
-        title: { text: 'Ganancias por semana' },
-        legend: { position: 'top' },
-        series: [
-            {
-                name: 'Ganancias',
-                labels: semanaLabels,
-                values: semanaData
-            }
-        ],
-        // El gráfico aparecerá debajo de la tabla semanal
-        top: 80, left: 0, width: 600, height: 300
-    });
+    // Agrega un gráfico de barras para la semana (solo ExcelJS 4.3.0+)
+    if (sheet.addChart) {
+        sheet.addChart({
+            type: 'bar',
+            title: { text: 'Ganancias por semana' },
+            legend: { position: 'top' },
+            series: [
+                {
+                    name: 'Ganancias',
+                    labels: semanaLabels,
+                    values: semanaData
+                }
+            ],
+            top: 80, left: 0, width: 600, height: 300
+        });
+    }
 
-    // Puedes agregar más hojas igual que antes (usuarios, solicitudes, etc.)
-    // Ejemplo:
+    // Hoja de Usuarios
     const usuariosSheet = workbook.addWorksheet('Usuarios');
     usuariosSheet.addRow(['ID', 'Nombre', 'Email', 'Teléfono', 'Rol', 'Activo', 'Aprobado']);
     usuarios.forEach(u => {
@@ -530,7 +593,7 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
         ]);
     });
 
-    // ...agrega las demás hojas igual que antes...
+    // Puedes agregar más hojas igual que antes...
 
     // Descargar el archivo
     const buffer = await workbook.xlsx.writeBuffer();
