@@ -75,6 +75,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('solicitudes-count').textContent = '0';
     }
 
+    // --- Gráfica de solicitudes por mes ---
+    try {
+        const res = await fetch('https://fast-production-c604.up.railway.app/solicitudes', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const solicitudes = await res.json();
+
+        // Contar solicitudes por mes
+        const meses = [
+            'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+            'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+        ];
+        const solicitudesPorMes = Array(12).fill(0);
+        solicitudes.forEach(s => {
+            if (s.fecha_creacion) {
+                const mes = new Date(s.fecha_creacion).getMonth();
+                solicitudesPorMes[mes]++;
+            }
+        });
+
+        const ctxMes = document.getElementById('solicitudesMesChart').getContext('2d');
+        new Chart(ctxMes, {
+            type: 'bar',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Solicitudes',
+                    data: solicitudesPorMes,
+                    backgroundColor: '#1abc9c',
+                    borderRadius: 8,
+                    barThickness: 24
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    } catch (e) {
+        // Si hay error, no mostrar la gráfica
+    }
+
     cargarUsuarios();
     cargarSolicitudes();
 
