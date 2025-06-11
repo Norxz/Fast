@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
+
 <body>
     <div class="sidebar">
         <div class="sidebar-header">
@@ -15,11 +17,15 @@
             <li class="sidebar-item active" data-section="dashboard">
                 <i class="fas fa-chart-line"></i> Dashboard
             </li>
+            <button id="btnDescargarInforme" class="action-button" style="margin-bottom:1rem;">
+                <i class="fas fa-download"></i> Descargar informe
+            </button>
             <li class="sidebar-item has-submenu">
                 <i class="fas fa-table"></i> Tablas
                 <ul class="sidebar-submenu">
                     <li class="sidebar-subitem" data-section="usuarios"><i class="fas fa-users"></i> Usuarios</li>
-                    <li class="sidebar-subitem" data-section="solicitudes"><i class="fas fa-clipboard-list"></i> Solicitudes</li>
+                    <li class="sidebar-subitem" data-section="solicitudes"><i class="fas fa-clipboard-list"></i>
+                        Solicitudes</li>
                 </ul>
             </li>
         </ul>
@@ -67,7 +73,8 @@
             <section id="usuarios-section" style="display:none;">
                 <div class="section-header">
                     <h2><i class="fas fa-users"></i> Usuarios</h2>
-                    <button class="action-button" onclick="mostrarFormularioAgregar()"><i class="fas fa-user-plus"></i> Agregar Usuario</button>
+                    <button class="action-button" onclick="mostrarFormularioAgregar()"><i class="fas fa-user-plus"></i>
+                        Agregar Usuario</button>
                 </div>
                 <div id="formAgregar" class="form-container" style="display:none;">
                     <h3>Nuevo Usuario</h3>
@@ -100,7 +107,8 @@
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="action-button"><i class="fas fa-plus"></i> Agregar</button>
-                            <button type="button" class="action-button" onclick="ocultarFormularioAgregar()"><i class="fas fa-times"></i> Cancelar</button>
+                            <button type="button" class="action-button" onclick="ocultarFormularioAgregar()"><i
+                                    class="fas fa-times"></i> Cancelar</button>
                         </div>
                     </form>
                 </div>
@@ -132,7 +140,8 @@
                         </div>
                         <div class="form-actions">
                             <button type="submit" class="action-button"><i class="fas fa-save"></i> Guardar</button>
-                            <button type="button" class="action-button" onclick="ocultarFormularioEditar()"><i class="fas fa-times"></i> Cancelar</button>
+                            <button type="button" class="action-button" onclick="ocultarFormularioEditar()"><i
+                                    class="fas fa-times"></i> Cancelar</button>
                         </div>
                     </form>
                 </div>
@@ -208,7 +217,8 @@
                             <option value="OTRO">Otro</option>
                         </select>
                     </div>
-                    <button id="btnFiltrarSolicitudes" class="action-button"><i class="fas fa-filter"></i> Filtrar</button>
+                    <button id="btnFiltrarSolicitudes" class="action-button"><i class="fas fa-filter"></i>
+                        Filtrar</button>
                 </div>
                 <div class="admin-table-container">
                     <table class="admin-table" id="solicitudesTable">
@@ -229,9 +239,6 @@
                         <tbody id="solicitudesTableBody"></tbody>
                     </table>
                 </div>
-                <button id="btnDescargarInforme" class="action-button" style="margin-bottom:1rem;">
-                    <i class="fas fa-download"></i> Descargar informe
-                </button>
             </section>
         </main>
         <footer style="text-align:center; color:#888; padding:1rem 0 0.5rem 0; font-size:0.95rem;">
@@ -243,4 +250,5 @@
     <script src="js/admin-navbar.js"></script>
     <script src="js/admin.js"></script>
 </body>
+
 </html>
