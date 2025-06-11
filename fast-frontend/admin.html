@@ -2,160 +2,176 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración | ServiExpress</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Panel de Administración</title>
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
-    <nav class="sidebar">
+    <div class="sidebar">
         <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <i class="fas fa-bolt"></i>
-                <span>ServiExpress</span>
-            </div>
+            <span class="sidebar-logo">⚡ FastAdmin</span>
         </div>
-        
         <ul class="sidebar-menu">
-            <li class="sidebar-item active" data-section="dashboard">
-                <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </li>
-            
+            <li class="sidebar-item active" data-section="dashboard">Dashboard</li>
             <li class="sidebar-item has-submenu">
-                <i class="fas fa-table"></i>
-                <span>Tablas</span>
-                <i class="fas fa-chevron-down submenu-arrow"></i>
+                Tablas
                 <ul class="sidebar-submenu">
-                    <li class="sidebar-subitem" data-section="usuarios">
-                        <i class="fas fa-users"></i>
-                        <span>Usuarios</span>
-                    </li>
-                    <li class="sidebar-subitem" data-section="solicitudes">
-                        <i class="fas fa-clipboard-list"></i>
-                        <span>Solicitudes</span>
-                    </li>
+                    <li class="sidebar-subitem" data-section="usuarios">Usuarios</li>
+                    <li class="sidebar-subitem" data-section="solicitudes">Solicitudes</li>
                 </ul>
             </li>
         </ul>
-    </nav>
-
-    <!-- Main Content -->
+    </div>
     <div class="app-container">
         <header class="app-header">
             <h1>Panel de Administración</h1>
-            <button onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Cerrar sesión</span>
-            </button>
+            <button onclick="logout()">Cerrar sesión</button>
         </header>
-        
         <main>
-            <!-- Dashboard Section -->
-            <section id="dashboard-section" class="section-content">
-                <div class="stats-container">
-                    <div class="stat-card">
-                        <h3>Usuarios Registrados</h3>
-                        <div class="stat-value" id="usuarios-count">0</div>
-                        <div class="stat-trend">
-                             </div>
-
+            <!-- Dashboard -->
+            <section id="dashboard-section">
+                <!-- Aquí van tus contadores y gráficas -->
+                <div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
+                    <div>
+                        <div>Usuarios<br><span id="usuarios-count">0</span></div>
                     </div>
-                    
-                    <div class="stat-card">
-                        <h3>Solicitudes</h3>
-                        <div class="stat-value" id="solicitudes-count">0</div>
-                        <div class="stat-trend">      
-                        </div>
-                    </div>
-                    
-                   
-                </div>
-                
-                <div class="charts-container">
-                    <div class="chart-card">
-                        <h4>Usuarios por Rol</h4>
-                        <canvas id="usuariosChart" height="250"></canvas>
-                    </div>
-                    
-                    <div class="chart-card">
-                        <h4>Solicitudes por Estado</h4>
-                        <canvas id="solicitudesChart" height="250"></canvas>
+                    <div>
+                        <div>Solicitudes<br><span id="solicitudes-count">0</span></div>
                     </div>
                 </div>
-                
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h4>Ganancias</h4>
-                        <div class="chart-filters">
-                            <button class="btn btn-sm filtro-ganancias active" data-filtro="semana">Esta semana</button>
-                            <button class="btn btn-sm filtro-ganancias" data-filtro="mes">Este mes</button>
-                            <button class="btn btn-sm filtro-ganancias" data-filtro="anio">Este año</button>
-                        </div>
+                <div style="display: flex; gap: 2rem;">
+                    <div>
+                        <h4>Usuarios por rol</h4>
+                        <canvas id="usuariosChart" width="250" height="300"></canvas>
                     </div>
-                    <canvas id="gananciasChart" height="300"></canvas>
+                    <div>
+                        <h4>Solicitudes por estado</h4>
+                        <canvas id="solicitudesChart" width="250" height="300"></canvas>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem;">
+                    <h4>Ganancias</h4>
+                    <div>
+                        <button class="filtro-ganancias" data-filtro="semana">Esta semana</button>
+                        <button class="filtro-ganancias" data-filtro="mes">Este mes</button>
+                        <button class="filtro-ganancias" data-filtro="anio">Este año</button>
+                    </div>
+                    <canvas id="gananciasChart"></canvas>
                 </div>
             </section>
-            
-            <!-- Usuarios Section -->
-            <section id="usuarios-section" class="section-content" style="display:none;">
-                <div class="table-header">
-                    <h2>Administración de Usuarios</h2>
-                    <button class="btn btn-primary" onclick="mostrarFormularioAgregar()">
-                        <i class="fas fa-plus"></i>
-                        <span>Agregar Usuario</span>
-                    </button>
-                </div>
-                
-                <!-- Formulario de agregar usuario (inicialmente oculto) -->
-                <div id="formAgregar" class="form-container" style="display:none;">
-                    <!-- Contenido del formulario... -->
-                </div>
-                
-                <!-- Filtros -->
-                <div class="filters">
-                    <div class="filter-group">
-                        <label for="filterRol">Rol:</label>
-                        <select id="filterRol" class="form-control">
-                            <option value="">Todos</option>
+            <!-- Usuarios -->
+            <section id="usuarios-section" style="display:none;">
+                <h2>Usuarios</h2>
+                <button onclick="mostrarFormularioAgregar()">Agregar Usuario</button>
+                <div id="formAgregar" style="display:none;">
+                    <h3>Nuevo Usuario</h3>
+                    <form id="agregarUsuarioForm">
+                        <input type="text" id="nombre" placeholder="Nombre" required>
+                        <input type="email" id="email" placeholder="Email" required>
+                        <input type="text" id="telefono" placeholder="Teléfono">
+                        <input type="password" id="password" placeholder="Contraseña" required>
+                        <select id="rol">
                             <option value="CLIENTE">Cliente</option>
                             <option value="ELECTRICISTA">Electricista</option>
                             <option value="ADMIN">Administrador</option>
                         </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="filterEstado">Estado:</label>
-                        <select id="filterEstado" class="form-control">
-                            <option value="">Todos</option>
-                            <option value="activo">Activo</option>
-                            <option value="suspendido">Suspendido</option>
+                        <button type="submit">Agregar</button>
+                        <button type="button" onclick="ocultarFormularioAgregar()">Cancelar</button>
+                    </form>
+                </div>
+                <div id="formEditar" style="display:none;">
+                    <h3>Editar Usuario</h3>
+                    <form id="editarUsuarioForm">
+                        <input type="hidden" id="editId">
+                        <input type="text" id="editNombre" placeholder="Nombre" required>
+                        <input type="email" id="editEmail" placeholder="Email" required>
+                        <input type="text" id="editTelefono" placeholder="Teléfono">
+                        <select id="editRol">
+                            <option value="CLIENTE">Cliente</option>
+                            <option value="ELECTRICISTA">Electricista</option>
+                            <option value="ADMIN">Administrador</option>
                         </select>
-                    </div>
-                    
-                    <button class="btn btn-primary" id="btnFiltrar">
-                        <i class="fas fa-filter"></i>
-                        <span>Filtrar</span>
-                    </button>
+                        <button type="submit">Guardar</button>
+                        <button type="button" onclick="ocultarFormularioEditar()">Cancelar</button>
+                    </form>
                 </div>
-                
-                <!-- Tabla de usuarios -->
-                <div class="table-container">
-                    <table class="admin-table" id="usuariosTable">
-                        <!-- Contenido de la tabla... -->
-                    </table>
+                <div class="filtros-usuarios" style="margin-bottom: 1rem;">
+                    <select id="filterRol">
+                        <option value="">Todos los roles</option>
+                        <option value="CLIENTE">Cliente</option>
+                        <option value="ELECTRICISTA">Electricista</option>
+                        <option value="ADMIN">Administrador</option>
+                    </select>
+                    <select id="filterActivo">
+                        <option value="">Todos</option>
+                        <option value="true">Activos</option>
+                        <option value="false">Suspendidos</option>
+                    </select>
+                    <span id="aprobadoFilterContainer" style="display:none;">
+                        <select id="filterAprobado">
+                            <option value="">Todos</option>
+                            <option value="true">Aprobados</option>
+                            <option value="false">No aprobados</option>
+                        </select>
+                    </span>
+                    <button id="btnFiltrar">Filtrar</button>
                 </div>
+                <table class="admin-table" id="usuariosTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuariosTableBody"></tbody>
+                </table>
             </section>
-            
-            <!-- Solicitudes Section -->
-            <section id="solicitudes-section" class="section-content" style="display:none;">
-                <!-- Contenido similar al de usuarios pero para solicitudes -->
+            <!-- Solicitudes -->
+            <section id="solicitudes-section" style="display:none;">
+                <h2>Solicitudes</h2>
+                <!-- Filtros para solicitudes -->
+                <div class="filtros-solicitudes" style="margin-bottom: 1rem;">
+                    <select id="filterEstadoSolicitud">
+                        <option value="">Todos los estados</option>
+                        <option value="PENDIENTE">Pendiente</option>
+                        <option value="ASIGNADA">Asignada</option>
+                        <option value="FINALIZADA">Finalizada</option>
+                        <option value="CANCELADA">Cancelada</option>
+                    </select>
+                    <select id="filterCategoriaSolicitud">
+                        <option value="">Todas las categorías</option>
+                        <option value="REPARACION">Reparación</option>
+                        <option value="MANTENIMIENTO">Mantenimiento</option>
+                        <option value="INSTALACION">Instalación</option>
+                        <option value="OTRO">Otro</option>
+                        <!-- Agrega más si tienes más categorías -->
+                    </select>
+                    <button id="btnFiltrarSolicitudes">Filtrar</button>
+                </div>
+                <table class="admin-table" id="solicitudesTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Categoría</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Presupuesto</th>
+                            <th>Título</th>
+                            <th>Ubicación</th>
+                            <th>Comprador</th>
+                            <th>Electricista</th>
+                        </tr>
+                    </thead>
+                    <tbody id="solicitudesTableBody"></tbody>
+                </table>
             </section>
         </main>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/admin-navbar.js"></script>
     <script src="js/admin.js"></script>
