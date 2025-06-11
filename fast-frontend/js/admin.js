@@ -8,21 +8,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         usuarios = await res.json();
-        // Filtrar para no contar admins
-        const usuariosSinAdmin = usuarios.filter(u => u.rol !== 'ADMIN');
-        document.getElementById('usuarios-count').textContent = usuariosSinAdmin.length;
+        // Mostrar el total de usuarios (incluyendo admins)
+        document.getElementById('usuarios-count').textContent = usuarios.length;
 
         // Graficar usuarios por rol
-        const clientes = usuariosSinAdmin.filter(u => u.rol === 'CLIENTE').length;
-        const electricistas = usuariosSinAdmin.filter(u => u.rol === 'ELECTRICISTA').length;
+        const clientes = usuarios.filter(u => u.rol === 'CLIENTE').length;
+        const electricistas = usuarios.filter(u => u.rol === 'ELECTRICISTA').length;
+        const admins = usuarios.filter(u => u.rol === 'ADMIN').length;
         const ctxUsuarios = document.getElementById('usuariosChart').getContext('2d');
         new Chart(ctxUsuarios, {
             type: 'doughnut',
             data: {
-                labels: ['Clientes', 'Electricistas'],
+                labels: ['Clientes', 'Electricistas', 'Administradores'],
                 datasets: [{
-                    data: [clientes, electricistas],
-                    backgroundColor: ['#0984e3', '#fdcb6e']
+                    data: [clientes, electricistas, admins],
+                    backgroundColor: ['#0984e3', '#fdcb6e', '#636e72']
                 }]
             },
             options: {
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const solicitudes = await res.json();
+        // Mostrar el total de solicitudes
         document.getElementById('solicitudes-count').textContent = solicitudes.length;
 
         // Graficar solicitudes por estado
