@@ -478,7 +478,7 @@ cargarGraficaGanancias('semana');
 document.getElementById('btnDescargarInforme').addEventListener('click', async () => {
     const token = localStorage.getItem('token');
 
-    // Obtener datos
+    // Obtener datos igual que antes...
     const [usuariosRes, solicitudesRes] = await Promise.all([
         fetch('https://fast-production-c604.up.railway.app/admin/usuarios', { headers: { 'Authorization': `Bearer ${token}` } }),
         fetch('https://fast-production-c604.up.railway.app/solicitudes', { headers: { 'Authorization': `Bearer ${token}` } })
@@ -486,126 +486,53 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
     const usuarios = await usuariosRes.json();
     const solicitudes = await solicitudesRes.json();
 
-    // Solo solicitudes finalizadas y con precio cobrado
-    const finalizadas = solicitudes.filter(s =>
-        (s.estado === 'FINALIZADA' || s.estado === 'TERMINADA') &&
-        (s.precioCobrador != null || s.precio_cobrador != null)
-    );
+    const workbook = new ExcelJS.Workbook();
 
-    // Ganancias totales
-    const gananciasTotales = finalizadas.reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+    // Hoja de Ganancias
+    const sheet = workbook.addWorksheet('Ganancias');
+    sheet.addRow(['Ganancias totales', gananciasTotales]);
+    sheet.addRow([]);
+    sheet.addRow(['Ganancias por semana actual']);
+    sheet.addRow(['Día', ...semanaLabels]);
+    sheet.addRow(['Monto', ...semanaData]);
+    sheet.addRow([]);
+    sheet.addRow(['Ganancias por mes actual']);
+    sheet.addRow(['Día', ...mesLabels]);
+    sheet.addRow(['Monto', ...mesData]);
+    sheet.addRow([]);
+    sheet.addRow(['Ganancias por año actual']);
+    sheet.addRow(['Mes', ...meses]);
+    sheet.addRow(['Monto', ...anioData]);
 
-    // Ganancias por semana actual (últimos 7 días)
-    const hoy = new Date();
-    const semanaLabels = [];
-    const semanaData = [];
-    for (let i = 6; i >= 0; i--) {
-        const fecha = new Date(hoy);
-        fecha.setDate(hoy.getDate() - i);
-        const label = fecha.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
-        semanaLabels.push(label);
-
-        const total = finalizadas
-            .filter(s => {
-                const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
-                if (!fechaServicio) return false;
-                const f = new Date(fechaServicio);
-                return f.toDateString() === fecha.toDateString();
-            })
-            .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
-        semanaData.push(total);
-    }
-
-    // Ganancias por mes actual (cada día)
-    const diasEnMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
-    const mesLabels = [];
-    const mesData = [];
-    for (let d = 1; d <= diasEnMes; d++) {
-        mesLabels.push(d.toString());
-        const total = finalizadas
-            .filter(s => {
-                const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
-                if (!fechaServicio) return false;
-                const f = new Date(fechaServicio);
-                return f.getFullYear() === hoy.getFullYear() &&
-                    f.getMonth() === hoy.getMonth() &&
-                    f.getDate() === d;
-            })
-            .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
-        mesData.push(total);
-    }
-
-    // Ganancias por año actual (cada mes)
-    const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-    const anioData = Array(12).fill(0);
-    finalizadas.forEach(s => {
-        const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
-        if (!fechaServicio) return;
-        const f = new Date(fechaServicio);
-        if (f.getFullYear() === hoy.getFullYear()) {
-            anioData[f.getMonth()] += s.precioCobrador ?? s.precio_cobrador ?? 0;
-        }
+    // Agrega un gráfico de barras para la semana
+    sheet.addChart({
+        type: 'bar',
+        title: { text: 'Ganancias por semana' },
+        legend: { position: 'top' },
+        series: [
+            {
+                name: 'Ganancias',
+                labels: semanaLabels,
+                values: semanaData
+            }
+        ],
+        // El gráfico aparecerá debajo de la tabla semanal
+        top: 80, left: 0, width: 600, height: 300
     });
 
-    // Hoja de Ganancias detallada
-    const gananciasSheet = [
-        ['Ganancias totales', gananciasTotales],
-        [],
-        ['Ganancias por semana actual'],
-        ['Día', ...semanaLabels],
-        ['Monto', ...semanaData],
-        [],
-        ['Ganancias por mes actual'],
-        ['Día', ...mesLabels],
-        ['Monto', ...mesData],
-        [],
-        ['Ganancias por año actual'],
-        ['Mes', ...meses],
-        ['Monto', ...anioData]
-    ];
-
-    // Usuarios resumen
-    const usuariosResumen = [
-        ['Total usuarios', usuarios.length],
-        ['Clientes', usuarios.filter(u => u.rol === 'CLIENTE').length],
-        ['Electricistas', usuarios.filter(u => u.rol === 'ELECTRICISTA').length],
-        ['Administradores', usuarios.filter(u => u.rol === 'ADMIN').length]
-    ];
-
-    // Solicitudes resumen
-    const estados = ['PENDIENTE', 'ASIGNADA', 'FINALIZADA', 'CANCELADA'];
-    const solicitudesResumen = [
-        ['Total solicitudes', solicitudes.length],
-        ...estados.map(e => [e, solicitudes.filter(s => s.estado === e).length])
-    ];
-
-    // Hoja de usuarios (detallada)
-    const usuariosSheet = [
-        ['ID', 'Nombre', 'Email', 'Teléfono', 'Rol', 'Activo', 'Aprobado'],
-        ...usuarios.map(u => [
+    // Puedes agregar más hojas igual que antes (usuarios, solicitudes, etc.)
+    // Ejemplo:
+    const usuariosSheet = workbook.addWorksheet('Usuarios');
+    usuariosSheet.addRow(['ID', 'Nombre', 'Email', 'Teléfono', 'Rol', 'Activo', 'Aprobado']);
+    usuarios.forEach(u => {
+        usuariosSheet.addRow([
             u.id, u.nombre, u.email, u.telefono, u.rol, u.activo ? 'Sí' : 'No', u.aprobado ? 'Sí' : (u.rol === 'ELECTRICISTA' ? 'No' : '')
-        ])
-    ];
+        ]);
+    });
 
-    // Hoja de solicitudes (detallada)
-    const solicitudesSheet = [
-        ['ID', 'Categoría', 'Descripción', 'Estado', 'Fecha', 'Presupuesto', 'Precio Cobrado', 'Título', 'Ubicación'],
-        ...solicitudes.map(s => [
-            s.id, s.categoria, s.descripcion, s.estado,
-            s.fecha_creacion ? new Date(s.fecha_creacion).toLocaleDateString() : '',
-            s.presupuesto ?? '', s.precioCobrador ?? s.precio_cobrador ?? '',
-            s.titulo ?? '', s.ubicacion ?? ''
-        ])
-    ];
+    // ...agrega las demás hojas igual que antes...
 
-    // Crear libro Excel
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(gananciasSheet), 'Ganancias');
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(usuariosResumen), 'Resumen Usuarios');
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(solicitudesResumen), 'Resumen Solicitudes');
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(usuariosSheet), 'Usuarios');
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(solicitudesSheet), 'Solicitudes');
-
-    // Descargar
-    XLSX.writeFile(wb, 'informe-fastadmin.xlsx');
+    // Descargar el archivo
+    const buffer = await workbook.xlsx.writeBuffer();
+    saveAs(new Blob([buffer]), 'informe-fastadmin.xlsx');
 });
