@@ -361,3 +361,111 @@ async function aprobarElectricista(id) {
         alert('No se pudo aprobar al electricista.');
     }
 }
+
+let chartGanancias = null;
+
+async function cargarGraficaGanancias(filtro = 'semana') {
+    const token = localStorage.getItem('token');
+    const res = await fetch('https://fast-production-c604.up.railway.app/solicitudes', {
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    const solicitudes = await res.json();
+
+    const hoy = new Date();
+    let labels = [];
+    let data = [];
+
+    if (filtro === 'semana') {
+        // Últimos 7 días
+        labels = [];
+        data = [];
+        for (let i = 6; i >= 0; i--) {
+            const fecha = new Date(hoy);
+            fecha.setDate(hoy.getDate() - i);
+            const label = fecha.toLocaleDateString('es-ES', { weekday: 'short' });
+            labels.push(label);
+
+            const total = solicitudes
+                .filter(s => {
+                    if (!s.fecha_creacion) return false;
+                    const f = new Date(s.fecha_creacion);
+                    return f.toDateString() === fecha.toDateString();
+                })
+                .reduce((sum, s) => sum + (s.presupuesto || 0), 0);
+            data.push(total);
+        }
+    } else if (filtro === 'mes') {
+        // Este mes, por día
+        const diasEnMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
+        labels = [];
+        data = [];
+        for (let d = 1; d <= diasEnMes; d++) {
+            labels.push(d.toString());
+            const total = solicitudes
+                .filter(s => {
+                    if (!s.fecha_creacion) return false;
+                    const f = new Date(s.fecha_creacion);
+                    return f.getFullYear() === hoy.getFullYear() &&
+                        f.getMonth() === hoy.getMonth() &&
+                        f.getDate() === d;
+                })
+                .reduce((sum, s) => sum + (s.presupuesto || 0), 0);
+            data.push(total);
+        }
+    } else if (filtro === 'anio') {
+        // Este año, por mes
+        labels = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        data = Array(12).fill(0);
+        solicitudes.forEach(s => {
+            if (!s.fecha_creacion) return;
+            const f = new Date(s.fecha_creacion);
+            if (f.getFullYear() === hoy.getFullYear()) {
+                data[f.getMonth()] += s.presupuesto || 0;
+            }
+        });
+    }
+
+    // Destruir gráfica anterior si existe
+    if (chartGanancias) chartGanancias.destroy();
+
+    const ctx = document.getElementById('gananciasChart').getContext('2d');
+    chartGanancias = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Ganancias',
+                data,
+                backgroundColor: '#1abc9c',
+                borderRadius: 8,
+                barThickness: 24
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: value => '$' + value
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Listeners para los filtros
+document.querySelectorAll('.filtro-ganancias').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filtro-ganancias').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        cargarGraficaGanancias(this.dataset.filtro);
+    });
+});
+
+// Cargar por defecto la gráfica de la semana
+cargarGraficaGanancias('semana');

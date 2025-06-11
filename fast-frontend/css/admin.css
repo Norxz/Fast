@@ -132,6 +132,11 @@
     background: #eaf6ff;
     color: #0984e3;
 }
+.filtro-ganancias.active {
+    background: #1abc9c;
+    color: #fff;
+    border-radius: 4px;
+}
 /* Move app-container to the right of sidebar */
 .app-container {
     margin-left: 220px;
