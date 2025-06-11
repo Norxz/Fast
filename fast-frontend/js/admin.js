@@ -478,7 +478,7 @@ cargarGraficaGanancias('semana');
 document.getElementById('btnDescargarInforme').addEventListener('click', async () => {
     const token = localStorage.getItem('token');
 
-    // Obtener datos igual que antes...
+    // Obtener datos
     const [usuariosRes, solicitudesRes] = await Promise.all([
         fetch('https://fast-production-c604.up.railway.app/admin/usuarios', { headers: { 'Authorization': `Bearer ${token}` } }),
         fetch('https://fast-production-c604.up.railway.app/solicitudes', { headers: { 'Authorization': `Bearer ${token}` } })
@@ -486,26 +486,20 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
     const usuarios = await usuariosRes.json();
     const solicitudes = await solicitudesRes.json();
 
-    // --- CALCULAR DATOS DE GANANCIAS ---
-    // Solo solicitudes finalizadas y con precioCobrador
+    // --- GANANCIAS ---
     const finalizadas = solicitudes.filter(s =>
         (s.estado === 'FINALIZADA' || s.estado === 'TERMINADA') &&
         (s.precioCobrador != null || s.precio_cobrador != null)
     );
-
-    // Ganancias totales
     const gananciasTotales = finalizadas.reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
 
     // Semana actual
     const hoy = new Date();
-    let semanaLabels = [];
-    let semanaData = [];
+    let semanaLabels = [], semanaData = [];
     for (let i = 6; i >= 0; i--) {
         const fecha = new Date(hoy);
         fecha.setDate(hoy.getDate() - i);
-        const label = fecha.toLocaleDateString('es-ES', { weekday: 'short' });
-        semanaLabels.push(label);
-
+        semanaLabels.push(fecha.toLocaleDateString('es-ES', { weekday: 'short' }));
         const total = finalizadas
             .filter(s => {
                 const fechaServicio = s.fechaServicio || s.fecha_servicio || s.fecha_creacion;
@@ -519,8 +513,7 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
 
     // Mes actual
     const diasEnMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0).getDate();
-    let mesLabels = [];
-    let mesData = [];
+    let mesLabels = [], mesData = [];
     for (let d = 1; d <= diasEnMes; d++) {
         mesLabels.push(d.toString());
         const total = finalizadas
@@ -548,28 +541,62 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
         }
     });
 
-    // --- CREAR Y DESCARGAR EXCEL ---
+    // --- RESUMEN USUARIOS ---
+    const usuariosResumen = [
+        ['Total usuarios', usuarios.length],
+        ['Clientes', usuarios.filter(u => u.rol === 'CLIENTE').length],
+        ['Electricistas', usuarios.filter(u => u.rol === 'ELECTRICISTA').length],
+        ['Administradores', usuarios.filter(u => u.rol === 'ADMIN').length]
+    ];
+
+    // --- RESUMEN SOLICITUDES ---
+    const estados = ['PENDIENTE', 'ASIGNADA', 'FINALIZADA', 'CANCELADA'];
+    const solicitudesResumen = [
+        ['Total solicitudes', solicitudes.length],
+        ...estados.map(e => [e, solicitudes.filter(s => s.estado === e).length])
+    ];
+
+    // --- USUARIOS DETALLADO ---
+    const usuariosSheetData = [
+        ['ID', 'Nombre', 'Email', 'Teléfono', 'Rol', 'Activo', 'Aprobado'],
+        ...usuarios.map(u => [
+            u.id, u.nombre, u.email, u.telefono, u.rol, u.activo ? 'Sí' : 'No', u.aprobado ? 'Sí' : (u.rol === 'ELECTRICISTA' ? 'No' : '')
+        ])
+    ];
+
+    // --- SOLICITUDES DETALLADO ---
+    const solicitudesSheetData = [
+        ['ID', 'Categoría', 'Descripción', 'Estado', 'Fecha', 'Presupuesto', 'Precio Cobrado', 'Título', 'Ubicación'],
+        ...solicitudes.map(s => [
+            s.id, s.categoria, s.descripcion, s.estado,
+            s.fecha_creacion ? new Date(s.fecha_creacion).toLocaleDateString() : '',
+            s.presupuesto ?? '', s.precioCobrador ?? s.precio_cobrador ?? '',
+            s.titulo ?? '', s.ubicacion ?? ''
+        ])
+    ];
+
+    // --- CREAR EXCEL ---
     const workbook = new ExcelJS.Workbook();
 
-    // Hoja de Ganancias
-    const sheet = workbook.addWorksheet('Ganancias');
-    sheet.addRow(['Ganancias totales', gananciasTotales]);
-    sheet.addRow([]);
-    sheet.addRow(['Ganancias por semana actual']);
-    sheet.addRow(['Día', ...semanaLabels]);
-    sheet.addRow(['Monto', ...semanaData]);
-    sheet.addRow([]);
-    sheet.addRow(['Ganancias por mes actual']);
-    sheet.addRow(['Día', ...mesLabels]);
-    sheet.addRow(['Monto', ...mesData]);
-    sheet.addRow([]);
-    sheet.addRow(['Ganancias por año actual']);
-    sheet.addRow(['Mes', ...meses]);
-    sheet.addRow(['Monto', ...anioData]);
+    // Hoja Ganancias
+    const sheetGanancias = workbook.addWorksheet('Ganancias');
+    sheetGanancias.addRow(['Ganancias totales', gananciasTotales]);
+    sheetGanancias.addRow([]);
+    sheetGanancias.addRow(['Ganancias por semana actual']);
+    sheetGanancias.addRow(['Día', ...semanaLabels]);
+    sheetGanancias.addRow(['Monto', ...semanaData]);
+    sheetGanancias.addRow([]);
+    sheetGanancias.addRow(['Ganancias por mes actual']);
+    sheetGanancias.addRow(['Día', ...mesLabels]);
+    sheetGanancias.addRow(['Monto', ...mesData]);
+    sheetGanancias.addRow([]);
+    sheetGanancias.addRow(['Ganancias por año actual']);
+    sheetGanancias.addRow(['Mes', ...meses]);
+    sheetGanancias.addRow(['Monto', ...anioData]);
 
-    // Agrega un gráfico de barras para la semana (solo ExcelJS 4.3.0+)
-    if (sheet.addChart) {
-        sheet.addChart({
+    // Gráfico de barras: Ganancias por semana
+    if (sheetGanancias.addChart) {
+        sheetGanancias.addChart({
             type: 'bar',
             title: { text: 'Ganancias por semana' },
             legend: { position: 'top' },
@@ -582,18 +609,68 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
             ],
             top: 80, left: 0, width: 600, height: 300
         });
+        // Gráfico de líneas: Ganancias por mes
+        sheetGanancias.addChart({
+            type: 'line',
+            title: { text: 'Ganancias por mes actual' },
+            legend: { position: 'top' },
+            series: [
+                {
+                    name: 'Ganancias',
+                    labels: mesLabels,
+                    values: mesData
+                }
+            ],
+            top: 400, left: 0, width: 600, height: 300
+        });
+        // Gráfico de barras: Ganancias por año
+        sheetGanancias.addChart({
+            type: 'bar',
+            title: { text: 'Ganancias por año actual' },
+            legend: { position: 'top' },
+            series: [
+                {
+                    name: 'Ganancias',
+                    labels: meses,
+                    values: anioData
+                }
+            ],
+            top: 720, left: 0, width: 600, height: 300
+        });
     }
 
-    // Hoja de Usuarios
-    const usuariosSheet = workbook.addWorksheet('Usuarios');
-    usuariosSheet.addRow(['ID', 'Nombre', 'Email', 'Teléfono', 'Rol', 'Activo', 'Aprobado']);
-    usuarios.forEach(u => {
-        usuariosSheet.addRow([
-            u.id, u.nombre, u.email, u.telefono, u.rol, u.activo ? 'Sí' : 'No', u.aprobado ? 'Sí' : (u.rol === 'ELECTRICISTA' ? 'No' : '')
-        ]);
-    });
+    // Hoja Resumen Usuarios
+    const sheetResumenUsuarios = workbook.addWorksheet('Resumen Usuarios');
+    usuariosResumen.forEach(row => sheetResumenUsuarios.addRow(row));
 
-    // Puedes agregar más hojas igual que antes...
+    // Hoja Resumen Solicitudes
+    const sheetResumenSolicitudes = workbook.addWorksheet('Resumen Solicitudes');
+    solicitudesResumen.forEach(row => sheetResumenSolicitudes.addRow(row));
+
+    // Gráfico de barras: Solicitudes por estado
+    if (sheetResumenSolicitudes.addChart) {
+        sheetResumenSolicitudes.addChart({
+            type: 'bar',
+            title: { text: 'Solicitudes por estado' },
+            legend: { position: 'top' },
+            series: [
+                {
+                    name: 'Solicitudes',
+                    labels: estados,
+                    values: estados.map(e => solicitudes.filter(s => s.estado === e).length)
+                }
+            ],
+            top: 60, left: 0, width: 500, height: 300
+        });
+    }
+
+    // Hoja Usuarios
+    const sheetUsuarios = workbook.addWorksheet('Usuarios');
+    usuariosSheetData.forEach(row => sheetUsuarios.addRow(row));
+
+    // Hoja Solicitudes
+    const sheetSolicitudes = workbook.addWorksheet('Solicitudes');
+    solicitudesSheetData.forEach(row => sheetSolicitudes.addRow(row));
 
     // Descargar el archivo
     const buffer = await workbook.xlsx.writeBuffer();
