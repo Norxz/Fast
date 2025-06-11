@@ -39,6 +39,9 @@ public class Solicitud {
 
     private BigDecimal presupuesto;
 
+    @Column(name = "comision")
+    private BigDecimal comision;
+
     public Solicitud() {
     }
 
@@ -134,6 +137,14 @@ public class Solicitud {
 
     public void setPresupuesto(BigDecimal presupuesto) {
         this.presupuesto = presupuesto;
+    }
+
+    public BigDecimal getComision() {
+        return comision;
+    }
+
+    public void setComision(BigDecimal comision) {
+        this.comision = comision;
     }
 
 }

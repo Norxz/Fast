@@ -94,6 +94,11 @@ public class SolicitudService {
             if ("ASIGNADA".equals(solicitud.getEstado())) {
                 solicitud.setEstado("FINALIZADA");
                 solicitud.setPrecioCobrador(precio);
+
+                // Calcular comisión (ejemplo: 10%)
+                BigDecimal comision = precio.multiply(new BigDecimal("0.10"));
+                solicitud.setComision(comision);
+
                 solicitudRepository.save(solicitud);
                 return Optional.of(solicitud);
             }

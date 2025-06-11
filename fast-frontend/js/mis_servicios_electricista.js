@@ -111,9 +111,16 @@ async function concluirServicio(solicitudId) {
         }
       );
       if (!res.ok) throw new Error("No se pudo finalizar el servicio");
-      Swal.fire("¡Servicio finalizado!", "", "success").then(() =>
-        location.reload()
-      );
+      // Calcular comisión (debe coincidir con el backend)
+      const comision = precio * 0.1;
+      const neto = precio - comision;
+      Swal.fire(
+        "¡Servicio finalizado!",
+        `Se ha descontado una comisión de $${comision.toFixed(
+          2
+        )}. Recibirás $${neto.toFixed(2)}.`,
+        "success"
+      ).then(() => location.reload());
     } catch (e) {
       Swal.fire("Error", "No se pudo finalizar el servicio.", "error");
     }

@@ -374,7 +374,7 @@ async function cargarGraficaGanancias(filtro = 'semana') {
     // Solo solicitudes finalizadas y con precioCobrador
     const finalizadas = solicitudes.filter(s =>
         (s.estado === 'FINALIZADA' || s.estado === 'TERMINADA') &&
-        (s.precioCobrador != null || s.precio_cobrador != null)
+        (s.comision != null)
     );
 
     const hoy = new Date();
@@ -397,7 +397,7 @@ async function cargarGraficaGanancias(filtro = 'semana') {
                     const f = new Date(fechaServicio);
                     return f.toDateString() === fecha.toDateString();
                 })
-                .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+                .reduce((sum, s) => sum + Number(s.comision ?? 0), 0);
             data.push(total);
         }
     } else if (filtro === 'mes') {
@@ -415,7 +415,7 @@ async function cargarGraficaGanancias(filtro = 'semana') {
                         f.getMonth() === hoy.getMonth() &&
                         f.getDate() === d;
                 })
-                .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+                .reduce((sum, s) => sum + Number(s.comision ?? 0), 0);
             data.push(total);
         }
     } else if (filtro === 'anio') {
@@ -426,7 +426,7 @@ async function cargarGraficaGanancias(filtro = 'semana') {
             if (!fechaServicio) return;
             const f = new Date(fechaServicio);
             if (f.getFullYear() === hoy.getFullYear()) {
-                data[f.getMonth()] += s.precioCobrador ?? s.precio_cobrador ?? 0;
+                data[f.getMonth()] += Number(s.comision ?? 0);
             }
         });
     }
@@ -486,12 +486,12 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
     const usuarios = await usuariosRes.json();
     const solicitudes = await solicitudesRes.json();
 
-    // --- GANANCIAS ---
+    // --- GANANCIAS (comisiones) ---
     const finalizadas = solicitudes.filter(s =>
         (s.estado === 'FINALIZADA' || s.estado === 'TERMINADA') &&
-        (s.precioCobrador != null || s.precio_cobrador != null)
+        (s.comision != null)
     );
-    const gananciasTotales = finalizadas.reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+    const gananciasTotales = finalizadas.reduce((sum, s) => sum + Number(s.comision ?? 0), 0);
 
     // Semana actual
     const hoy = new Date();
@@ -507,7 +507,7 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
                 const f = new Date(fechaServicio);
                 return f.toDateString() === fecha.toDateString();
             })
-            .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+            .reduce((sum, s) => sum + Number(s.comision ?? 0), 0);
         semanaData.push(total);
     }
 
@@ -525,7 +525,7 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
                     f.getMonth() === hoy.getMonth() &&
                     f.getDate() === d;
             })
-            .reduce((sum, s) => sum + (s.precioCobrador ?? s.precio_cobrador ?? 0), 0);
+            .reduce((sum, s) => sum + Number(s.comision ?? 0), 0);
         mesData.push(total);
     }
 
@@ -537,7 +537,7 @@ document.getElementById('btnDescargarInforme').addEventListener('click', async (
         if (!fechaServicio) return;
         const f = new Date(fechaServicio);
         if (f.getFullYear() === hoy.getFullYear()) {
-            anioData[f.getMonth()] += s.precioCobrador ?? s.precio_cobrador ?? 0;
+            anioData[f.getMonth()] += Number(s.comision ?? 0);
         }
     });
 
